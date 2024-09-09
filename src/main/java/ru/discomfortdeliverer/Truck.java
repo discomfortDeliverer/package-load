@@ -29,9 +29,6 @@ public class Truck {
             }
             row--;
         }
-
-        System.out.println("Добавление пакета");
-        print();
     }
 
     public int[] checkForFreeSpace(Package pack) throws NotEnoughFreeSpaceException {
@@ -61,7 +58,6 @@ public class Truck {
             if (found) break;
             row = 5; // Сброс row для следующей итерации
         }
-        // Если мы сюда дошли, значит вставить некуда
         throw new NotEnoughFreeSpaceException();
     }
 

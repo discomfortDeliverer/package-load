@@ -30,7 +30,7 @@ public class Trucks {
         packages.add(currentPackage);
         return packages;
     }
-    public static List<Truck> addPackages(List<Package> packages) {
+    public static List<Truck> addPackagesEffectively(List<Package> packages) {
         List<Truck> loadedTrucks = new ArrayList<>();
         // Сортируем посылки по убыванию площади
         Collections.sort(packages, new Comparator<Package>() {
@@ -55,6 +55,32 @@ public class Trucks {
             }
         }
         loadedTrucks.add(truck);
+        return loadedTrucks;
+    }
+
+    public static List<Truck> addPackagesSimply(List<Package> packages) {
+        List<Truck> loadedTrucks = new ArrayList<>();
+        // Сортируем посылки по убыванию площади
+        Collections.sort(packages, new Comparator<Package>() {
+            @Override
+            public int compare(Package p1, Package p2) {
+                return Integer.compare(p2.getArea(), p1.getArea());
+            }
+        });
+
+        Truck truck = new Truck();
+        // Добавляем по очереди каждую посылку если есть место
+        for (int i = 0; i < packages.size(); i++) {
+            Package pack = packages.get(i);
+            try {
+                int[] startInsertCoordinates = truck.checkForFreeSpace(pack);
+                truck.insertPackageByCoordinates(pack, startInsertCoordinates);
+                loadedTrucks.add(truck);
+                truck = new Truck();
+            } catch (NotEnoughFreeSpaceException e) {
+                e.printStackTrace();
+            }
+        }
         return loadedTrucks;
     }
 }
