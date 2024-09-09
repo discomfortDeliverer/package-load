@@ -1,13 +1,12 @@
 package ru.discomfortdeliverer;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Package {
     private int area;
     private char character;
-    private List<Integer> linelengths = new ArrayList<>();
+    private List<Integer> lineLengths = new ArrayList<>();
 
     public char getCharacter() {
         return character;
@@ -17,16 +16,16 @@ public class Package {
         this.character = character;
     }
 
-    public List<Integer> getLinelengths() {
-        return linelengths;
+    public List<Integer> getLineLengths() {
+        return lineLengths;
     }
 
-    public void setLinelengths(List<Integer> linelengths) {
-        this.linelengths = linelengths;
+    public void setLineLengths(List<Integer> lineLengths) {
+        this.lineLengths = lineLengths;
     }
 
     public void addLineLength(int lineLength){
-        linelengths.add(lineLength);
+        lineLengths.add(lineLength);
     }
 
     public int getArea() {
