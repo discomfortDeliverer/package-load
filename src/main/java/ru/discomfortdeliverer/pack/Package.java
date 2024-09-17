@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer;
+package ru.discomfortdeliverer.pack;
 
 import java.util.ArrayList;
 import java.util.List;

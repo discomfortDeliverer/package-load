@@ -1,7 +1,8 @@
-package ru.discomfortdeliverer;
+package ru.discomfortdeliverer.truck;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import ru.discomfortdeliverer.exception.NotEnoughFreeSpaceException;
+import ru.discomfortdeliverer.pack.Package;
+
 import java.util.*;
 
 public class Truck {

@@ -1,4 +1,7 @@
-package ru.discomfortdeliverer;
+package ru.discomfortdeliverer.truck;
+
+import ru.discomfortdeliverer.exception.NotEnoughFreeSpaceException;
+import ru.discomfortdeliverer.pack.Package;
 
 import java.io.File;
 import java.io.FileNotFoundException;

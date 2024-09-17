@@ -1,5 +1,9 @@
 package ru.discomfortdeliverer;
 
+import ru.discomfortdeliverer.pack.Package;
+import ru.discomfortdeliverer.truck.Truck;
+import ru.discomfortdeliverer.truck.Trucks;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
