@@ -32,6 +32,7 @@ public class Main {
 
             System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
             String choice = scanner.nextLine();
+            log.info("Выбран вариант сортировки - {}", choice);
             List<Truck> trucks = new ArrayList<>();
             switch (choice) {
                 case "1":
@@ -44,11 +45,9 @@ public class Main {
 
             ConsoleTruckView.printListOfTrucks(trucks);
         } catch (InvalidInputException e) {
-            System.out.println("В файле невалидные данные");
-            throw new RuntimeException(e);
+            log.error("В файле невалидные данные");
         } catch (InvalidFilePathException e) {
-            System.out.println("Указан неверный путь к файлу");
-            throw new RuntimeException(e);
+            log.error("Указан неверный путь к файлу");
         }
 
     }

@@ -1,15 +1,18 @@
 package ru.discomfortdeliverer.truck;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
 
 import java.util.*;
 
+@Slf4j
 public class TruckLoadManager {
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
     }
     public List<Truck> oneParcelOneTruckLoad(List<Parcel> parcels) {
+        log.info("Метод oneParcelOneTruckLoad, добавляем список посылок, размером - {}", parcels.size());
         List<Truck> trucks = new ArrayList<>();
         sortByParcelArea(parcels);
 
@@ -18,10 +21,12 @@ public class TruckLoadManager {
             truck.placeParcelByCoordinates(parcel, 0, 0);
             trucks.add(truck);
         }
+        log.info("Получили список грузовиков размером - {}", trucks.size());
         return trucks;
     }
 
     public List<Truck> optimalLoading(List<Parcel> parcels) {
+        log.info("Метод optimalLoading, добавляем список посылок, размером - {}", parcels.size());
         sortByParcelArea(parcels);
 
         List<Truck> trucks = new ArrayList<>();
@@ -46,6 +51,7 @@ public class TruckLoadManager {
                 trucks.add(newTruck);
             }
         }
+        log.info("Получили список грузовиков размером - {}", trucks.size());
         return trucks;
     }
 }

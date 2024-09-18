@@ -1,10 +1,13 @@
 package ru.discomfortdeliverer.truck;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
 
+import java.util.Arrays;
 import java.util.Optional;
 
+@Slf4j
 public class Truck {
     private static final int TRUCK_HEIGHT = 6;
     private static final int TRUCK_LENGTH = 6;
@@ -17,6 +20,7 @@ public class Truck {
             for (int j = 0; j < truckBody[i].length; j++) {
                 truckBody[i][j] = ' ';
             }
+        log.debug("Создан объект Truck");
     }
 
     public char[][] getTruckBody() {
@@ -24,6 +28,7 @@ public class Truck {
     }
 
     public boolean canFitParcelAtCoordinates(Parcel parcel, int row, int col) {
+        log.debug("Проверка, можно ли поместить посылку {} по координатам row={}, col={}", parcel, row, col);
         if (parcel.getLength() + col > TRUCK_LENGTH || parcel.getHeight() + row > TRUCK_HEIGHT)
             return false;
 
@@ -38,6 +43,7 @@ public class Truck {
     }
 
     private boolean hasBottomSupport(Parcel parcel, int row, int col) {
+        log.debug("Проверка, есть ли опора под посылкой {}", parcel);
         if (row == 0) return true;
         
         row--;
@@ -51,6 +57,7 @@ public class Truck {
     }
 
     public void placeParcelByCoordinates(Parcel parcel, int row, int col) {
+        log.debug("Помещаем посылку {}, в грузовик {} по координатам row={}, col={}", parcel, this, row, col);
         char[][] parcelBody = parcel.getBody();
 
         for (int i = 0; i < parcel.getHeight(); i++)
@@ -69,5 +76,12 @@ public class Truck {
                 }
             }
         return Optional.empty();
+    }
+
+    @Override
+    public String toString() {
+        return "Truck{" +
+                "truckBody=" + Arrays.deepToString(truckBody) +
+                '}';
     }
 }

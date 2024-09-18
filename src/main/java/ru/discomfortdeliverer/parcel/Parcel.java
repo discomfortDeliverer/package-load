@@ -1,9 +1,12 @@
 package ru.discomfortdeliverer.parcel;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
+@Slf4j
 public class Parcel {
     private int height;
     private int length;
@@ -38,6 +41,7 @@ public class Parcel {
             for (char aChar : chars) {
                 if (aChar != ' ') this.area++;
             }
+        log.debug("Создан объект Parcel, height={}, length={}, body={}, area={}", height, length, body, area);
     }
 
     public int getHeight() {
@@ -69,5 +73,12 @@ public class Parcel {
         int result = Objects.hash(height, length, area);
         result = 31 * result + Arrays.hashCode(body);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Parcel{" +
+                "body=" + Arrays.deepToString(body) +
+                '}';
     }
 }
