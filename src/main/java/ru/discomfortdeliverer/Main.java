@@ -1,5 +1,7 @@
 package ru.discomfortdeliverer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.parcel.FileParcelLoader;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         FileParcelLoader fileParcelLoader = new FileParcelLoader(new ParcelInputValidator());
@@ -23,6 +26,7 @@ public class Main {
         try {
             System.out.println("Введите путь к файлу: ");
             String filePath = scanner.nextLine();
+            logger.info("Введен путь к файлу - {}", filePath);
             parcels = fileParcelLoader.loadParcelsFromFile(filePath);
 
             System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
