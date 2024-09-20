@@ -2,6 +2,8 @@ package ru.discomfortdeliverer.truck;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.discomfortdeliverer.exception.UnableToLoadException;
+import ru.discomfortdeliverer.parcel.FileParcelLoader;
 import ru.discomfortdeliverer.parcel.Parcel;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TruckLoadManagerTest {
     private TruckLoadManager truckLoadManager;
@@ -74,4 +77,46 @@ public class TruckLoadManagerTest {
         assertThat(trucks.get(1).getTruckBody()).isEqualTo(expectedSecondTruckBody);
     }
 
+    @Test
+    void evenLoad_GivenParcelsListAndTrucksCount_ShouldReturnEvenLoadedParcelsInTrucks() throws UnableToLoadException {
+        parcels = new ArrayList<>();
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("777\n7777"));
+        parcels.add(new Parcel("777\n7777"));
+        parcels.add(new Parcel("55555"));
+        parcels.add(new Parcel("55555"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("1"));
+
+
+        List<Truck> trucks = truckLoadManager.evenLoad(parcels, 3);
+        assertThat(trucks.size()).isEqualTo(3);
+    }
+
+    @Test
+    void evenLoad_GivenParcelsListAndWrongTrucksCount_ShouldThrowException() throws UnableToLoadException {
+        parcels = new ArrayList<>();
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("999\n999\n999"));
+        parcels.add(new Parcel("777\n7777"));
+        parcels.add(new Parcel("777\n7777"));
+        parcels.add(new Parcel("55555"));
+        parcels.add(new Parcel("55555"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("22"));
+        parcels.add(new Parcel("1"));
+
+        assertThatThrownBy(() -> {
+            truckLoadManager.evenLoad(parcels, 1);
+        })
+                .isInstanceOf(UnableToLoadException.class);
+    }
 }
