@@ -4,13 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class TruckLoadManager {
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
     }
+
     public List<Truck> oneParcelOneTruckLoad(List<Parcel> parcels) {
         log.info("Метод oneParcelOneTruckLoad, добавляем список посылок, размером - {}", parcels.size());
         List<Truck> trucks = new ArrayList<>();

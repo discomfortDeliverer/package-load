@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.truck;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
@@ -34,7 +35,7 @@ public class Truck {
 
         for (int i = 0; i < parcel.getHeight(); i++)
             for (int j = 0; j < parcel.getLength(); j++) {
-                if(parcel.getBody()[i][j] != ' ' && truckBody[row + i][col + j] != ' ')
+                if (parcel.getBody()[i][j] != ' ' && truckBody[row + i][col + j] != ' ')
                     return false;
             }
 
@@ -45,7 +46,7 @@ public class Truck {
     private boolean hasBottomSupport(Parcel parcel, int row, int col) {
         log.debug("Проверка, есть ли опора под посылкой {}", parcel);
         if (row == 0) return true;
-        
+
         row--;
         int halfParcelLength = parcel.getLength() / 2;
         int halfBottomRowCoordinate = halfParcelLength + col;

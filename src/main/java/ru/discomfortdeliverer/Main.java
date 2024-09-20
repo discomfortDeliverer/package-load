@@ -1,8 +1,9 @@
 package ru.discomfortdeliverer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.parcel.FileParcelLoader;
@@ -33,6 +34,7 @@ public class Main {
             System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
             String choice = scanner.nextLine();
             log.info("Выбран вариант сортировки - {}", choice);
+
             List<Truck> trucks = new ArrayList<>();
             switch (choice) {
                 case "1":
@@ -43,11 +45,18 @@ public class Main {
                     break;
             }
 
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(trucks);
+            System.out.println(jsonString);
+
             ConsoleTruckView.printListOfTrucks(trucks);
         } catch (InvalidInputException e) {
             log.error("В файле невалидные данные");
         } catch (InvalidFilePathException e) {
             log.error("Указан неверный путь к файлу");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
     }

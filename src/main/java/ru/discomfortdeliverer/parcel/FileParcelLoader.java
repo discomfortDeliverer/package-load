@@ -35,7 +35,7 @@ public class FileParcelLoader {
             StringBuilder stringBuilder = new StringBuilder();
 
             for (String line : lines) {
-                if(!line.equals("")) {
+                if (!line.equals("")) {
                     stringBuilder.append(line);
                     stringBuilder.append("\n");
                 } else {

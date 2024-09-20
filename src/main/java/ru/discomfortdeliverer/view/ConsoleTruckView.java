@@ -7,7 +7,7 @@ import java.util.List;
 public class ConsoleTruckView {
     public static void printTruckBody(Truck truck) {
         char[][] truckBody = truck.getTruckBody();
-        for (int i = truckBody.length - 1; i >= 0 ; i--) {
+        for (int i = truckBody.length - 1; i >= 0; i--) {
             System.out.print("+");
             for (int j = 0; j < truckBody[i].length; j++) {
                 System.out.print(truckBody[i][j]);
