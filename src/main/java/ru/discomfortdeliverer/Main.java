@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.slf4j.Slf4j;
+import ru.discomfortdeliverer.console.ConsoleMenu;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.parcel.FileParcelLoader;
@@ -20,44 +21,7 @@ import java.util.Scanner;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        FileParcelLoader fileParcelLoader = new FileParcelLoader(new ParcelInputValidator());
-        TruckLoadManager truckLoadManager = new TruckLoadManager();
-
-        List<Parcel> parcels = null;
-        try {
-            System.out.println("Введите путь к файлу: ");
-            String filePath = scanner.nextLine();
-            log.info("Введен путь к файлу - {}", filePath);
-            parcels = fileParcelLoader.loadParcelsFromFile(filePath);
-
-            System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
-            String choice = scanner.nextLine();
-            log.info("Выбран вариант сортировки - {}", choice);
-
-            List<Truck> trucks = new ArrayList<>();
-            switch (choice) {
-                case "1":
-                    trucks = truckLoadManager.optimalLoading(parcels);
-                    break;
-                case "2":
-                    trucks = truckLoadManager.oneParcelOneTruckLoad(parcels);
-                    break;
-            }
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-            String jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(trucks);
-            System.out.println(jsonString);
-
-            ConsoleTruckView.printListOfTrucks(trucks);
-        } catch (InvalidInputException e) {
-            log.error("В файле невалидные данные");
-        } catch (InvalidFilePathException e) {
-            log.error("Указан неверный путь к файлу");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
+        ConsoleMenu consoleMenu = new ConsoleMenu();
+        consoleMenu.startConsoleMenu();
     }
 }
