@@ -1,6 +1,6 @@
 package ru.discomfortdeliverer.truck;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
@@ -10,7 +10,9 @@ import java.util.Optional;
 
 @Slf4j
 public class Truck {
+    @JsonIgnore
     private static final int TRUCK_HEIGHT = 6;
+    @JsonIgnore
     private static final int TRUCK_LENGTH = 6;
     private char[][] truckBody;
 
@@ -84,5 +86,18 @@ public class Truck {
         return "Truck{" +
                 "truckBody=" + Arrays.deepToString(truckBody) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Truck truck = (Truck) o;
+        return Arrays.deepEquals(truckBody, truck.truckBody);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(truckBody);
     }
 }
