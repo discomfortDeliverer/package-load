@@ -34,16 +34,19 @@ public class ConsoleMenu {
         String choice = scanner.nextLine();
         switch (choice) {
             case "1":
+                log.info("Выбран режим загрузки посылок из файла");
                 readParcelMode();
                 break;
             case "2":
+                log.info("Выбран режим загрузки грузовиков из файла json");
                 readTruckMode();
                 break;
             case "3":
+                log.info("Выбран режим загрузки посылок из файла и погрузка их в определенное количество грузовиков");
                 try {
                     readParcelsAndTryToLoadInTrucksMode();
                 } catch (UnableToLoadException e) {
-                    System.out.println("Невозможно поместить");
+                    log.error("Невозможно поместить указанное количество посылок по указанному количеству грузовиков");
                 }
                 break;
             default: System.out.println("Неверный ввод");
@@ -65,9 +68,10 @@ public class ConsoleMenu {
             log.error("Указан неверный путь к файлу");
         }
 
-        System.out.println("Обнаружено " + parcels.size() + "посылок");
+        log.info("Из файла прочитано " + parcels.size() + "посылок");
         System.out.println("Введите количество грузовиков, по которым погрузить: ");
         int trucksCount = Integer.parseInt(scanner.nextLine());
+        log.info("Введенное количество грузовиков - {} ", trucksCount);
 
         System.out.println("Выберите алгоритм погрузки: ");
         System.out.println("\n1.Равномерная погрузка по грузовикам.");
@@ -77,15 +81,17 @@ public class ConsoleMenu {
         List<Truck> trucks = new ArrayList<>();
         switch (choice) {
             case "1":
+                log.info("Выбран - равномерный алгоритм погрузки по грузовикам");
                 trucks = truckLoadManager.evenLoad(parcels, trucksCount);
-
                 break;
             case "2":
+                log.info("Выбран - эффективный алгоритм погрузки по грузовикам");
                 trucks = truckLoadManager.maxQualityLoad(parcels, trucksCount);
                 break;
         }
 
         ConsoleTruckView.printListOfTrucks(trucks);
+        log.info("Метод - readParcelsAndTryToLoadInTrucksMode(), успешно завершил свою работу");
     }
 
     public void readParcelMode() {
@@ -105,6 +111,7 @@ public class ConsoleMenu {
         } catch (InvalidFilePathException e) {
             log.error("Указан неверный путь к файлу");
         }
+        log.info("Метод readParcelMode() завершился успешно");
     }
 
     public List<Truck> chooseLoadAlgorithm(List<Parcel> parcels) {
@@ -127,6 +134,7 @@ public class ConsoleMenu {
     public void readTruckMode() {
         System.out.println("Введите путь к json файлу: ");
         String filePath = scanner.nextLine();
+        log.info("Введен путь к файлу - {}", filePath);
 
         Truck truck = fileTruckLoader.loadTruckFromJsonFile(filePath);
         ConsoleTruckView.printTruckBody(truck);
@@ -134,5 +142,6 @@ public class ConsoleMenu {
 
         System.out.println("Количество посылок в грузовике:");
         System.out.println(stringIntegerMap);
+        log.info("Метод readTruckMode() завершился успешно");
     }
 }
