@@ -1,4 +1,4 @@
 package ru.discomfortdeliverer.exception;
 
-public class UnableToLoadException extends Exception{
+public class UnableToLoadException extends RuntimeException{
 }

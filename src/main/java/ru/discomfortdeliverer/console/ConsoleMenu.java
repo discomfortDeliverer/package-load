@@ -55,6 +55,7 @@ public class ConsoleMenu {
                     readParcelsAndTryToLoadInTrucksMode();
                 } catch (UnableToLoadException e) {
                     log.error("Невозможно поместить указанное количество посылок по указанному количеству грузовиков");
+                    throw e;
                 }
             }
             default -> System.out.println("Неверный ввод");
