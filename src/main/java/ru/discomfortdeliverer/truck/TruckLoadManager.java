@@ -9,6 +9,7 @@ import java.util.*;
 
 @Slf4j
 public class TruckLoadManager {
+    private static final int MAX_TRUCK_AREA = 36;
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
     }
@@ -63,7 +64,7 @@ public class TruckLoadManager {
             allParcelsArea += parcel.getArea();
         }
 
-        if (allParcelsArea > trucksCount * 36) {
+        if (allParcelsArea > trucksCount * MAX_TRUCK_AREA) {
             throw new UnableToLoadException("Посылки займут места больше чем есть места в " + trucksCount + " грузовиках");
         }
 
