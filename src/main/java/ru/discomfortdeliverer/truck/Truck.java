@@ -69,8 +69,8 @@ public class Truck {
     }
 
     public Optional<Coordinates> findCoordinatesToPlace(Parcel parcel) {
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 6; j++) {
+        for (int i = 0; i < TRUCK_HEIGHT; i++)
+            for (int j = 0; j < TRUCK_LENGTH; j++) {
                 if (this.canFitParcelAtCoordinates(parcel, i, j)) {
                     Coordinates coordinates = new Coordinates();
                     coordinates.setRow(i);
