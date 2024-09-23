@@ -20,11 +20,19 @@ import java.util.Scanner;
 
 @Slf4j
 public class ConsoleMenu {
-    private Scanner scanner = new Scanner(System.in);
-    private FileParcelLoader fileParcelLoader = new FileParcelLoader(new ParcelInputValidator());
-    private TruckLoadManager truckLoadManager = new TruckLoadManager();
-    private FileTruckLoader fileTruckLoader = new FileTruckLoader();
-    private TruckUtils truckUtils = new TruckUtils();
+    private final Scanner scanner;
+    private final FileParcelLoader fileParcelLoader;
+    private final TruckLoadManager truckLoadManager;
+    private final FileTruckLoader fileTruckLoader;
+    private final TruckUtils truckUtils;
+
+    public ConsoleMenu(Scanner scanner, FileParcelLoader fileParcelLoader, TruckLoadManager truckLoadManager, FileTruckLoader fileTruckLoader, TruckUtils truckUtils) {
+        this.scanner = scanner;
+        this.fileParcelLoader = fileParcelLoader;
+        this.truckLoadManager = truckLoadManager;
+        this.fileTruckLoader = fileTruckLoader;
+        this.truckUtils = truckUtils;
+    }
 
     public void startConsoleMenu() {
         System.out.println("Выберите режим:");
