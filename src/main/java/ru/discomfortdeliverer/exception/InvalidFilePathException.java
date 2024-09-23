@@ -1,6 +1,6 @@
 package ru.discomfortdeliverer.exception;
 
-public class InvalidFilePathException extends Exception {
+public class InvalidFilePathException extends RuntimeException {
     public InvalidFilePathException() {
     }
 
