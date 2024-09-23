@@ -1,5 +1,7 @@
 package ru.discomfortdeliverer.parcel;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -7,6 +9,8 @@ import java.util.Collections;
 import java.util.Objects;
 
 @Slf4j
+@Getter
+@Setter
 public class Parcel {
     private int height;
     private int length;
@@ -44,22 +48,6 @@ public class Parcel {
         log.debug("Создан объект Parcel, height={}, length={}, body={}, area={}", height, length, body, area);
     }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public char[][] getBody() {
-        return body;
-    }
-
-    public int getArea() {
-        return area;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,7 +59,7 @@ public class Parcel {
     @Override
     public int hashCode() {
         int result = Objects.hash(height, length, area);
-        result = 31 * result + Arrays.hashCode(body);
+        result = 31 * result + Arrays.deepHashCode(body);
         return result;
     }
 

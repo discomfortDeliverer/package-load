@@ -12,13 +12,11 @@ import java.nio.file.Paths;
 public class FileTruckLoader {
     public Truck loadTruckFromJsonFile(String filepath) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Path filePath = Paths.get(filepath);
 
-        try (FileReader fileReader = new FileReader(filepath)) {
-
+        try {
             return objectMapper.readValue(new File(filepath), Truck.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при чтении файла: " + filepath, e);
         }
     }
 }
