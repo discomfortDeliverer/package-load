@@ -63,10 +63,14 @@ public class TruckLoadManager {
             allParcelsArea += parcel.getArea();
         }
 
-        if (allParcelsArea > trucksCount * 36) throw new UnableToLoadException();
+        if (allParcelsArea > trucksCount * 36) {
+            throw new UnableToLoadException("Посылки займут места больше чем есть места в " + trucksCount + " грузовиках");
+        }
 
         List<Truck> trucks = optimalLoading(parcels);
-        if (trucks.size() > trucksCount) throw new UnableToLoadException();
+        if (trucks.size() > trucksCount) {
+            throw new UnableToLoadException("Посылки не могут поместиться в " + trucksCount + " грузовиков");
+        }
         return trucks;
     }
 
@@ -114,7 +118,9 @@ public class TruckLoadManager {
                 if (coordinatesToPlace.isPresent()) {
                     Coordinates coordinates = coordinatesToPlace.get();
                     truck.placeParcelByCoordinates(parcel, coordinates.getRow(), coordinates.getCol());
-                } else throw new UnableToLoadException();
+                } else {
+                    throw new UnableToLoadException("Посылка не помещается в грузовик");
+                }
             }
             trucks.add(truck);
         }
