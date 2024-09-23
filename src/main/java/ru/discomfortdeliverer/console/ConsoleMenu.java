@@ -103,13 +103,12 @@ public class ConsoleMenu {
     }
 
     public void readParcelsFromFileAndPrintTrucks() {
-        List<Parcel> parcels = null;
         try {
             System.out.println("Введите путь к файлу: ");
             String filePath = scanner.nextLine();
             log.info("Введен путь к файлу - {}", filePath);
 
-            parcels = fileParcelLoader.loadParcelsFromFile(filePath);
+            List<Parcel> parcels = fileParcelLoader.loadParcelsFromFile(filePath);
 
             List<Truck> trucks = chooseLoadAlgorithm(parcels);
 
