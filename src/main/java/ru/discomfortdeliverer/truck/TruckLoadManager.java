@@ -77,7 +77,7 @@ public class TruckLoadManager {
 
     public List<Truck> evenLoad(List<Parcel> parcels, int trucksCount) throws UnableToLoadException {
         sortByParcelArea(parcels);
-        List<ArrayList<Parcel>> trucksAndParcels = new ArrayList<>();
+        List<List<Parcel>> trucksAndParcels = new ArrayList<>();
 
         for (int i = 0; i < trucksCount; i++) {
             trucksAndParcels.add(new ArrayList<>());
@@ -87,7 +87,7 @@ public class TruckLoadManager {
         int right = parcels.size() - 1;
         while (left < right) {
             for (int i=0; i<trucksCount; i++) {
-                ArrayList<Parcel> currentParcels = trucksAndParcels.get(i);
+                ArrayList<Parcel> currentParcels = (ArrayList<Parcel>) trucksAndParcels.get(i);
                 if (left == right) {
                     Parcel leftParcel = parcels.get(left);
                     currentParcels.add(leftParcel);
@@ -109,10 +109,10 @@ public class TruckLoadManager {
         return loadTrucksFromParcelLists(trucksAndParcels);
     }
 
-    private List<Truck> loadTrucksFromParcelLists(List<ArrayList<Parcel>> trucksAndParcels) throws UnableToLoadException {
+    private List<Truck> loadTrucksFromParcelLists(List<List<Parcel>> trucksAndParcels) throws UnableToLoadException {
         List<Truck> trucks = new ArrayList<>();
 
-        for (ArrayList<Parcel> list : trucksAndParcels) {
+        for (List<Parcel> list : trucksAndParcels) {
             Truck truck = new Truck();
             for (Parcel parcel : list) {
                 Optional<Coordinates> coordinatesToPlace = truck.findCoordinatesToPlace(parcel);
