@@ -6,7 +6,6 @@ import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.parcel.FileParcelLoader;
 import ru.discomfortdeliverer.parcel.Parcel;
-import ru.discomfortdeliverer.parcel.ParcelInputValidator;
 import ru.discomfortdeliverer.truck.FileTruckLoader;
 import ru.discomfortdeliverer.truck.Truck;
 import ru.discomfortdeliverer.truck.TruckLoadManager;
@@ -43,16 +42,16 @@ public class ConsoleMenu {
         switch (choice) {
             case "1" -> {
                 log.info("Выбран режим загрузки посылок из файла");
-                readParcelMode();
+                readParcelsFromFileAndPrintTrucks();
             }
             case "2" -> {
                 log.info("Выбран режим загрузки грузовиков из файла json");
-                readTruckMode();
+                readTruckFromJsonAndPrintResult();
             }
             case "3" -> {
                 log.info("Выбран режим загрузки посылок из файла и погрузка их в определенное количество грузовиков");
                 try {
-                    readParcelsAndTryToLoadInTrucksMode();
+                    readParcelsAndTryToLoadInTrucks();
                 } catch (UnableToLoadException e) {
                     log.error("Невозможно поместить указанное количество посылок по указанному количеству грузовиков");
                     throw e;
@@ -62,7 +61,7 @@ public class ConsoleMenu {
         }
     }
 
-    private void readParcelsAndTryToLoadInTrucksMode() throws UnableToLoadException {
+    private void readParcelsAndTryToLoadInTrucks() throws UnableToLoadException {
         List<Parcel> parcels = new ArrayList<>();
         try {
             System.out.println("Введите путь к файлу: ");
@@ -100,10 +99,10 @@ public class ConsoleMenu {
         };
 
         ConsoleTruckView.printListOfTrucks(trucks);
-        log.info("Метод - readParcelsAndTryToLoadInTrucksMode(), успешно завершил свою работу");
+        log.info("Метод - readParcelsAndTryToLoadInTrucks(), успешно завершил свою работу");
     }
 
-    public void readParcelMode() {
+    public void readParcelsFromFileAndPrintTrucks() {
         List<Parcel> parcels = null;
         try {
             System.out.println("Введите путь к файлу: ");
@@ -120,7 +119,7 @@ public class ConsoleMenu {
         } catch (InvalidFilePathException e) {
             log.error("Указан неверный путь к файлу");
         }
-        log.info("Метод readParcelMode() завершился успешно");
+        log.info("Метод readParcelsFromFileAndPrintTrucks() завершился успешно");
     }
 
     public List<Truck> chooseLoadAlgorithm(List<Parcel> parcels) {
@@ -135,7 +134,7 @@ public class ConsoleMenu {
         };
     }
 
-    public void readTruckMode() {
+    public void readTruckFromJsonAndPrintResult() {
         System.out.println("Введите путь к json файлу: ");
         String filePath = scanner.nextLine();
         log.info("Введен путь к файлу - {}", filePath);
@@ -146,6 +145,6 @@ public class ConsoleMenu {
 
         System.out.println("Количество посылок в грузовике:");
         System.out.println(stringIntegerMap);
-        log.info("Метод readTruckMode() завершился успешно");
+        log.info("Метод readTruckFromJsonAndPrintResult() завершился успешно");
     }
 }
