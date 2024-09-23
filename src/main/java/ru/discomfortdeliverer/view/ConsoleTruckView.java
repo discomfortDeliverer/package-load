@@ -18,12 +18,9 @@ public class ConsoleTruckView {
     }
 
     public static void printListOfTrucks(List<Truck> trucks) {
-        int count = 1;
-        for (Truck truck : trucks) {
-            System.out.println("Грузовик #" + count);
-            printTruckBody(truck);
-            count++;
+        for (int i = 0; i < trucks.size(); i++) {
+            System.out.println("Грузовик #" + (i + 1));
+            printTruckBody(trucks.get(i));
         }
-
     }
 }
