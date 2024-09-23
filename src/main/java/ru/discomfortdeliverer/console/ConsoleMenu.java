@@ -41,23 +41,23 @@ public class ConsoleMenu {
         System.out.println("\t3. Загрузка посылок из файла и погрузка их в определенное количество грузовиков.");
         String choice = scanner.nextLine();
         switch (choice) {
-            case "1":
+            case "1" -> {
                 log.info("Выбран режим загрузки посылок из файла");
                 readParcelMode();
-                break;
-            case "2":
+            }
+            case "2" -> {
                 log.info("Выбран режим загрузки грузовиков из файла json");
                 readTruckMode();
-                break;
-            case "3":
+            }
+            case "3" -> {
                 log.info("Выбран режим загрузки посылок из файла и погрузка их в определенное количество грузовиков");
                 try {
                     readParcelsAndTryToLoadInTrucksMode();
                 } catch (UnableToLoadException e) {
                     log.error("Невозможно поместить указанное количество посылок по указанному количеству грузовиков");
                 }
-                break;
-            default: System.out.println("Неверный ввод");
+            }
+            default -> System.out.println("Неверный ввод");
         }
     }
 
@@ -86,17 +86,17 @@ public class ConsoleMenu {
         System.out.println("\n2.Эффективная погрузка по грузовикам.");
 
         String choice = scanner.nextLine();
-        List<Truck> trucks = new ArrayList<>();
-        switch (choice) {
-            case "1":
+        List<Truck> trucks = switch (choice) {
+            case "1" -> {
                 log.info("Выбран - равномерный алгоритм погрузки по грузовикам");
-                trucks = truckLoadManager.evenLoad(parcels, trucksCount);
-                break;
-            case "2":
+                yield truckLoadManager.evenLoad(parcels, trucksCount);
+            }
+            case "2" -> {
                 log.info("Выбран - эффективный алгоритм погрузки по грузовикам");
-                trucks = truckLoadManager.maxQualityLoad(parcels, trucksCount);
-                break;
-        }
+                yield truckLoadManager.maxQualityLoad(parcels, trucksCount);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
+        };
 
         ConsoleTruckView.printListOfTrucks(trucks);
         log.info("Метод - readParcelsAndTryToLoadInTrucksMode(), успешно завершил свою работу");
@@ -127,16 +127,11 @@ public class ConsoleMenu {
         String choice = scanner.nextLine();
         log.info("Выбран вариант сортировки - {}", choice);
 
-        List<Truck> trucks = new ArrayList<>();
-        switch (choice) {
-            case "1":
-                trucks = truckLoadManager.optimalLoading(parcels);
-                break;
-            case "2":
-                trucks = truckLoadManager.oneParcelOneTruckLoad(parcels);
-                break;
-        }
-        return trucks;
+        return switch (choice) {
+            case "1" -> truckLoadManager.optimalLoading(parcels);
+            case "2" -> truckLoadManager.oneParcelOneTruckLoad(parcels);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
+        };
     }
 
     public void readTruckMode() {
