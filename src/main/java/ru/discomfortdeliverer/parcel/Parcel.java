@@ -18,7 +18,8 @@ public class Parcel {
     private int area;
 
     public Parcel(String inputParcel) {
-        String[] lines = inputParcel.split("\n");
+        String lineSeparator = System.lineSeparator();
+        String[] lines = inputParcel.split(lineSeparator);
 
         Collections.reverse(Arrays.asList(lines));
 

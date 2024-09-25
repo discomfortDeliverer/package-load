@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TruckTest {
     private Truck truck;
+    private final String ls = System.lineSeparator();
 
     @BeforeEach
     void setUp() {
@@ -30,8 +31,8 @@ public class TruckTest {
 
     @Test
     void canFitParcelAtCoordinates_GivenCoordinatesThatParcelCanBePlaced_ShouldReturnTrue() {
-        Parcel parcel = new Parcel("999\n" +
-                                             "999\n" +
+        Parcel parcel = new Parcel("999" + ls +
+                                             "999" + ls +
                                              "999");
         int row = 0;
         int col = 0;
@@ -40,8 +41,8 @@ public class TruckTest {
 
     @Test
     void canFitParcelAtCoordinates_GivenCoordinatesThatParcelCanNotBePlaced_ShouldReturnFalse() {
-        Parcel parcel = new Parcel("999\n" +
-                                             "999\n" +
+        Parcel parcel = new Parcel("999" + ls +
+                                             "999" + ls +
                                              "999");
         int row = 4;
         int col = 0;
@@ -52,8 +53,8 @@ public class TruckTest {
     void canFitParcelAtCoordinates_GivenBottomSupportOnWhichParcelCanBePlaced_ShouldReturnTrue() {
         Parcel bottomParcel = new Parcel("22");
         truck.placeParcelByCoordinates(bottomParcel, 0, 0);
-        Parcel topParcel = new Parcel("999\n" +
-                "999\n" +
+        Parcel topParcel = new Parcel("999" + ls +
+                "999" + ls +
                 "999");
         int row = 1;
         int col = 0;
@@ -64,8 +65,8 @@ public class TruckTest {
     void canFitParcelAtCoordinates_GivenBottomSupportOnWhichParcelCanNotBePlaced_ShouldReturnFalse() {
         Parcel bottomParcel = new Parcel("2");
         truck.placeParcelByCoordinates(bottomParcel, 0, 0);
-        Parcel topParcel = new Parcel("999\n" +
-                "999\n" +
+        Parcel topParcel = new Parcel("999" + ls +
+                "999" + ls +
                 "999");
         int row = 1;
         int col = 0;
@@ -74,8 +75,8 @@ public class TruckTest {
 
     @Test
     void placeParcelByCoordinates_GivenCoordinatesThatCanBePlaced_ShouldPlaceParcel() {
-        Parcel parcel = new Parcel("999\n" +
-                "999\n" +
+        Parcel parcel = new Parcel("999" + ls +
+                "999" + ls +
                 "999");
 
         int row = 0;
@@ -95,15 +96,15 @@ public class TruckTest {
 
     @Test
     void canFitParcelAtCoordinates_TrackIsFull_ShouldReturnFalse() {
-        Parcel firstParcel = new Parcel("999\n" +
-                "999\n" +
+        Parcel firstParcel = new Parcel("999" + ls +
+                "999" + ls +
                 "999");
         truck.placeParcelByCoordinates(firstParcel, 0, 0);
 
-        Parcel secondParcel = new Parcel("8888\n" +
+        Parcel secondParcel = new Parcel("8888" + ls +
                                                    "8888");
         truck.placeParcelByCoordinates(secondParcel, 3, 0);
-        Parcel thirdParcel = new Parcel("777\n" +
+        Parcel thirdParcel = new Parcel("777" + ls +
                 "7777");
         char[][] expectedTruckBody = {
                 {'9', '9', '9', ' ', ' ', ' '},

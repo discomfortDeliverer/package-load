@@ -34,10 +34,11 @@ public class FileParcelLoader {
             }
             StringBuilder stringBuilder = new StringBuilder();
 
+            String lineSeparator = System.lineSeparator();
             for (String line : lines) {
                 if (!line.equals("")) {
                     stringBuilder.append(line);
-                    stringBuilder.append("\n");
+                    stringBuilder.append(lineSeparator);
                 } else {
                     Parcel parcel = new Parcel(stringBuilder.toString());
                     parcels.add(parcel);

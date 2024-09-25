@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class FileParcelLoaderTest {
     private FileParcelLoader fileParcelLoader;
+    private final String ls = System.lineSeparator();
 
     @Test
     void loadParcelsFromFile_GivenValidFile_ShouldReturnValidParcels() throws InvalidInputException, InvalidFilePathException {
@@ -18,10 +19,10 @@ public class FileParcelLoaderTest {
         List<Parcel> parcelsFromFile = fileParcelLoader.loadParcelsFromFile("src/test/resources/validInputParcelsData.txt");
 
         List<Parcel> expectedParcels = new ArrayList<>();
-        expectedParcels.add(new Parcel("999\n999\n999"));
-        expectedParcels.add(new Parcel("8888\n8888"));
-        expectedParcels.add(new Parcel("777\n7777"));
-        expectedParcels.add(new Parcel("666\n666"));
+        expectedParcels.add(new Parcel("999" + ls + "999" + ls +"999"));
+        expectedParcels.add(new Parcel("8888" + ls + "8888"));
+        expectedParcels.add(new Parcel("777" + ls + "7777"));
+        expectedParcels.add(new Parcel("666" + ls +"666"));
         expectedParcels.add(new Parcel("55555"));
         expectedParcels.add(new Parcel("4444"));
         expectedParcels.add(new Parcel("333"));
