@@ -1,7 +1,7 @@
 package ru.discomfortdeliverer.truck;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.discomfortdeliverer.Coordinates;
+import ru.discomfortdeliverer.parcel.Coordinates;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.parcel.Parcel;
 

@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer;
+package ru.discomfortdeliverer.parcel;
 
 public class Coordinates {
     private int row;

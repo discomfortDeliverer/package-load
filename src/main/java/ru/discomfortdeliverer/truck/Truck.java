@@ -2,7 +2,7 @@ package ru.discomfortdeliverer.truck;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.slf4j.Slf4j;
-import ru.discomfortdeliverer.Coordinates;
+import ru.discomfortdeliverer.parcel.Coordinates;
 import ru.discomfortdeliverer.parcel.Parcel;
 
 import java.util.Arrays;
