@@ -29,7 +29,17 @@ public class Truck {
     public char[][] getTruckBody() {
         return truckBody;
     }
+    public void setTruckBody(char[][] truckBody) {
+        this.truckBody = truckBody;
+    }
 
+    /**
+     * Проверяет то, возможно ли поместить посылку в грузовик по указанным координатам
+     * @param parcel Посылка, которую нужно поместить
+     * @param row Координата по вертикали
+     * @param col Координата по горизонтали
+     * @return Результат, поместиться ли посылка по данным координатам или нет
+     */
     public boolean canFitParcelAtCoordinates(Parcel parcel, int row, int col) {
         log.debug("Проверка, можно ли поместить посылку {} по координатам row={}, col={}", parcel, row, col);
         if (parcel.getLength() + col > TRUCK_LENGTH || parcel.getHeight() + row > TRUCK_HEIGHT)
@@ -59,6 +69,12 @@ public class Truck {
         return true;
     }
 
+    /**
+     * Помещает посылку по указанным координатам
+     * @param parcel Посылка, которая будет помещена по координатам
+     * @param row Координата по вертикали, начиная от которой будет вставлена посылка
+     * @param col Координата по горизонтали, начиная от которой будет вставлена посылка
+     */
     public void placeParcelByCoordinates(Parcel parcel, int row, int col) {
         log.debug("Помещаем посылку {}, в грузовик {} по координатам row={}, col={}", parcel, this, row, col);
         char[][] parcelBody = parcel.getBody();
@@ -68,6 +84,12 @@ public class Truck {
                 truckBody[row + i][col + j] = parcelBody[i][j];
     }
 
+    /**
+     * Находит координаты, по которым можно поместить посылку
+     * @param parcel Посылка, координаты для вставки которой мы ищем
+     * @return Если координаты найдены, то возвращаем их в Optional,
+     * если нет, то возвращаем пустой Optional
+     */
     public Optional<Coordinates> findCoordinatesToPlace(Parcel parcel) {
         for (int i = 0; i < TRUCK_HEIGHT; i++)
             for (int j = 0; j < TRUCK_LENGTH; j++) {
