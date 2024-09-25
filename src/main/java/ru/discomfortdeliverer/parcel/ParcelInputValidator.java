@@ -7,12 +7,13 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class ParcelInputValidator {
-    private static final String VALID_PATTERN =
-            "^(999|8888|777|7777|666|55555|4444|333|22|1)$";
+    private static final Pattern pattern = Pattern.compile("^(999|8888|777|7777|666|55555|4444|333|22|1)$");
 
     public boolean isValidListOfLines(List<String> lines) {
         for (String line : lines) {
-            if (line.isEmpty()) continue;
+            if (line.isEmpty()) {
+                continue;
+            }
             if (!isValidLine(line)) {
                 log.debug("Невалидная строка - {}", line);
                 return false;
@@ -22,6 +23,6 @@ public class ParcelInputValidator {
     }
 
     private boolean isValidLine(String line) {
-        return Pattern.matches(VALID_PATTERN, line);
+        return pattern.matcher(line).matches();
     }
 }
