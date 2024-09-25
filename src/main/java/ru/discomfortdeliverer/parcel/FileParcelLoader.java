@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 public class FileParcelLoader {
-    private ParcelInputValidator parcelInputValidator;
+    private final ParcelInputValidator parcelInputValidator;
 
     public FileParcelLoader(ParcelInputValidator parcelInputValidator) {
         this.parcelInputValidator = parcelInputValidator;
