@@ -51,7 +51,7 @@ public class ConsoleMenu {
             case "3" -> {
                 log.info("Выбран режим загрузки посылок из файла и погрузка их в определенное количество грузовиков");
                 try {
-                    readParcelsAndTryToLoadInTrucks();
+                    readParcels();
                 } catch (UnableToLoadException e) {
                     log.error("Невозможно поместить указанное количество посылок по указанному количеству грузовиков");
                     throw e;
@@ -61,7 +61,7 @@ public class ConsoleMenu {
         }
     }
 
-    private void readParcelsAndTryToLoadInTrucks() throws UnableToLoadException {
+    private void readParcels() throws UnableToLoadException {
         List<Parcel> parcels = new ArrayList<>();
         try {
             System.out.println("Введите путь к файлу: ");
@@ -77,6 +77,11 @@ public class ConsoleMenu {
         }
 
         log.info("Из файла прочитано " + parcels.size() + "посылок");
+
+        readTrucksCountAndChooseLoadAlgorithm(parcels);
+    }
+
+    private void readTrucksCountAndChooseLoadAlgorithm(List<Parcel> parcels) {
         System.out.println("Введите количество грузовиков, по которым погрузить: ");
         int trucksCount = Integer.parseInt(scanner.nextLine());
         log.info("Введенное количество грузовиков - {} ", trucksCount);
@@ -99,7 +104,7 @@ public class ConsoleMenu {
         };
 
         ConsoleTruckView.printListOfTrucks(trucks);
-        log.info("Метод - readParcelsAndTryToLoadInTrucks(), успешно завершил свою работу");
+        log.info("Метод - readTrucksCountAndChooseLoadAlgorithm(), успешно завершил свою работу");
     }
 
     public void readParcelsFromFileAndPrintTrucks() {
