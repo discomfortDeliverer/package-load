@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
-import ru.discomfortdeliverer.parcel.FileParcelLoader;
-import ru.discomfortdeliverer.parcel.Parcel;
+import ru.discomfortdeliverer.service.FileParcelLoadService;
+import ru.discomfortdeliverer.model.Parcel;
 import ru.discomfortdeliverer.truck.FileTruckLoader;
 import ru.discomfortdeliverer.truck.Truck;
 import ru.discomfortdeliverer.truck.TruckLoadManager;
@@ -15,20 +15,19 @@ import ru.discomfortdeliverer.view.ConsoleTruckView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 @Slf4j
 public class ConsoleMenu {
     private final Scanner scanner;
-    private final FileParcelLoader fileParcelLoader;
+    private final FileParcelLoadService fileParcelLoadService;
     private final TruckLoadManager truckLoadManager;
     private final FileTruckLoader fileTruckLoader;
     private final TruckUtils truckUtils;
 
-    public ConsoleMenu(Scanner scanner, FileParcelLoader fileParcelLoader, TruckLoadManager truckLoadManager, FileTruckLoader fileTruckLoader, TruckUtils truckUtils) {
+    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, TruckLoadManager truckLoadManager, FileTruckLoader fileTruckLoader, TruckUtils truckUtils) {
         this.scanner = scanner;
-        this.fileParcelLoader = fileParcelLoader;
+        this.fileParcelLoadService = fileParcelLoadService;
         this.truckLoadManager = truckLoadManager;
         this.fileTruckLoader = fileTruckLoader;
         this.truckUtils = truckUtils;
@@ -72,7 +71,7 @@ public class ConsoleMenu {
             String filePath = scanner.nextLine();
             log.info("Введен путь к файлу - {}", filePath);
 
-            parcels = fileParcelLoader.loadParcelsFromFile(filePath);
+            parcels = fileParcelLoadService.loadParcelsFromFile(filePath);
 
         } catch (InvalidInputException e) {
             log.error("В файле невалидные данные");
@@ -117,7 +116,7 @@ public class ConsoleMenu {
             String filePath = scanner.nextLine();
             log.info("Введен путь к файлу - {}", filePath);
 
-            List<Parcel> parcels = fileParcelLoader.loadParcelsFromFile(filePath);
+            List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filePath);
 
             List<Truck> trucks = chooseLoadAlgorithm(parcels);
 

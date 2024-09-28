@@ -3,8 +3,7 @@ package ru.discomfortdeliverer.truck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
-import ru.discomfortdeliverer.parcel.FileParcelLoader;
-import ru.discomfortdeliverer.parcel.Parcel;
+import ru.discomfortdeliverer.model.Parcel;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package ru.discomfortdeliverer.truck;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.discomfortdeliverer.parcel.Parcel;
+import ru.discomfortdeliverer.model.Parcel;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 
 import static org.assertj.core.api.Assertions.assertThat;

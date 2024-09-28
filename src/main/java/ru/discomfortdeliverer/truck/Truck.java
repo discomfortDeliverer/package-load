@@ -3,7 +3,7 @@ package ru.discomfortdeliverer.truck;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.parcel.Coordinates;
-import ru.discomfortdeliverer.parcel.Parcel;
+import ru.discomfortdeliverer.model.Parcel;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -47,7 +47,7 @@ public class Truck {
 
         for (int i = 0; i < parcel.getHeight(); i++)
             for (int j = 0; j < parcel.getLength(); j++) {
-                if (parcel.getBody()[i][j] != ' ' && truckBody[row + i][col + j] != ' ')
+                if (parcel.getForm()[i][j] != ' ' && truckBody[row + i][col + j] != ' ')
                     return false;
             }
 
@@ -77,7 +77,7 @@ public class Truck {
      */
     public void placeParcelByCoordinates(Parcel parcel, int row, int col) {
         log.debug("Помещаем посылку {}, в грузовик {} по координатам row={}, col={}", parcel, this, row, col);
-        char[][] parcelBody = parcel.getBody();
+        char[][] parcelBody = parcel.getForm();
 
         for (int i = 0; i < parcel.getHeight(); i++)
             for (int j = 0; j < parcel.getLength(); j++)

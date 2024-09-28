@@ -3,20 +3,22 @@ package ru.discomfortdeliverer.parcel;
 import org.junit.jupiter.api.Test;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
+import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.service.FileParcelLoadService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FileParcelLoaderTest {
-    private FileParcelLoader fileParcelLoader;
+public class FileParcelLoadServiceTest {
+    private FileParcelLoadService fileParcelLoadService;
     private final String ls = System.lineSeparator();
 
     @Test
     void loadParcelsFromFile_GivenValidFile_ShouldReturnValidParcels() throws InvalidInputException, InvalidFilePathException {
-        fileParcelLoader = new FileParcelLoader(new ParcelInputValidator());
-        List<Parcel> parcelsFromFile = fileParcelLoader.loadParcelsFromFile("src/test/resources/validInputParcelsData.txt");
+        fileParcelLoadService = new FileParcelLoadService(new ParcelInputValidator());
+        List<Parcel> parcelsFromFile = fileParcelLoadService.loadParcelsFromFile("src/test/resources/validInputParcelsData.txt");
 
         List<Parcel> expectedParcels = new ArrayList<>();
         expectedParcels.add(new Parcel("999" + ls + "999" + ls +"999"));

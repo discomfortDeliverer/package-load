@@ -1,6 +1,8 @@
 package ru.discomfortdeliverer.parcel;
 
 import org.junit.jupiter.api.Test;
+import ru.discomfortdeliverer.model.Parcel;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ParcelTest {
@@ -19,7 +21,7 @@ public class ParcelTest {
                 {'7', '7', '7', '7'},  // 0 индекс
                 {'7', '7', '7', ' '}   // 1 индекс
         };
-        char[][] shape = parcel.getBody();
+        char[][] shape = parcel.getForm();
         assertThat(shape).isEqualTo(expectedShape);
     }
 }
