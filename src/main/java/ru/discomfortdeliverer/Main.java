@@ -11,7 +11,7 @@ public class Main {
         SpringApplication.run(Main.class, args);
 //        Scanner scanner = new Scanner(System.in);
 //        FileParcelLoadService fileParcelLoader = new FileParcelLoadService(new ParcelInputValidator());
-//        TruckLoadManager truckLoadManager = new TruckLoadManager();
+//        ParcelLoadInTruckService truckLoadManager = new ParcelLoadInTruckService();
 //        FileTruckLoadService fileTruckLoader = new FileTruckLoadService();
 //        TruckUtils truckUtils = new TruckUtils();
 //        ConsoleMenu consoleMenu = new ConsoleMenu(scanner, fileParcelLoader, truckLoadManager

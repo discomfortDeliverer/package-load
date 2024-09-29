@@ -1,14 +1,17 @@
-package ru.discomfortdeliverer.truck;
+package ru.discomfortdeliverer.service.truck;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.parcel.Coordinates;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.truck.Truck;
 
 import java.util.*;
 
 @Slf4j
-public class TruckLoadManager {
+@Service
+public class ParcelLoadInTruckService {
     private static final int MAX_TRUCK_AREA = 36;
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));

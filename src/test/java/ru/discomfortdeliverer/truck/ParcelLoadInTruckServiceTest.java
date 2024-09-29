@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 
 import java.util.ArrayList;
@@ -12,14 +13,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TruckLoadManagerTest {
-    private TruckLoadManager truckLoadManager;
+public class ParcelLoadInTruckServiceTest {
+    private ParcelLoadInTruckService parcelLoadInTruckService;
     private List<Parcel> parcels;
     private final String ls = System.lineSeparator();
 
     @BeforeEach
     void setUp() {
-        truckLoadManager = new TruckLoadManager();
+        parcelLoadInTruckService = new ParcelLoadInTruckService();
     }
 
     @Test
@@ -35,7 +36,7 @@ public class TruckLoadManagerTest {
         parcels.add(new Parcel("8888" + ls + "8888"));
         parcels.add(new Parcel("999" + ls + "999" + ls + "999"));
 
-        List<Truck> trucks = truckLoadManager.oneParcelOneTruckLoad(parcels);
+        List<Truck> trucks = parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
         ConsoleTruckView.printListOfTrucks(trucks);
         assertThat(trucks.size()).isEqualTo(9);
     }
@@ -70,7 +71,7 @@ public class TruckLoadManagerTest {
                 {' ', ' ', ' ', ' ', ' ', ' '}
         };
 
-        List<Truck> trucks = truckLoadManager.optimalLoading(parcels);
+        List<Truck> trucks = parcelLoadInTruckService.optimalLoading(parcels);
 
         ConsoleTruckView.printListOfTrucks(trucks);
         assertThat(trucks.get(0).getTruckBody()).isEqualTo(expectedFirstTruckBody);
@@ -94,7 +95,7 @@ public class TruckLoadManagerTest {
         parcels.add(new Parcel("1"));
 
 
-        List<Truck> trucks = truckLoadManager.evenLoad(parcels, 3);
+        List<Truck> trucks = parcelLoadInTruckService.evenLoad(parcels, 3);
         assertThat(trucks.size()).isEqualTo(3);
     }
 
@@ -115,7 +116,7 @@ public class TruckLoadManagerTest {
         parcels.add(new Parcel("1"));
 
         assertThatThrownBy(() -> {
-            truckLoadManager.evenLoad(parcels, 1);
+            parcelLoadInTruckService.evenLoad(parcels, 1);
         })
                 .isInstanceOf(UnableToLoadException.class);
     }

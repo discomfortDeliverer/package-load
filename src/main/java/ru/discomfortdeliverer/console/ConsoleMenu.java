@@ -8,7 +8,7 @@ import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.model.Parcel;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 import ru.discomfortdeliverer.truck.Truck;
-import ru.discomfortdeliverer.truck.TruckLoadManager;
+import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
 import ru.discomfortdeliverer.truck.TruckParcelsCounter;
 import ru.discomfortdeliverer.truck.TruckUtils;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
@@ -21,14 +21,14 @@ import java.util.Scanner;
 public class ConsoleMenu {
     private final Scanner scanner;
     private final FileParcelLoadService fileParcelLoadService;
-    private final TruckLoadManager truckLoadManager;
+    private final ParcelLoadInTruckService parcelLoadInTruckService;
     private final FileTruckLoadService fileTruckLoadService;
     private final TruckUtils truckUtils;
 
-    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, TruckLoadManager truckLoadManager, FileTruckLoadService fileTruckLoadService, TruckUtils truckUtils) {
+    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, ParcelLoadInTruckService parcelLoadInTruckService, FileTruckLoadService fileTruckLoadService, TruckUtils truckUtils) {
         this.scanner = scanner;
         this.fileParcelLoadService = fileParcelLoadService;
-        this.truckLoadManager = truckLoadManager;
+        this.parcelLoadInTruckService = parcelLoadInTruckService;
         this.fileTruckLoadService = fileTruckLoadService;
         this.truckUtils = truckUtils;
     }
@@ -97,11 +97,11 @@ public class ConsoleMenu {
         List<Truck> trucks = switch (choice) {
             case "1" -> {
                 log.info("Выбран - равномерный алгоритм погрузки по грузовикам");
-                yield truckLoadManager.evenLoad(parcels, trucksCount);
+                yield parcelLoadInTruckService.evenLoad(parcels, trucksCount);
             }
             case "2" -> {
                 log.info("Выбран - эффективный алгоритм погрузки по грузовикам");
-                yield truckLoadManager.maxQualityLoad(parcels, trucksCount);
+                yield parcelLoadInTruckService.maxQualityLoad(parcels, trucksCount);
             }
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
@@ -137,8 +137,8 @@ public class ConsoleMenu {
         log.info("Выбран вариант сортировки - {}", choice);
 
         return switch (choice) {
-            case "1" -> truckLoadManager.optimalLoading(parcels);
-            case "2" -> truckLoadManager.oneParcelOneTruckLoad(parcels);
+            case "1" -> parcelLoadInTruckService.optimalLoading(parcels);
+            case "2" -> parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         };
     }
