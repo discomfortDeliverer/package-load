@@ -75,3 +75,10 @@
 1727614708153:load-parcels-from-file src/main/resources/parcels.txt --simple
 1727614861848:help
 1727615022397:load-parcels-from-file src/main/resources/parcels.txt --s
+1727620261368:help
+1727620374920:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 10x10x10
+1727620407090:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 10x10
+1727620431218:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 5x5
+1727620469893:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 5x3,5x5
+1727620637288:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5
+1727620724027:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5,6x6,6x6

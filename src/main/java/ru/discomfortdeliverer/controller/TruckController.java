@@ -12,6 +12,7 @@ import ru.discomfortdeliverer.truck.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ShellComponent
 public class TruckController {
@@ -47,7 +48,15 @@ public class TruckController {
         if (simple){
             trucks = parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
         }
-
         return trucks;
+    }
+
+    @ShellMethod(key = "load-parcels-to-trucks-from-file", value = "Загрузки посылки из файла и погрузить" +
+            " их в определенное количество грузовиков. Размеры грузовиков указывать так: 6x6,6x3,5x5")
+    public List<Truck> loadParcelsToTrucksFromFile(String filepath,
+           @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
+        List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filepath);
+
+        return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
     }
 }

@@ -11,13 +11,27 @@ import java.util.Optional;
 @Slf4j
 public class Truck {
     @JsonIgnore
-    private static final int TRUCK_HEIGHT = 6;
+    private int truckHeight;
     @JsonIgnore
-    private static final int TRUCK_LENGTH = 6;
+    private int truckLength;
     private char[][] truckBody;
 
+    public Truck(int truckHeight, int truckLength) {
+        this.truckHeight = truckHeight;
+        this.truckLength = truckLength;
+        this.truckBody = new char[truckHeight][truckLength];
+
+        for (int i = 0; i < truckBody.length; i++)
+            for (int j = 0; j < truckBody[i].length; j++) {
+                truckBody[i][j] = ' ';
+            }
+        log.debug("Создан объект Truck");
+    }
+
     public Truck() {
-        this.truckBody = new char[TRUCK_HEIGHT][TRUCK_LENGTH];
+        this.truckHeight = 6;
+        this.truckLength = 6;
+        this.truckBody = new char[truckHeight][truckLength];
 
         for (int i = 0; i < truckBody.length; i++)
             for (int j = 0; j < truckBody[i].length; j++) {
@@ -42,7 +56,7 @@ public class Truck {
      */
     public boolean canFitParcelAtCoordinates(Parcel parcel, int row, int col) {
         log.debug("Проверка, можно ли поместить посылку {} по координатам row={}, col={}", parcel, row, col);
-        if (parcel.getLength() + col > TRUCK_LENGTH || parcel.getHeight() + row > TRUCK_HEIGHT)
+        if (parcel.getLength() + col > truckLength || parcel.getHeight() + row > truckHeight)
             return false;
 
         for (int i = 0; i < parcel.getHeight(); i++)
@@ -91,8 +105,8 @@ public class Truck {
      * если нет, то возвращаем пустой Optional
      */
     public Optional<Coordinates> findCoordinatesToPlace(Parcel parcel) {
-        for (int i = 0; i < TRUCK_HEIGHT; i++)
-            for (int j = 0; j < TRUCK_LENGTH; j++) {
+        for (int i = 0; i < truckHeight; i++)
+            for (int j = 0; j < truckLength; j++) {
                 if (this.canFitParcelAtCoordinates(parcel, i, j)) {
                     Coordinates coordinates = new Coordinates();
                     coordinates.setRow(i);

@@ -18,3 +18,11 @@
 55555
 
 5
+
+Штанга
+
+Z         Z
+ZZZZZZZZZZZ
+Z         Z
+
+Z

@@ -43,14 +43,14 @@ public class ConsoleMenu {
         System.out.println("\t3. Загрузка посылок из файла и погрузка их в определенное количество грузовиков.");
         String choice = scanner.nextLine();
         switch (choice) {
-            case "1" -> {
-                log.info("Выбран режим загрузки посылок из файла");
-                readParcelsFromFileAndPrintTrucks();
-            }
-            case "2" -> {
-                log.info("Выбран режим загрузки грузовиков из файла json");
-                readTruckFromJsonAndPrintResult();
-            }
+//            case "1" -> {
+//                log.info("Выбран режим загрузки посылок из файла");
+//                readParcelsFromFileAndPrintTrucks();
+//            }
+//            case "2" -> {
+//                log.info("Выбран режим загрузки грузовиков из файла json");
+//                readTruckFromJsonAndPrintResult();
+//            }
             case "3" -> {
                 log.info("Выбран режим загрузки посылок из файла и погрузка их в определенное количество грузовиков");
                 try {
@@ -110,66 +110,66 @@ public class ConsoleMenu {
         log.info("Метод - readTrucksCountAndChooseLoadAlgorithm(), успешно завершил свою работу");
     }
 
-    private void readParcelsFromFileAndPrintTrucks() {
-        try {
-            System.out.println("Введите путь к файлу: ");
-            String filePath = scanner.nextLine();
-            log.info("Введен путь к файлу - {}", filePath);
+//    private void readParcelsFromFileAndPrintTrucks() {
+//        try {
+//            System.out.println("Введите путь к файлу: ");
+//            String filePath = scanner.nextLine();
+//            log.info("Введен путь к файлу - {}", filePath);
+//
+//            List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filePath);
+//
+//            List<Truck> trucks = chooseLoadAlgorithm(parcels);
+//
+//            ConsoleTruckView.printListOfTrucks(trucks);
+//        } catch (InvalidInputException e) {
+//            log.error("В файле невалидные данные");
+//            throw e;
+//        } catch (InvalidFilePathException e) {
+//            log.error("Указан неверный путь к файлу");
+//            throw e;
+//        }
+//        log.info("Метод readParcelsFromFileAndPrintTrucks() завершился успешно");
+//    }
 
-            List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filePath);
+//    private List<Truck> chooseLoadAlgorithm(List<Parcel> parcels) {
+//        System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
+//        String choice = scanner.nextLine();
+//        log.info("Выбран вариант сортировки - {}", choice);
+//
+//        return switch (choice) {
+//            case "1" -> parcelLoadInTruckService.optimalLoading(parcels);
+//            case "2" -> parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
+//            default -> throw new IllegalStateException("Unexpected value: " + choice);
+//        };
+//    }
 
-            List<Truck> trucks = chooseLoadAlgorithm(parcels);
-
-            ConsoleTruckView.printListOfTrucks(trucks);
-        } catch (InvalidInputException e) {
-            log.error("В файле невалидные данные");
-            throw e;
-        } catch (InvalidFilePathException e) {
-            log.error("Указан неверный путь к файлу");
-            throw e;
-        }
-        log.info("Метод readParcelsFromFileAndPrintTrucks() завершился успешно");
-    }
-
-    private List<Truck> chooseLoadAlgorithm(List<Parcel> parcels) {
-        System.out.println("Выберите алгоритм: \n\t1. Эффективный\n\t2. Простой");
-        String choice = scanner.nextLine();
-        log.info("Выбран вариант сортировки - {}", choice);
-
-        return switch (choice) {
-            case "1" -> parcelLoadInTruckService.optimalLoading(parcels);
-            case "2" -> parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
-            default -> throw new IllegalStateException("Unexpected value: " + choice);
-        };
-    }
-
-    private void readTruckFromJsonAndPrintResult() {
-        System.out.println("Выберите режим загрузки из json-файла:");
-        System.out.println("\t1. Загрузка одного грузовика.");
-        System.out.println("\t2. Загрузка нескольких грузовиков.");
-        String choice = scanner.nextLine();
-
-        System.out.println("Введите путь к json файлу: ");
-        String filePath = scanner.nextLine();
-        log.info("Введен путь к файлу - {}", filePath);
-
-        switch (choice) {
-            case "1":
-                Truck truck = fileTruckLoadService.loadTruckFromJsonFile(filePath);
-                ConsoleTruckView.printTruckBody(truck);
-                TruckParcelsCounter stringIntegerMap = truckUtils.countEachTypeParcels(truck);
-                System.out.println("Количество посылок в грузовике:");
-                System.out.println(stringIntegerMap);
-                break;
-            case "2":
-                List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(filePath);
-                ConsoleTruckView.printListOfTrucks(trucks);
-                List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
-                System.out.println("Количество посылок в грузовиках:");
-                ConsoleTruckView.printListOfTruckParcelCounter(truckParcelsCounters);
-                break;
-        }
-
-        log.info("Метод readTruckFromJsonAndPrintResult() завершился успешно");
-    }
+//    private void readTruckFromJsonAndPrintResult() {
+//        System.out.println("Выберите режим загрузки из json-файла:");
+//        System.out.println("\t1. Загрузка одного грузовика.");
+//        System.out.println("\t2. Загрузка нескольких грузовиков.");
+//        String choice = scanner.nextLine();
+//
+//        System.out.println("Введите путь к json файлу: ");
+//        String filePath = scanner.nextLine();
+//        log.info("Введен путь к файлу - {}", filePath);
+//
+//        switch (choice) {
+//            case "1":
+//                Truck truck = fileTruckLoadService.loadTruckFromJsonFile(filePath);
+//                ConsoleTruckView.printTruckBody(truck);
+//                TruckParcelsCounter stringIntegerMap = truckUtils.countEachTypeParcels(truck);
+//                System.out.println("Количество посылок в грузовике:");
+//                System.out.println(stringIntegerMap);
+//                break;
+//            case "2":
+//                List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(filePath);
+//                ConsoleTruckView.printListOfTrucks(trucks);
+//                List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
+//                System.out.println("Количество посылок в грузовиках:");
+//                ConsoleTruckView.printListOfTruckParcelCounter(truckParcelsCounters);
+//                break;
+//        }
+//
+//        log.info("Метод readTruckFromJsonAndPrintResult() завершился успешно");
+//    }
 }

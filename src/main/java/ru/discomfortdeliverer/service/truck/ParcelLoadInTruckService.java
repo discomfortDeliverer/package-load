@@ -164,4 +164,45 @@ public class ParcelLoadInTruckService {
 
         return trucks;
     }
+
+    public List<Truck> loadParcelsToTrucks(List<Parcel> parcels, String trucksSize) {
+        List<Truck> trucks = createTrucksFromSizes(trucksSize);
+
+        sortByParcelArea(parcels);
+
+        for (Parcel parcel : parcels) {
+            boolean placed = false;
+
+            for (Truck truck : trucks) {
+                Optional<Coordinates> coordinatesToPlace = truck.findCoordinatesToPlace(parcel);
+                if (coordinatesToPlace.isPresent()) {
+                    Coordinates coordinates = coordinatesToPlace.get();
+                    truck.placeParcelByCoordinates(parcel, coordinates.getRow(), coordinates.getCol());
+                    placed = true;
+                    break;
+                }
+            }
+
+            if (!placed) {
+                throw new UnableToLoadException("Невозможно поместить посылку -" + parcel +
+                        " ни в один из грузовиков, размерами: "  + trucksSize);
+            }
+        }
+        log.info("Получили список грузовиков размером - {}", trucks.size());
+        return trucks;
+    }
+
+    private List<Truck> createTrucksFromSizes(String trucksSize) {
+        String[] sizes = trucksSize.split(",");
+
+        List<Truck> trucks = new ArrayList<>();
+        for (String size : sizes) {
+            String[] heightAndLength = size.split("x");
+            int height = Integer.parseInt(heightAndLength[0]);
+            int length = Integer.parseInt(heightAndLength[1]);
+            Truck truck = new Truck(height, length);
+            trucks.add(truck);
+        }
+        return trucks;
+    }
 }
