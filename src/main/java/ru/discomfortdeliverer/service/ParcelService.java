@@ -25,8 +25,8 @@ public class ParcelService {
         return parcelRepository.changeSymbol(parcelName, newSymbol);
     }
 
-    public Parcel changeParcelForm(String parcelName, String newForm) {
-        String[] split = newForm.split("\n");
+    public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
+        String[] split = newForm.split("n");
         int maxLength = 0;
         for (String line : split) {
             if (line.length() > maxLength) {
@@ -41,11 +41,29 @@ public class ParcelService {
 
         for (int i = 0; i < form.length; i++) {
             String line = split[i];
-            for (int j = 0; j < form[i].length; j++) {
+            for (int j = 0; j < line.length(); j++) {
                 form[i][j] = line.charAt(j);
             }
         }
 
-        return parcelRepository.changeParcelForm(parcelName, form);
+        reverseForm(form);
+        return parcelRepository.changeParcelForm(parcelName, form, symbol);
+    }
+
+    private void reverseForm(char[][] form) {
+        for (int i = 0; i < form.length / 2; i++) {
+            // Меняем местами строки
+            char[] temp = form[i];
+            form[i] = form[form.length - 1 - i];
+            form[form.length - 1 - i] = temp;
+        }
+    }
+
+    public Parcel showParcelByName(String parcelName) {
+        return parcelRepository.findParcelByName(parcelName);
+    }
+
+    public Parcel deleteParcelByName(String parcelName) {
+        return parcelRepository.deleteParcelByName(parcelName);
     }
 }

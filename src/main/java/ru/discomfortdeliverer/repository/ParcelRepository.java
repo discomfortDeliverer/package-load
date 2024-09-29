@@ -31,7 +31,7 @@ public class ParcelRepository {
         parcels = fileParcelLoadService.loadParcelsFromFile(pathToRepositoryFile);
     }
 
-    private Parcel findParcelByName(String parcelName) {
+    public Parcel findParcelByName(String parcelName) {
         for (Parcel parcel : parcels) {
             if (parcel.getName().equals(parcelName)) {
                 return parcel;
@@ -51,10 +51,22 @@ public class ParcelRepository {
         return parcel;
     }
 
-    public Parcel changeParcelForm(String parcelName, char[][] newForm) {
+    public Parcel changeParcelForm(String parcelName, char[][] newForm, String symbol) {
         Parcel parcel = findParcelByName(parcelName);
         parcel.changeFormTo(newForm);
+        parcel.setSymbol(symbol);
         fileParcelSaveToFileService.save(pathToRepositoryFile, parcels);
         return parcel;
+    }
+
+    public Parcel deleteParcelByName(String parcelName) {
+        for (Parcel parcel : parcels) {
+            if (parcel.getName().equals(parcelName)) {
+                parcels.remove(parcel);
+                fileParcelSaveToFileService.save(pathToRepositoryFile, parcels);
+                return parcel;
+            }
+        }
+        throw new ParcelNotFoundException("Посылка с именем " + parcelName + " не найдена");
     }
 }

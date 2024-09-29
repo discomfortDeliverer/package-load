@@ -35,3 +35,32 @@
 1727542327264:change-parcel-form Табурет %%%%%\\n%\\n%%%%%%%%%%
 1727542423155:help
 1727542444296:change-parcel-form Табурет %%%%\\n%\\n%%%%%%%%%
+1727606397550:help
+1727606480088:change-parcel-form Табурет Z\\nZZZZZ\\nZZZZZZZ
+1727606737775:help
+1727606758817:change-parcel-form ZZ\\nZZZZ\\nZZZZZZZZZ
+1727606785778:change-parcel-form Табурет ZZ\\nZZZZ\\nZZZZZZZZZ
+1727606798077:help
+1727606806707:show-all-parcels
+1727607645412:help
+1727607677275:change-parcel-form Табурет Z\\nZZZZ\\nZZZZZZZZZZ
+1727608067635:help
+1727608074407:show-all-parcels
+1727608097764:help
+1727608132507:change-parcel-form Табурет ZZZZZZZZ\\nZZZZZZZZZZ
+1727608211704:change-parcel-form Табурет z\\nzzz\\nzzzzzzzzzzz
+1727608263517:show-all-parcels
+1727608599685:help
+1727608629559:change-parcel-form v\\n\\v\\nv\\nvvvvvv v
+1727608640774:change-parcel-form Штанга v\\n\\v\\nv\\nvvvvvv v
+1727608685145:show-all-parcels
+1727608720575:change-parcel-form Штанга v\\n\\v\\nv\\nvvvvvv v
+1727609167201:help
+1727609184227:show-parcel-by-name Штанга
+1727609195246:show-parcel-by-name Один
+1727609202353:show-parcel-by-name Два
+1727609207654:show-parcel-by-name Семь
+1727609470796:show-all-parcels
+1727609476111:help
+1727609489179:delete-parcel-by-name Девять
+1727609496600:show-all-parcels
