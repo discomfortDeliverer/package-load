@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.discomfortdeliverer.model.Parcel;
-import ru.discomfortdeliverer.service.ParcelService;
+import ru.discomfortdeliverer.service.parcel.ParcelService;
 
 import java.util.List;
 
@@ -36,8 +36,6 @@ public class ParcelController {
     public Parcel changeParcelName(String oldName, String newName) {
         return parcelService.changeParcelName(oldName, newName);
     }
-
-    
 
     @ShellMethod(key = "change-symbol", value = "Меняет символ, которым описывается посылка")
     public Parcel changeSymbol(String parcelName, String newSymbol) {

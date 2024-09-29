@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.service;
+package ru.discomfortdeliverer.service.parcel;
 
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.Parcel;

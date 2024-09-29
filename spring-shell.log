@@ -68,3 +68,4 @@
 1727612481200:show-all-parcels
 1727612494273:change-parcel-name Табурет Морковка
 1727612502995:show-all-parcels
+1727613237059:load-trucks-from-json-file src/main/resources/trucks/many-trucks.json

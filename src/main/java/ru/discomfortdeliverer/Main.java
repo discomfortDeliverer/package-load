@@ -12,7 +12,7 @@ public class Main {
 //        Scanner scanner = new Scanner(System.in);
 //        FileParcelLoadService fileParcelLoader = new FileParcelLoadService(new ParcelInputValidator());
 //        TruckLoadManager truckLoadManager = new TruckLoadManager();
-//        FileTruckLoader fileTruckLoader = new FileTruckLoader();
+//        FileTruckLoadService fileTruckLoader = new FileTruckLoadService();
 //        TruckUtils truckUtils = new TruckUtils();
 //        ConsoleMenu consoleMenu = new ConsoleMenu(scanner, fileParcelLoader, truckLoadManager
 //        ,fileTruckLoader, truckUtils);

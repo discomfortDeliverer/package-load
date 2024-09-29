@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
-import ru.discomfortdeliverer.service.FileParcelLoadService;
+import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.model.Parcel;
-import ru.discomfortdeliverer.truck.FileTruckLoader;
+import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 import ru.discomfortdeliverer.truck.Truck;
 import ru.discomfortdeliverer.truck.TruckLoadManager;
 import ru.discomfortdeliverer.truck.TruckParcelsCounter;
@@ -22,14 +22,14 @@ public class ConsoleMenu {
     private final Scanner scanner;
     private final FileParcelLoadService fileParcelLoadService;
     private final TruckLoadManager truckLoadManager;
-    private final FileTruckLoader fileTruckLoader;
+    private final FileTruckLoadService fileTruckLoadService;
     private final TruckUtils truckUtils;
 
-    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, TruckLoadManager truckLoadManager, FileTruckLoader fileTruckLoader, TruckUtils truckUtils) {
+    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, TruckLoadManager truckLoadManager, FileTruckLoadService fileTruckLoadService, TruckUtils truckUtils) {
         this.scanner = scanner;
         this.fileParcelLoadService = fileParcelLoadService;
         this.truckLoadManager = truckLoadManager;
-        this.fileTruckLoader = fileTruckLoader;
+        this.fileTruckLoadService = fileTruckLoadService;
         this.truckUtils = truckUtils;
     }
 
@@ -155,14 +155,14 @@ public class ConsoleMenu {
 
         switch (choice) {
             case "1":
-                Truck truck = fileTruckLoader.loadTruckFromJsonFile(filePath);
+                Truck truck = fileTruckLoadService.loadTruckFromJsonFile(filePath);
                 ConsoleTruckView.printTruckBody(truck);
                 TruckParcelsCounter stringIntegerMap = truckUtils.countEachTypeParcels(truck);
                 System.out.println("Количество посылок в грузовике:");
                 System.out.println(stringIntegerMap);
                 break;
             case "2":
-                List<Truck> trucks = fileTruckLoader.loadTrucksFromJsonFile(filePath);
+                List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(filePath);
                 ConsoleTruckView.printListOfTrucks(trucks);
                 List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
                 System.out.println("Количество посылок в грузовиках:");

@@ -1,6 +1,9 @@
-package ru.discomfortdeliverer.truck;
+package ru.discomfortdeliverer.service.truck;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+import ru.discomfortdeliverer.truck.Truck;
+import ru.discomfortdeliverer.truck.TruckList;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class FileTruckLoader {
+@Component
+public class FileTruckLoadService {
     /**
      * Загружает грузовик из Json файла
      *

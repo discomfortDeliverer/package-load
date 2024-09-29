@@ -1,24 +1,23 @@
 package ru.discomfortdeliverer.truck;
 
 import org.junit.jupiter.api.Test;
+import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TruckUtilsTest {
     private TruckUtils truckUtils;
-    private FileTruckLoader fileTruckLoader;
+    private FileTruckLoadService fileTruckLoadService;
 
     @Test
     void countEachTypeParcels_GivenJsonTruck_ShouldReturnCorrectCount() {
         truckUtils = new TruckUtils();
-        fileTruckLoader = new FileTruckLoader();
+        fileTruckLoadService = new FileTruckLoadService();
 
-        Truck truck = fileTruckLoader.loadTruckFromJsonFile("src/test/resources/trucks/test-parcels-count-in-truck.json");
+        Truck truck = fileTruckLoadService.loadTruckFromJsonFile("src/test/resources/trucks/test-parcels-count-in-truck.json");
         TruckParcelsCounter parcelsCounts = truckUtils.countEachTypeParcels(truck);
 
         TruckParcelsCounter expectedResult = new TruckParcelsCounter();
@@ -34,9 +33,9 @@ public class TruckUtilsTest {
     @Test
     void countEachTypeParcelsFromTruckList_ShouldReturnCorrectCount() {
         truckUtils = new TruckUtils();
-        fileTruckLoader = new FileTruckLoader();
+        fileTruckLoadService = new FileTruckLoadService();
 
-        List<Truck> trucks = fileTruckLoader.loadTrucksFromJsonFile("src/test/resources/trucks/test-many-trucks.json");
+        List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile("src/test/resources/trucks/test-many-trucks.json");
         List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
 
         List<TruckParcelsCounter> expectedTruckParcelsCounters = new ArrayList<>();

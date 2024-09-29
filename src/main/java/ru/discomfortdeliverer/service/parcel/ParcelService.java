@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.service;
+package ru.discomfortdeliverer.service.parcel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
