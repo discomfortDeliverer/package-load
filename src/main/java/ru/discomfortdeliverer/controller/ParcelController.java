@@ -32,6 +32,13 @@ public class ParcelController {
         return parcelService.deleteParcelByName(parcelName);
     }
 
+    @ShellMethod(key = "change-parcel-name", value = "Изменить имя посылки")
+    public Parcel changeParcelName(String oldName, String newName) {
+        return parcelService.changeParcelName(oldName, newName);
+    }
+
+    
+
     @ShellMethod(key = "change-symbol", value = "Меняет символ, которым описывается посылка")
     public Parcel changeSymbol(String parcelName, String newSymbol) {
         return parcelService.changeSymbol(parcelName, newSymbol);

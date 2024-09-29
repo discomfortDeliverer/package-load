@@ -66,4 +66,8 @@ public class ParcelService {
     public Parcel deleteParcelByName(String parcelName) {
         return parcelRepository.deleteParcelByName(parcelName);
     }
+
+    public Parcel changeParcelName(String oldName, String newName) {
+        return parcelRepository.changeParcelName(oldName, newName);
+    }
 }

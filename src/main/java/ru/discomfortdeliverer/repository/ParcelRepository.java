@@ -69,4 +69,11 @@ public class ParcelRepository {
         }
         throw new ParcelNotFoundException("Посылка с именем " + parcelName + " не найдена");
     }
+
+    public Parcel changeParcelName(String oldName, String newName) {
+        Parcel parcel = findParcelByName(oldName);
+        parcel.setName(newName);
+        fileParcelSaveToFileService.save(pathToRepositoryFile, parcels);
+        return parcel;
+    }
 }
