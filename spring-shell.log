@@ -82,3 +82,7 @@
 1727620469893:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 5x3,5x5
 1727620637288:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5
 1727620724027:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5,6x6,6x6
+1727687742951:help
+1727687862656:load-parcels-to-trucks-from-parcel-names Штанга,Штанга 3x6
+1727687882494:load-parcels-to-trucks-from-parcel-names Картошка,Картошка 3x6
+1727688025625:load-parcels-to-trucks-from-parcel-names Восемь,Восемь 2x8

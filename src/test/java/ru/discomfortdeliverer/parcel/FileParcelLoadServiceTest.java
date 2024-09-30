@@ -3,7 +3,7 @@ package ru.discomfortdeliverer.parcel;
 import org.junit.jupiter.api.Test;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 
 import java.util.ArrayList;

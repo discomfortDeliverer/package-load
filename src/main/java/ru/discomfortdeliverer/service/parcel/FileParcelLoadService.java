@@ -4,9 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
-import ru.discomfortdeliverer.model.Parcel;
-import ru.discomfortdeliverer.parcel.ParcelInputValidator;
-import ru.discomfortdeliverer.parcel.ParcelPart;
+import ru.discomfortdeliverer.model.parcel.Parcel;
+import ru.discomfortdeliverer.model.parcel.ParcelPart;
 
 import java.io.IOException;
 import java.nio.file.Files;

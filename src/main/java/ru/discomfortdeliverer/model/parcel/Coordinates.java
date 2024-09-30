@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.parcel;
+package ru.discomfortdeliverer.model.parcel;
 
 import lombok.Getter;
 import lombok.Setter;

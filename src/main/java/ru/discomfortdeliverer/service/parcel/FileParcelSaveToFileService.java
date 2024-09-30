@@ -1,7 +1,7 @@
 package ru.discomfortdeliverer.service.parcel;
 
 import org.springframework.stereotype.Service;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

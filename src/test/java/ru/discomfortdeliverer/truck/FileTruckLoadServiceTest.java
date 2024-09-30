@@ -1,7 +1,8 @@
 package ru.discomfortdeliverer.truck;
 
 import org.junit.jupiter.api.Test;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
+import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 
 import static org.assertj.core.api.Assertions.assertThat;

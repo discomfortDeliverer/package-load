@@ -1,6 +1,7 @@
-package ru.discomfortdeliverer.truck;
+package ru.discomfortdeliverer.model.truck;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ru.discomfortdeliverer.model.truck.Truck;
 
 import java.util.List;
 

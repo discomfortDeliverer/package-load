@@ -5,11 +5,10 @@ import ru.discomfortdeliverer.exception.InvalidFilePathException;
 import ru.discomfortdeliverer.exception.InvalidInputException;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
-import ru.discomfortdeliverer.truck.Truck;
+import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
-import ru.discomfortdeliverer.truck.TruckParcelsCounter;
 import ru.discomfortdeliverer.truck.TruckUtils;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 

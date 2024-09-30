@@ -2,10 +2,10 @@ package ru.discomfortdeliverer.service.truck;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.discomfortdeliverer.parcel.Coordinates;
+import ru.discomfortdeliverer.model.parcel.Coordinates;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
-import ru.discomfortdeliverer.model.Parcel;
-import ru.discomfortdeliverer.truck.Truck;
+import ru.discomfortdeliverer.model.parcel.Parcel;
+import ru.discomfortdeliverer.model.truck.Truck;
 
 import java.util.*;
 

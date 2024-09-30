@@ -1,6 +1,7 @@
 package ru.discomfortdeliverer.truck;
 
 import org.junit.jupiter.api.Test;
+import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 
 import java.util.ArrayList;

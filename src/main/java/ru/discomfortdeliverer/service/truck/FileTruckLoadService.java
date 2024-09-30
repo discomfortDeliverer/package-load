@@ -2,8 +2,8 @@ package ru.discomfortdeliverer.service.truck;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
-import ru.discomfortdeliverer.truck.Truck;
-import ru.discomfortdeliverer.truck.TruckList;
+import ru.discomfortdeliverer.model.truck.Truck;
+import ru.discomfortdeliverer.model.truck.TruckList;
 
 import java.io.File;
 import java.io.FileReader;

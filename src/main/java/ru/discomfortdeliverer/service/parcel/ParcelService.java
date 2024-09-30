@@ -2,9 +2,10 @@ package ru.discomfortdeliverer.service.parcel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,5 +70,16 @@ public class ParcelService {
 
     public Parcel changeParcelName(String oldName, String newName) {
         return parcelRepository.changeParcelName(oldName, newName);
+    }
+
+    public List<Parcel> findParcelsByNames(String parcelNames) {
+        String[] names = parcelNames.split(",");
+
+        List<Parcel> parcels = new ArrayList<>();
+        for (String name : names) {
+            Parcel parcel = showParcelByName(name);
+            parcels.add(parcel);
+        }
+        return parcels;
     }
 }

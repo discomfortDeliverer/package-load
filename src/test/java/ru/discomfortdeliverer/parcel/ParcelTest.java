@@ -1,7 +1,7 @@
 package ru.discomfortdeliverer.parcel;
 
 import org.junit.jupiter.api.Test;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

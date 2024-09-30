@@ -3,7 +3,7 @@ package ru.discomfortdeliverer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.discomfortdeliverer.model.Parcel;
+import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 
 import java.util.List;

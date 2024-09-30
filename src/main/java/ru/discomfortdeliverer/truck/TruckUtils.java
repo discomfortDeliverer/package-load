@@ -1,9 +1,9 @@
 package ru.discomfortdeliverer.truck;
 
+import ru.discomfortdeliverer.model.truck.Truck;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TruckUtils {
     private static final int MAX_PARCEL_SIZE = 9;
