@@ -9,7 +9,7 @@ import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
-import ru.discomfortdeliverer.truck.TruckUtils;
+import ru.discomfortdeliverer.service.truck.ParcelCounterService;
 import ru.discomfortdeliverer.view.ConsoleTruckView;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ public class ConsoleMenu {
     private final FileParcelLoadService fileParcelLoadService;
     private final ParcelLoadInTruckService parcelLoadInTruckService;
     private final FileTruckLoadService fileTruckLoadService;
-    private final TruckUtils truckUtils;
+    private final ParcelCounterService parcelCounterService;
 
-    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, ParcelLoadInTruckService parcelLoadInTruckService, FileTruckLoadService fileTruckLoadService, TruckUtils truckUtils) {
+    public ConsoleMenu(Scanner scanner, FileParcelLoadService fileParcelLoadService, ParcelLoadInTruckService parcelLoadInTruckService, FileTruckLoadService fileTruckLoadService, ParcelCounterService parcelCounterService) {
         this.scanner = scanner;
         this.fileParcelLoadService = fileParcelLoadService;
         this.parcelLoadInTruckService = parcelLoadInTruckService;
         this.fileTruckLoadService = fileTruckLoadService;
-        this.truckUtils = truckUtils;
+        this.parcelCounterService = parcelCounterService;
     }
 
     /**
@@ -156,14 +156,14 @@ public class ConsoleMenu {
 //            case "1":
 //                Truck truck = fileTruckLoadService.loadTruckFromJsonFile(filePath);
 //                ConsoleTruckView.printTruckBody(truck);
-//                TruckParcelsCounter stringIntegerMap = truckUtils.countEachTypeParcels(truck);
+//                TruckParcelsCounter stringIntegerMap = parcelCounterService.countEachTypeParcels(truck);
 //                System.out.println("Количество посылок в грузовике:");
 //                System.out.println(stringIntegerMap);
 //                break;
 //            case "2":
 //                List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(filePath);
 //                ConsoleTruckView.printListOfTrucks(trucks);
-//                List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
+//                List<TruckParcelsCounter> truckParcelsCounters = parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
 //                System.out.println("Количество посылок в грузовиках:");
 //                ConsoleTruckView.printListOfTruckParcelCounter(truckParcelsCounters);
 //                break;

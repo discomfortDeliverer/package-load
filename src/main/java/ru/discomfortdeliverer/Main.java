@@ -13,7 +13,7 @@ public class Main {
 //        FileParcelLoadService fileParcelLoader = new FileParcelLoadService(new ParcelInputValidator());
 //        ParcelLoadInTruckService truckLoadManager = new ParcelLoadInTruckService();
 //        FileTruckLoadService fileTruckLoader = new FileTruckLoadService();
-//        TruckUtils truckUtils = new TruckUtils();
+//        ParcelCounterService truckUtils = new ParcelCounterService();
 //        ConsoleMenu consoleMenu = new ConsoleMenu(scanner, fileParcelLoader, truckLoadManager
 //        ,fileTruckLoader, truckUtils);
 //        consoleMenu.startConsoleMenu();

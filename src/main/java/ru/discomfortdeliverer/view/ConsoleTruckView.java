@@ -1,7 +1,7 @@
 package ru.discomfortdeliverer.view;
 
 import ru.discomfortdeliverer.model.truck.Truck;
-import ru.discomfortdeliverer.truck.TruckParcelsCounter;
+import ru.discomfortdeliverer.model.truck.TruckParcelsCounter;
 
 import java.util.List;
 

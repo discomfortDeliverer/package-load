@@ -3,23 +3,25 @@ package ru.discomfortdeliverer.truck;
 import org.junit.jupiter.api.Test;
 import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
+import ru.discomfortdeliverer.service.truck.ParcelCounterService;
+import ru.discomfortdeliverer.model.truck.TruckParcelsCounter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TruckUtilsTest {
-    private TruckUtils truckUtils;
+public class ParcelCounterServiceTest {
+    private ParcelCounterService parcelCounterService;
     private FileTruckLoadService fileTruckLoadService;
 
     @Test
     void countEachTypeParcels_GivenJsonTruck_ShouldReturnCorrectCount() {
-        truckUtils = new TruckUtils();
+        parcelCounterService = new ParcelCounterService();
         fileTruckLoadService = new FileTruckLoadService();
 
         Truck truck = fileTruckLoadService.loadTruckFromJsonFile("src/test/resources/trucks/test-parcels-count-in-truck.json");
-        TruckParcelsCounter parcelsCounts = truckUtils.countEachTypeParcels(truck);
+        TruckParcelsCounter parcelsCounts = parcelCounterService.countEachTypeParcels(truck);
 
         TruckParcelsCounter expectedResult = new TruckParcelsCounter();
         expectedResult.addParcelAndCount("9", 1);
@@ -33,11 +35,11 @@ public class TruckUtilsTest {
 
     @Test
     void countEachTypeParcelsFromTruckList_ShouldReturnCorrectCount() {
-        truckUtils = new TruckUtils();
+        parcelCounterService = new ParcelCounterService();
         fileTruckLoadService = new FileTruckLoadService();
 
         List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile("src/test/resources/trucks/test-many-trucks.json");
-        List<TruckParcelsCounter> truckParcelsCounters = truckUtils.countEachTypeParcelsFromTruckList(trucks);
+        List<TruckParcelsCounter> truckParcelsCounters = parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
 
         List<TruckParcelsCounter> expectedTruckParcelsCounters = new ArrayList<>();
 

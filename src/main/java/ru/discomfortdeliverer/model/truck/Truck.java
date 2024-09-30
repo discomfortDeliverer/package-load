@@ -1,6 +1,8 @@
 package ru.discomfortdeliverer.model.truck;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.discomfortdeliverer.model.parcel.Coordinates;
 import ru.discomfortdeliverer.model.parcel.Parcel;
@@ -9,10 +11,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Slf4j
+@Getter
+@Setter
 public class Truck {
-    @JsonIgnore
     private int truckHeight;
-    @JsonIgnore
     private int truckLength;
     private char[][] truckBody;
 

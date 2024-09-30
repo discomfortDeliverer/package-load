@@ -5,11 +5,14 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.discomfortdeliverer.model.parcel.Parcel;
+import ru.discomfortdeliverer.model.truck.TruckParcelsCounterWrapper;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
+import ru.discomfortdeliverer.service.truck.ParcelCounterService;
 import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
 import ru.discomfortdeliverer.model.truck.Truck;
+import ru.discomfortdeliverer.model.truck.TruckParcelsCounter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +23,19 @@ public class TruckController {
     private final FileParcelLoadService fileParcelLoadService;
     private final ParcelLoadInTruckService parcelLoadInTruckService;
     private final ParcelService parcelService;
+    private final ParcelCounterService parcelCounterService;
 
     @Autowired
     public TruckController(FileTruckLoadService fileTruckLoadService,
                            FileParcelLoadService fileParcelLoadService,
                            ParcelLoadInTruckService parcelLoadInTruckService,
-                           ParcelService parcelService) {
+                           ParcelService parcelService,
+                           ParcelCounterService parcelCounterService) {
         this.fileTruckLoadService = fileTruckLoadService;
         this.fileParcelLoadService = fileParcelLoadService;
         this.parcelLoadInTruckService = parcelLoadInTruckService;
         this.parcelService = parcelService;
+        this.parcelCounterService = parcelCounterService;
     }
 
     @ShellMethod(key = "load-trucks-from-json-file", value = "Загрузить грузовики из файла json")
@@ -64,12 +70,20 @@ public class TruckController {
     }
 
     @ShellMethod(key = "load-parcels-to-trucks-from-parcel-names", value = "Погрузить посылки в грузовики, указать " +
-            "имена посылок. Размеры грузовиков указывать так: 6x6,6x3,5x5. Имена посылок указывать так: Штанга,Велосипед,Байдерка")
+            "имена посылок. Имена посылок указывать так: Штанга,Велосипед,Байдерка. Размеры грузовиков указывать так: 6x6,6x3,5x5.")
     public List<Truck> loadParcelsToTrucksFromParcelNames(String parcelNames,
                                                    @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
 
         return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
+    }
+
+    @ShellMethod(key = "read-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
+    public TruckParcelsCounterWrapper readParcelsFromTrucks(String pathToJsonTrucks) {
+        List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
+
+        return parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
+
     }
 }
