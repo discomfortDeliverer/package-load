@@ -102,15 +102,18 @@ public class Truck {
      * если нет, то возвращаем пустой Optional
      */
     public Optional<Coordinates> findCoordinatesToPlace(Parcel parcel) {
+        log.debug("Вызван метод findCoordinatesToPlace, parcel={}", parcel);
         for (int i = 0; i < truckHeight; i++)
             for (int j = 0; j < truckLength; j++) {
                 if (this.canFitParcelAtCoordinates(parcel, i, j)) {
                     Coordinates coordinates = new Coordinates();
                     coordinates.setRow(i);
                     coordinates.setCol(j);
+                    log.debug("Найдена координата для вставки посылки={}, row={}, col={}", parcel, i, j);
                     return Optional.of(coordinates);
                 }
             }
+        log.debug("Найдена координата для вставки посылки={} не найдена", parcel);
         return Optional.empty();
     }
 

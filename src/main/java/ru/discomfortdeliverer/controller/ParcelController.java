@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -9,6 +10,7 @@ import ru.discomfortdeliverer.service.parcel.ParcelService;
 import java.util.List;
 
 @ShellComponent
+@Slf4j
 public class ParcelController {
     private final ParcelService parcelService;
 
@@ -23,6 +25,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "get-all-parcels", value = "Показывает все посылки")
     public List<Parcel> getAllParcels() {
+        log.info("Вызван метод getAllParcels");
         return parcelService.getAllParcels();
     }
 
@@ -33,6 +36,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "show-parcel-by-name", value = "Показывает посылку по имени")
     public Parcel showParcelByName(String parcelName) {
+        log.info("Вызван метод showParcelByName, parcelName={}", parcelName);
         return parcelService.showParcelByName(parcelName);
     }
 
@@ -43,6 +47,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "delete-parcel-by-name", value = "Удаляет посылку по имени")
     public Parcel deleteParcelByName(String parcelName) {
+        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
         return parcelService.deleteParcelByName(parcelName);
     }
 
@@ -54,6 +59,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "change-parcel-name", value = "Изменить имя посылки")
     public Parcel changeParcelName(String oldName, String newName) {
+        log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
         return parcelService.changeParcelName(oldName, newName);
     }
 
@@ -65,6 +71,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "change-symbol", value = "Меняет символ, которым описывается посылка")
     public Parcel changeSymbol(String parcelName, String newSymbol) {
+        log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
         return parcelService.changeSymbol(parcelName, newSymbol);
     }
 
@@ -77,6 +84,7 @@ public class ParcelController {
      */
     @ShellMethod(key = "change-parcel-form", value = "Меняет форму посылки, разделение строки указывать через \\n")
     public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
+        log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         return parcelService.changeParcelForm(parcelName, newForm, symbol);
     }
 }

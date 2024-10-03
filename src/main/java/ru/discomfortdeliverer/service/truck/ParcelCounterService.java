@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.truck;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.exception.UnknownPackageException;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class ParcelCounterService {
     private ParcelRepository parcelRepository;
 
@@ -31,6 +33,7 @@ public class ParcelCounterService {
      * о количестве посылок каждого типа, содержащегося в грузовике
      */
     public TruckParcelsCounterWrapper countEachTypeParcelsFromTruckList(List<Truck> trucks) {
+        log.debug("Вызван метод countEachTypeParcelsFromTruckList, trucks={}", trucks);
         TruckParcelsCounter truckParcelsCounter;
 
         TruckParcelsCounterWrapper truckParcelsCounterWrapper = new TruckParcelsCounterWrapper();
@@ -43,11 +46,12 @@ public class ParcelCounterService {
             truckParcelsCounter.addParcelAndCount(parcelsAndCount);
             truckParcelsCounterWrapper.addTruckParcelsCounter(truckParcelsCounter);
         }
-
+        log.debug("Результат подсчета каждой посылки в списке грузовиков={}, - {}", trucks, truckParcelsCounterWrapper);
         return truckParcelsCounterWrapper;
     }
 
     private Map<Parcel, Integer> findParcels(Map<Character, Integer> charsCounter) {
+        log.debug("Вызван метод findParcels, charsCounter={}", charsCounter);
         List<Parcel> allParcels = parcelRepository.getAllParcels();
 
         Map<Parcel, Integer> parcelsInTruck = new HashMap<>();
@@ -57,25 +61,30 @@ public class ParcelCounterService {
 
             Parcel parcel = findParcelBySymbol(allParcels, characterFromTruck);
             if (parcel == null) {
+                log.error("Посылка не найдена");
                 throw new UnknownPackageException("Посылка с символом: " + characterFromTruck + " не существует");
             } else {
                 int quantityOfParcelsInTruck = count / parcel.getArea();
                 parcelsInTruck.put(parcel, quantityOfParcelsInTruck);
             }
         }
+        log.debug("Получено значение parcelsInTruck={}", parcelsInTruck);
         return parcelsInTruck;
     }
 
     private Parcel findParcelBySymbol(List<Parcel> allParcels, char symbol) {
+        log.debug("Вызван метод findParcelBySymbol, allParcels={}, symbol={}", allParcels, symbol);
         for (Parcel parcel : allParcels) {
             if (parcel.getSymbol().charAt(0) == symbol) {
                 return parcel;
             }
         }
+        log.error("Посылка с символом - {} не найдена", symbol);
         return null;
     }
 
     private Map<Character, Integer> countEachSymbols(Truck truck) {
+        log.debug("Вызван метод countEachSymbols, truck={}", truck);
         char[][] truckBody = truck.getTruckBody();
 
         Map<Character, Integer> charsCounter = new HashMap<>();
@@ -94,7 +103,7 @@ public class ParcelCounterService {
                     charsCounter.put(truckBody[i][j], count);
                 }
             }
-
+        log.debug("Получен charsCounter={}", charsCounter);
         return charsCounter;
     }
 }

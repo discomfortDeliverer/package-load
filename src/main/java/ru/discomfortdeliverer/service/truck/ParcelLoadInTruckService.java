@@ -173,6 +173,7 @@ public class ParcelLoadInTruckService {
      * @return Список грузовиков с погруженными посылками
      */
     public List<Truck> loadParcelsToTrucks(List<Parcel> parcels, String trucksSize) {
+        log.info("Вызван метод loadParcelsToTrucks, parcels={}, trucksSize={}", parcels, trucksSize);
         List<Truck> trucks = createTrucksFromSizes(trucksSize);
 
         sortByParcelArea(parcels);
@@ -191,6 +192,7 @@ public class ParcelLoadInTruckService {
             }
 
             if (!placed) {
+                log.debug("Посылку - {} невозможно поместить ни в один грузовик", parcel);
                 throw new UnableToLoadException("Невозможно поместить посылку -" + parcel +
                         " ни в один из грузовиков, размерами: "  + trucksSize);
             }
@@ -200,6 +202,7 @@ public class ParcelLoadInTruckService {
     }
 
     private List<Truck> createTrucksFromSizes(String trucksSize) {
+        log.info("Вызван метод createTrucksFromSizes, trucksSize={}", trucksSize);
         String[] sizes = trucksSize.split(",");
 
         List<Truck> trucks = new ArrayList<>();
@@ -210,6 +213,7 @@ public class ParcelLoadInTruckService {
             Truck truck = new Truck(height, length);
             trucks.add(truck);
         }
+        log.info("Созданные грузовики по размерам={}, trucks={}", trucksSize, trucks);
         return trucks;
     }
 }

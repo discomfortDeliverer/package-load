@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ShellComponent
+@Slf4j
 public class TruckController {
     private final FileTruckLoadService fileTruckLoadService;
     private final FileParcelLoadService fileParcelLoadService;
@@ -45,6 +47,7 @@ public class TruckController {
      */
     @ShellMethod(key = "load-trucks-from-json-file", value = "Загрузить грузовики из файла json")
     public List<Truck> loadTrucksFromJsonFile(String filepath) {
+        log.info("Вызван метод loadTrucksFromJsonFile, filepath={}", filepath);
         return fileTruckLoadService.loadTrucksFromJsonFile(filepath);
     }
 
@@ -60,6 +63,9 @@ public class TruckController {
     public List<Truck> loadParcelsFromFileInTrucks(String filepath,
            @ShellOption(value = {"--e","--effective"}, defaultValue = "false") boolean effective,
            @ShellOption(value = {"--s","--simple"}, defaultValue = "false") boolean simple) {
+
+        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}, effective={}, simple={}",
+                filepath, effective, simple);
         List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filepath);
 
         List<Truck> trucks = new ArrayList<>();
@@ -69,6 +75,7 @@ public class TruckController {
         if (simple){
             trucks = parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
         }
+        log.info("Заполненный список грузовиков trucks={}", trucks);
         return trucks;
     }
 
@@ -82,6 +89,8 @@ public class TruckController {
             " их в определенное количество грузовиков. Размеры грузовиков указывать так: 6x6,6x3,5x5")
     public List<Truck> loadParcelsToTrucksFromFile(String filepath,
            @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
+
+        log.info("Вызван метод loadParcelsToTrucksFromFile, filepath={}, trucksSize={}", filepath, trucksSize);
         List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filepath);
 
         return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
@@ -98,6 +107,7 @@ public class TruckController {
     public List<Truck> loadParcelsToTrucksFromParcelNames(String parcelNames,
                                                    @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
 
+        log.info("Вызван метод loadParcelsToTrucksFromParcelNames, parcelNames={}, trucksSize={}", parcelNames, trucksSize);
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
 
         return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
@@ -110,6 +120,7 @@ public class TruckController {
      */
     @ShellMethod(key = "read-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
     public TruckParcelsCounterWrapper readParcelsFromTrucks(String pathToJsonTrucks) {
+        log.debug("Вызван метод readParcelsFromTrucks, pathToJsonTrucks={}", pathToJsonTrucks);
         List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
 
         return parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
