@@ -18,15 +18,38 @@ public class ParcelService {
         this.parcelRepository = parcelRepository;
     }
 
+    /**
+     * Метод возвращает из репозитория все посылки
+     * @return Список со всеми поылками
+     */
     public List<Parcel> getAllParcels() {
         return parcelRepository.getAllParcels();
     }
 
+    /**
+     * Метод изменяет символ в посылки в репозитории
+     * @param parcelName Имя посылки, символ которой надо изменить
+     * @param newSymbol Новый символ
+     * @return Посылку с обновленным символом
+     */
     public Parcel changeSymbol(String parcelName, String newSymbol) {
         return parcelRepository.changeSymbol(parcelName, newSymbol);
     }
 
+    /**
+     * Метод меняет форму посылки в репозитории
+     * @param parcelName Имя посылки, форму которой надо изменить
+     * @param newForm Новая форма посылки в виде строки
+     * @param symbol Новый символ посылки
+     * @return Посылку с обновленной формой
+     */
     public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
+        char[][] charNewForm = convertStringFormIntoCharArrayForm(newForm);
+        reverseForm(charNewForm);
+        return parcelRepository.changeParcelForm(parcelName, charNewForm, symbol);
+    }
+
+    private char[][] convertStringFormIntoCharArrayForm(String newForm) {
         String[] split = newForm.split("n");
         int maxLength = 0;
         for (String line : split) {
@@ -46,9 +69,7 @@ public class ParcelService {
                 form[i][j] = line.charAt(j);
             }
         }
-
-        reverseForm(form);
-        return parcelRepository.changeParcelForm(parcelName, form, symbol);
+        return form;
     }
 
     private void reverseForm(char[][] form) {
@@ -60,18 +81,39 @@ public class ParcelService {
         }
     }
 
+    /**
+     * Метод находит посылку по имени в репозитории
+     * @param parcelName Имя посылки, которую надо найти
+     * @return Посылку, найденную по имени
+     */
     public Parcel showParcelByName(String parcelName) {
         return parcelRepository.findParcelByName(parcelName);
     }
 
+    /**
+     * Метод удаляет посылку из репозитория по ее имени
+     * @param parcelName Имя посылки, которую надо удалить
+     * @return Удаленную посылку
+     */
     public Parcel deleteParcelByName(String parcelName) {
         return parcelRepository.deleteParcelByName(parcelName);
     }
 
+    /**
+     * Метод изменяет имя посылки в репозитории
+     * @param oldName Имя посылки, которое надо изменить
+     * @param newName Новое имя
+     * @return Посылку с обновленным именем
+     */
     public Parcel changeParcelName(String oldName, String newName) {
         return parcelRepository.changeParcelName(oldName, newName);
     }
 
+    /**
+     * Метод находит посылки по их именам, разделенных зарятой
+     * @param parcelNames Имена посылок, которые надо найти
+     * @return Список с найденными по имени посылками
+     */
     public List<Parcel> findParcelsByNames(String parcelNames) {
         String[] names = parcelNames.split(",");
 

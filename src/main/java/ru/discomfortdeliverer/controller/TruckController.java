@@ -38,11 +38,23 @@ public class TruckController {
         this.parcelCounterService = parcelCounterService;
     }
 
+    /**
+     * Метод загружает заполненные грузовики из файла json и выводит в консоль список этих грузовиков
+     * @param filepath Путь к json-файлу
+     * @return Список грузовиков из json-файла
+     */
     @ShellMethod(key = "load-trucks-from-json-file", value = "Загрузить грузовики из файла json")
     public List<Truck> loadTrucksFromJsonFile(String filepath) {
         return fileTruckLoadService.loadTrucksFromJsonFile(filepath);
     }
 
+    /**
+     * Метод читает посылки из файла и загружает их в грузовики и возвращает в консоль список этих грузовиков
+     * @param filepath Путь к файлу с посылками
+     * @param effective Эффективная загрузка - загрузить в минимальное количество грузовиков
+     * @param simple Простая загрузка - загрузить по 1 посылке в один грузовик
+     * @return Список грузовиков с загруженными посылками
+     */
     @ShellMethod(key = "load-parcels-from-file", value = "Погрузить посылки из файла по грузовикам, " +
             "--e - эффективная погрузка, --s - простая погрузка")
     public List<Truck> loadParcelsFromFileInTrucks(String filepath,
@@ -60,6 +72,12 @@ public class TruckController {
         return trucks;
     }
 
+    /**
+     * Метод загружает посылки из файла и погружает их в грузовики с определенными размерами
+     * @param filepath Путь к файлу с посылками
+     * @param trucksSize Размеры грузовиков, например: 6x6,6x3,5x5
+     * @return Список грузовиков с загруженными в них посылками
+     */
     @ShellMethod(key = "load-parcels-to-trucks-from-file", value = "Загрузки посылки из файла и погрузить" +
             " их в определенное количество грузовиков. Размеры грузовиков указывать так: 6x6,6x3,5x5")
     public List<Truck> loadParcelsToTrucksFromFile(String filepath,
@@ -69,6 +87,12 @@ public class TruckController {
         return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
     }
 
+    /**
+     * Метод загружает посылки в грузовики определенных размеров по именам посылки.
+     * @param parcelNames Имена посылок, которые надо загрузать, например: Штанга,Велосипед,Байдерка
+     * @param trucksSize Размеры грузовиков, например: 6x6,6x3,5x5
+     * @return Список грузовиков с загруженными в них посылками
+     */
     @ShellMethod(key = "load-parcels-to-trucks-from-parcel-names", value = "Погрузить посылки в грузовики, указать " +
             "имена посылок. Имена посылок указывать так: Штанга,Велосипед,Байдерка. Размеры грузовиков указывать так: 6x6,6x3,5x5.")
     public List<Truck> loadParcelsToTrucksFromParcelNames(String parcelNames,
@@ -79,6 +103,11 @@ public class TruckController {
         return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
     }
 
+    /**
+     * Метод загружает грузовик в формате json и показывает сколько каких посылок в нем лежит
+     * @param pathToJsonTrucks Путь к json файлу с грузовиками
+     * @return Отображение посылок и их количества по грузовикам
+     */
     @ShellMethod(key = "read-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
     public TruckParcelsCounterWrapper readParcelsFromTrucks(String pathToJsonTrucks) {
         List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);

@@ -16,6 +16,8 @@ import java.util.Optional;
 public class Truck {
     private int truckHeight;
     private int truckLength;
+    @Setter
+    @Getter
     private char[][] truckBody;
 
     public Truck(int truckHeight, int truckLength) {
@@ -40,13 +42,6 @@ public class Truck {
                 truckBody[i][j] = ' ';
             }
         log.debug("Создан объект Truck");
-    }
-
-    public char[][] getTruckBody() {
-        return truckBody;
-    }
-    public void setTruckBody(char[][] truckBody) {
-        this.truckBody = truckBody;
     }
 
     /**

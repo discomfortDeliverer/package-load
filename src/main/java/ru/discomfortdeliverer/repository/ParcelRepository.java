@@ -37,6 +37,12 @@ public class ParcelRepository {
         parcels = fileParcelLoadService.loadParcelsFromFile(pathToRepositoryFile);
     }
 
+    /**
+     * Метод находит посылку по имени
+     * @param parcelName Имя посылки, которую надо найти
+     * @throws ParcelNotFoundException если посылка не найдена
+     * @return Найденную по имени посылку
+     */
     public Parcel findParcelByName(String parcelName) {
         for (Parcel parcel : parcels) {
             if (parcel.getName().equals(parcelName)) {
@@ -46,10 +52,20 @@ public class ParcelRepository {
         throw new ParcelNotFoundException("Посылка с именем " + parcelName + " не найдена");
     }
 
+    /**
+     * Метод возвращает список всех посылок в репозитории
+     * @return Список всех существующих посылок
+     */
     public List<Parcel> getAllParcels() {
         return parcels;
     }
 
+    /**
+     * Метод изменяет символ посылки
+     * @param parcelName Имя посылки, символ которой нужно изменить
+     * @param newSymbol Новый символ
+     * @return Посылку с обновленным символом
+     */
     public Parcel changeSymbol(String parcelName, String newSymbol) {
         Parcel parcel = findParcelByName(parcelName);
         parcel.changeSymbolTo(newSymbol);
@@ -57,6 +73,13 @@ public class ParcelRepository {
         return parcel;
     }
 
+    /**
+     * Метод меняет форму мосылки
+     * @param parcelName Имя посылки, форму которой нужно изменить
+     * @param newForm Новая форма посылки
+     * @param symbol Символ новой формы послыки
+     * @return Посылку с обновленной формой и символом
+     */
     public Parcel changeParcelForm(String parcelName, char[][] newForm, String symbol) {
         Parcel parcel = findParcelByName(parcelName);
         parcel.changeFormTo(newForm);
@@ -65,6 +88,12 @@ public class ParcelRepository {
         return parcel;
     }
 
+    /**
+     * Метод удаляет посылку из репозитория по имени
+     * @param parcelName Имя посылки, которую надо удалить
+     * @throws ParcelNotFoundException если посылка с именем не найдена
+     * @return Удаленная посылка
+     */
     public Parcel deleteParcelByName(String parcelName) {
         for (Parcel parcel : parcels) {
             if (parcel.getName().equals(parcelName)) {
@@ -76,6 +105,12 @@ public class ParcelRepository {
         throw new ParcelNotFoundException("Посылка с именем " + parcelName + " не найдена");
     }
 
+    /**
+     * Метод меняет имя посылки
+     * @param oldName Имя посылки, имя которой надо изменить
+     * @param newName Новое имя посылки
+     * @return Посылку с обновленным именем
+     */
     public Parcel changeParcelName(String oldName, String newName) {
         Parcel parcel = findParcelByName(oldName);
         parcel.setName(newName);

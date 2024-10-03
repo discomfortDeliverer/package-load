@@ -100,3 +100,10 @@
 1727713326762:help
 1727713334303:get-all-parcels
 1727881882496:help
+1727942028124:read-parcels-from-trucks src/main/resources/trucks/many-trucks.json
+1727942905486:load-trucks-from-json-file src/main/resources/trucks/many-trucks.json
+1727943111711:load-parcels-from-file src/main/resources/repository/parcels-test.txt --s
+1727943162159:load-parcels-from-file src/main/resources/repository/parcels-test.txt
+1727943205764:load-parcels-from-file src/main/resources/repository/parcels-test.txt --e
+1727944352112:load-parcels-from-file src/main/resources/repository/parcels-test.txt --o
+1727944361553:load-parcels-from-file src/main/resources/repository/parcels-test.txt --s

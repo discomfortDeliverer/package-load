@@ -29,7 +29,7 @@ public class ParcelLoadInTruckService {
         sortByParcelArea(parcels);
 
         for (Parcel parcel : parcels) {
-            Truck truck = new Truck();
+            Truck truck = new Truck(parcel.getHeight(), parcel.getLength());
             truck.placeParcelByCoordinates(parcel, 0, 0);
             trucks.add(truck);
         }
@@ -49,7 +49,7 @@ public class ParcelLoadInTruckService {
         sortByParcelArea(parcels);
 
         List<Truck> trucks = new ArrayList<>();
-        trucks.add(new Truck());
+        trucks.add(new Truck(parcels.get(0).getHeight(), parcels.get(0).getLength()));
 
         for (Parcel parcel : parcels) {
             boolean placed = false;
@@ -65,7 +65,7 @@ public class ParcelLoadInTruckService {
             }
 
             if (!placed) {
-                Truck newTruck = new Truck();
+                Truck newTruck = new Truck(parcels.get(0).getHeight(), parcels.get(0).getLength());
                 newTruck.placeParcelByCoordinates(parcel, 0, 0);
                 trucks.add(newTruck);
             }
@@ -165,6 +165,13 @@ public class ParcelLoadInTruckService {
         return trucks;
     }
 
+    /**
+     * Метод загружает список посылок в грузовики определенных размеров
+     * @param parcels Список посылок, которые надо погрузить
+     * @param trucksSize Размеры грузовиков, в которые надо погрузить посылки
+     * @throws UnableToLoadException если посылка не помещается ни в один из грузовиков
+     * @return Список грузовиков с погруженными посылками
+     */
     public List<Truck> loadParcelsToTrucks(List<Parcel> parcels, String trucksSize) {
         List<Truck> trucks = createTrucksFromSizes(trucksSize);
 
