@@ -1,7 +1,9 @@
 package ru.discomfortdeliverer.repository;
 
 import jakarta.annotation.PostConstruct;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.discomfortdeliverer.exception.ParcelNotFoundException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
@@ -13,10 +15,14 @@ import java.util.List;
 
 @Component
 public class ParcelRepository {
+    @Setter
     private List<Parcel> parcels;
     private final FileParcelLoadService fileParcelLoadService;
     private final FileParcelSaveToFileService fileParcelSaveToFileService;
-    private final String pathToRepositoryFile = "src/main/resources/repository/parcels.txt";
+
+    @Setter
+    @Value("${repository.file.path}")
+    private String pathToRepositoryFile;
 
     @Autowired
     public ParcelRepository(FileParcelLoadService fileParcelLoadService,

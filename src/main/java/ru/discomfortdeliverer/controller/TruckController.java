@@ -84,6 +84,5 @@ public class TruckController {
         List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
 
         return parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
-
     }
 }

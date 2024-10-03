@@ -17,8 +17,8 @@ public class ParcelController {
         this.parcelService = parcelService;
     }
 
-    @ShellMethod(key = "show-all-parcels", value = "Показывает все посылки")
-    public List<Parcel> showAllParcels() {
+    @ShellMethod(key = "get-all-parcels", value = "Показывает все посылки")
+    public List<Parcel> getAllParcels() {
         return parcelService.getAllParcels();
     }
 
