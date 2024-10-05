@@ -36,12 +36,12 @@ public class FileParcelLoadService {
 
             StringBuilder form = new StringBuilder();
 
-            Parcel parcel = new Parcel();
+            Parcel.Builder parcelBuilder = new Parcel.Builder();
             ParcelPart parcelPart = ParcelPart.NAME;
             String lineSeparator = System.lineSeparator();
             for (String line : lines) {
                 if (parcelPart.equals(ParcelPart.NAME) && !line.isEmpty()) {
-                    parcel.setName(line);
+                    parcelBuilder.setName(line);
                     continue;
                 }
                 if (parcelPart.equals(ParcelPart.NAME) && line.isEmpty()) {
@@ -54,15 +54,15 @@ public class FileParcelLoadService {
                     continue;
                 }
                 if (parcelPart.equals(ParcelPart.FORM) && line.isEmpty()) {
-                    parcel.setFormFromString(form.toString());
+                    parcelBuilder.setFormFromString(form.toString());
                     form = new StringBuilder();
                     parcelPart = ParcelPart.SYMBOL;
                     continue;
                 }
                 if (parcelPart.equals(ParcelPart.SYMBOL) && !line.isEmpty()) {
-                    parcel.setSymbol(line);
-                    parcels.add(parcel);
-                    parcel = new Parcel();
+                    parcelBuilder.setSymbol(line);
+                    parcels.add(parcelBuilder.build());
+                    parcelBuilder = new Parcel.Builder();
                     continue;
                 }
                 if (parcelPart.equals(ParcelPart.SYMBOL) && line.isEmpty()) {

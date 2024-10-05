@@ -3,6 +3,7 @@ package ru.discomfortdeliverer.service.parcel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
@@ -14,10 +15,13 @@ import java.util.List;
 @Slf4j
 public class ParcelService {
     private final ParcelRepository parcelRepository;
+    private final ParcelEntityToParcelMapper parcelEntityToParcelMapper;
 
     @Autowired
-    public ParcelService(ParcelRepository parcelRepository) {
+    public ParcelService(ParcelRepository parcelRepository,
+                         ParcelEntityToParcelMapper parcelEntityToParcelMapper) {
         this.parcelRepository = parcelRepository;
+        this.parcelEntityToParcelMapper = parcelEntityToParcelMapper;
     }
 
     /**
@@ -26,7 +30,9 @@ public class ParcelService {
      */
     public List<Parcel> getAllParcels() {
         log.info("Вызван метод getAllParcels()");
-        return parcelRepository.getAllParcels();
+        List<ParcelEntity> allParcelEntities = parcelRepository.findAll();
+
+        return parcelEntityToParcelMapper.mapParcelEntityListToParcelList(allParcelEntities);
     }
 
     /**
@@ -37,7 +43,12 @@ public class ParcelService {
      */
     public Parcel changeSymbol(String parcelName, String newSymbol) {
         log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
-        return parcelRepository.changeSymbol(parcelName, newSymbol);
+        int updatedLines = parcelRepository.updateParcelSymbolByName(parcelName, newSymbol);
+        if (updatedLines > 0) {
+            ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
+        return null;
     }
 
     /**
@@ -49,9 +60,13 @@ public class ParcelService {
      */
     public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
         log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
-        char[][] charNewForm = convertStringFormIntoCharArrayForm(newForm);
-        reverseForm(charNewForm);
-        return parcelRepository.changeParcelForm(parcelName, charNewForm, symbol);
+        newForm = newForm.replace("n", System.lineSeparator());
+        int parcel = parcelRepository.updateParcelByName(parcelName, newForm, symbol);
+        if (parcel > 0) {
+            ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
+        return null;
     }
 
     private char[][] convertStringFormIntoCharArrayForm(String newForm) {
@@ -97,7 +112,8 @@ public class ParcelService {
      */
     public Parcel showParcelByName(String parcelName) {
         log.info("Вызван метод showParcelByName, parcelName={}", parcelName);
-        return parcelRepository.findParcelByName(parcelName);
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
     }
 
     /**
@@ -107,7 +123,9 @@ public class ParcelService {
      */
     public Parcel deleteParcelByName(String parcelName) {
         log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
-        return parcelRepository.deleteParcelByName(parcelName);
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        parcelRepository.delete(foundParcelEntity);
+        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
     }
 
     /**
@@ -118,7 +136,12 @@ public class ParcelService {
      */
     public Parcel changeParcelName(String oldName, String newName) {
         log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
-        return parcelRepository.changeParcelName(oldName, newName);
+        int updatedLines = parcelRepository.updateParcelNameByName(oldName, newName);
+        if (updatedLines > 0) {
+            ParcelEntity updatedParcelEntity = parcelRepository.findByName(newName);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(updatedParcelEntity);
+        }
+        return null;
     }
 
     /**
@@ -137,5 +160,14 @@ public class ParcelService {
         }
         log.debug("Найденные посылки по именам={}, parcels={}", parcelNames, parcels);
         return parcels;
+    }
+
+    public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
+        ParcelEntity parcel = new ParcelEntity();
+        parcel.setName(parcelName);
+        parcel.setForm(parcelForm);
+        parcel.setSymbol(parcelSymbol);
+        ParcelEntity save = parcelRepository.save(parcel);
+        return save;
     }
 }

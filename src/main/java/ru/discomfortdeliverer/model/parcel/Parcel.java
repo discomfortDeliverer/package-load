@@ -1,6 +1,7 @@
 package ru.discomfortdeliverer.model.parcel;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,6 @@ import java.util.Objects;
 @Slf4j
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Parcel {
     private String name;
     private char[][] form;
@@ -23,36 +22,69 @@ public class Parcel {
     private int length;
     private int area;
 
-    public void setFormFromString(String inputParcel) {
-        String lineSeparator = System.lineSeparator();
-        String[] lines = inputParcel.split(lineSeparator);
+    private Parcel(Builder builder) {
+        this.name = builder.name;
+        this.form = builder.form;
+        this.symbol = builder.symbol;
+        this.height = builder.height;
+        this.length = builder.length;
+        this.area = builder.area;
+    }
 
-        Collections.reverse(Arrays.asList(lines));
+    public static class Builder {
+        private String name;
+        private char[][] form;
+        private String symbol;
+        private int height;
+        private int length;
+        private int area;
 
-        this.height = lines.length;
-
-        int maxLength = 0;
-        for (String line : lines) {
-            if (line.length() > maxLength) maxLength = line.length();
+        public Builder setName(String name) {
+            this.name = name;
+            return this; // Возвращаем текущий объект Builder
         }
-        length = maxLength;
-        form = new char[height][length];
-        for (int i = 0; i < form.length; i++)
-            for (int j = 0; j < form[i].length; j++) {
-                form[i][j] = ' ';
-            }
 
-        for (int i = 0; i < lines.length; i++)
-            for (int j = 0; j < lines[i].length(); j++) {
-                form[i][j] = lines[i].charAt(j);
-            }
+        public Builder setFormFromString(String strForm) {
+            String[] lines = strForm.split("\n");
 
-        this.area = 0;
-        for (char[] chars : form)
-            for (char aChar : chars) {
-                if (aChar != ' ') this.area++;
+            Collections.reverse(Arrays.asList(lines));
+
+            this.height = lines.length;
+
+            int maxLength = 0;
+            for (String line : lines) {
+                if (line.length() > maxLength) maxLength = line.length();
             }
-        log.debug("Создан объект Parcel, height={}, length={}, form={}, area={}", height, length, form, area);
+            this.length = maxLength;
+            char[][] arrForm = new char[height][length];
+            for (int i = 0; i < arrForm.length; i++)
+                for (int j = 0; j < arrForm[i].length; j++) {
+                    arrForm[i][j] = ' ';
+                }
+
+            for (int i = 0; i < lines.length; i++)
+                for (int j = 0; j < lines[i].length(); j++) {
+                    arrForm[i][j] = lines[i].charAt(j);
+                }
+
+            this.area = 0;
+            for (char[] chars : arrForm)
+                for (char aChar : chars) {
+                    if (aChar != ' ') this.area++;
+                }
+            this.form = arrForm;
+            return this; // Возвращаем текущий объект Builder
+        }
+
+        public Builder setSymbol(String symbol) {
+            this.symbol = symbol;
+            return this; // Возвращаем текущий объект Builder
+        }
+
+        // Метод для создания объекта Parcel
+        public Parcel build() {
+            return new Parcel(this);
+        }
     }
 
     public void changeSymbolTo(String newSymbol) {

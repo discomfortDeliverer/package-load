@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 
@@ -46,9 +47,15 @@ public class ParcelController {
      * @return Удаленную посылку
      */
     @ShellMethod(key = "delete-parcel-by-name", value = "Удаляет посылку по имени")
-    public Parcel deleteParcelByName(String parcelName) {
+    public String deleteParcelByName(String parcelName) {
         log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
-        return parcelService.deleteParcelByName(parcelName);
+        return "Удалена посылка - " + parcelService.deleteParcelByName(parcelName);
+    }
+
+    @ShellMethod(key = "add-new-parcel", value = "Добавляет посылку")
+    public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
+        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
+        return parcelService.addNewParcel(parcelName, parcelForm, parcelSymbol);
     }
 
     /**
@@ -58,9 +65,13 @@ public class ParcelController {
      * @return Посылку с обновленным именем
      */
     @ShellMethod(key = "change-parcel-name", value = "Изменить имя посылки")
-    public Parcel changeParcelName(String oldName, String newName) {
+    public String changeParcelName(String oldName, String newName) {
         log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
-        return parcelService.changeParcelName(oldName, newName);
+        Parcel parcel = parcelService.changeParcelName(oldName, newName);
+        if (parcel == null) {
+            return "Не удалось обновить имя посылки";
+        }
+        return "Имя посылки успешно обновлено " + parcel;
     }
 
     /**
@@ -83,8 +94,12 @@ public class ParcelController {
      * @return Возвращает посылку с обновленной формой
      */
     @ShellMethod(key = "change-parcel-form", value = "Меняет форму посылки, разделение строки указывать через \\n")
-    public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
+    public String changeParcelForm(String parcelName, String newForm, String symbol) {
         log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
-        return parcelService.changeParcelForm(parcelName, newForm, symbol);
+        Parcel parcel = parcelService.changeParcelForm(parcelName, newForm, symbol);
+        if (parcel == null) {
+            return "Ошибка изменения формы, неверная форма - " + newForm;
+        }
+        return "Форма успешно изменена - " + parcel;
     }
 }

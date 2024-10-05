@@ -107,3 +107,31 @@
 1727943205764:load-parcels-from-file src/main/resources/repository/parcels-test.txt --e
 1727944352112:load-parcels-from-file src/main/resources/repository/parcels-test.txt --o
 1727944361553:load-parcels-from-file src/main/resources/repository/parcels-test.txt --s
+1728141080972:help
+1728141097488:get-all-parcels
+1728141132324:add-new-parcel Штанга zzz\\nzz\\z z
+1728141146110:get-all-parcels
+1728141237863:help
+1728141243953:get-all-parcels
+1728141261130:add-new-parcel Штанга zzz\\nzz\\z z
+1728141267535:get-all-parcels
+1728150771494:help
+1728150785049:get-all-parcels
+1728151002739:help
+1728151032232:change-symbol Штанга ?
+1728151068704:get-all-parcels
+1728151112361:change-parcel-form Штанга #     #\\n########\\n#####
+1728151130042:get-all-parcels
+1728151315405:get-parcel-by-name Штанга
+1728151321188:help
+1728151333058:show-parcel-by-name Штанга
+1728151347196:show-parcel-by-name Писяпопа
+1728151432115:change-parcel-form Штанга @@@\\n@@@@@@\\n@@@
+1728151447303:change-parcel-form Штанга @@@\\n@@@@@@\\n@@@ @
+1728151461618:get-all-parcels
+1728151970043:help
+1728152009409:change-parcel-form Штанга @\\n@\\n@\\n@ @
+1728152024366:get-all-parcels
+1728152054787:change-parcel-form Штанга @\\n@\\n@\\n@ @
+1728152427805:change-parcel-form Штанга &&&\\n&\\n&&&&& &
+1728152443635:get-all-parcels
