@@ -54,8 +54,7 @@ public class ParcelService {
         ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
         parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
 
-        foundParcelEntity = parcelRepository.findByName(parcelName);
-        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        return parcel;
     }
 
     /**
@@ -74,6 +73,12 @@ public class ParcelService {
             return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
         }
         return null;
+    }
+
+    public Parcel changeParcelFormFromRest(String parcelName, String newForm, String symbol) {
+        log.info("Вызван метод changeParcelFormFromRest, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
+        newForm = newForm.replace("\n", "n");
+        return changeParcelForm(parcelName, newForm, symbol);
     }
 
     private char[][] convertStringFormIntoCharArrayForm(String newForm) {
@@ -117,8 +122,8 @@ public class ParcelService {
      * @param parcelName Имя посылки, которую надо найти
      * @return Посылку, найденную по имени
      */
-    public Parcel showParcelByName(String parcelName) {
-        log.info("Вызван метод showParcelByName, parcelName={}", parcelName);
+    public Parcel getParcelByName(String parcelName) {
+        log.info("Вызван метод getParcelByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
     }
@@ -162,7 +167,7 @@ public class ParcelService {
 
         List<Parcel> parcels = new ArrayList<>();
         for (String name : names) {
-            Parcel parcel = showParcelByName(name);
+            Parcel parcel = getParcelByName(name);
             parcels.add(parcel);
         }
         log.debug("Найденные посылки по именам={}, parcels={}", parcelNames, parcels);

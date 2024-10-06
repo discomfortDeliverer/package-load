@@ -217,3 +217,6 @@
 1728208753989:get-all-parcels
 1728208764478:change-symbol Девять 9
 1728208770397:get-all-parcels
+1728209633245:help
+1728209680378:load-trucks-from-json-file src/main/resources/trucks/trucks.json
+1728212545377:help

@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.controller;
+package ru.discomfortdeliverer.controller.shellcontrollers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +12,11 @@ import java.util.List;
 
 @ShellComponent
 @Slf4j
-public class ParcelController {
+public class ParcelShellController {
     private final ParcelService parcelService;
 
     @Autowired
-    public ParcelController(ParcelService parcelService) {
+    public ParcelShellController(ParcelService parcelService) {
         this.parcelService = parcelService;
     }
 
@@ -37,8 +37,8 @@ public class ParcelController {
      */
     @ShellMethod(key = "show-parcel-by-name", value = "Показывает посылку по имени")
     public Parcel showParcelByName(String parcelName) {
-        log.info("Вызван метод showParcelByName, parcelName={}", parcelName);
-        return parcelService.showParcelByName(parcelName);
+        log.info("Вызван метод getParcelByName, parcelName={}", parcelName);
+        return parcelService.getParcelByName(parcelName);
     }
 
     /**
