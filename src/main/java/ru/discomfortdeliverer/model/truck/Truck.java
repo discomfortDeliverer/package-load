@@ -101,7 +101,7 @@ public class Truck {
      * @return Если координаты найдены, то возвращаем их в Optional,
      * если нет, то возвращаем пустой Optional
      */
-    public Optional<Coordinates> findCoordinatesToPlace(Parcel parcel) {
+    public Coordinates findCoordinatesToPlace(Parcel parcel) {
         log.debug("Вызван метод findCoordinatesToPlace, parcel={}", parcel);
         for (int i = 0; i < truckHeight; i++)
             for (int j = 0; j < truckLength; j++) {
@@ -110,11 +110,11 @@ public class Truck {
                     coordinates.setRow(i);
                     coordinates.setCol(j);
                     log.debug("Найдена координата для вставки посылки={}, row={}, col={}", parcel, i, j);
-                    return Optional.of(coordinates);
+                    return coordinates;
                 }
             }
         log.debug("Найдена координата для вставки посылки={} не найдена", parcel);
-        return Optional.empty();
+        return null;
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -76,5 +77,31 @@ public class FileParcelLoadService {
         }
         log.debug("Список с посылками из файла - {}", parcels);
         return parcels;
+    }
+
+    public List<String> loadParcelNamesFromFileWithParcelNames(String filename) {
+        log.info("Путь до файла - {}", filename);
+        Path filePath = Paths.get(filename);
+
+        List<Parcel> parcels = new ArrayList<>();
+
+        try {
+            List<String> lines = Files.readAllLines(filePath);
+            List<String> parcelNames = splitLinesWithParcelNames(lines);
+            return parcelNames;
+        } catch (IOException e) {
+            log.error("Ошибка при загрузке имен посылок из файла - " + filename + " " + e.getMessage());
+        }
+        return null;
+    }
+
+    private List<String> splitLinesWithParcelNames(List<String> lines) {
+        List<String> parcelNames = new ArrayList<>();
+        for (String line : lines) {
+            String[] names = line.split(" ");
+            parcelNames.addAll(Arrays.asList(names));
+        }
+
+        return parcelNames;
     }
 }

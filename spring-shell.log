@@ -220,3 +220,18 @@
 1728209633245:help
 1728209680378:load-trucks-from-json-file src/main/resources/trucks/trucks.json
 1728212545377:help
+1728235084355:simple-loading src/main/resources/repository/parcels.txt
+1728235260330:help
+1728235301441:uniform-loading src/main/resources/repository/parcels.txt 10x10 3
+1728235696204:help
+1728235743924:optimal-loading src/main/resources/repository/parcels.txt 8x8 3
+1728235782307:optimal-loading src/main/resources/repository/parcels.txt 8x8 4
+1728235803136:optimal-loading src/main/resources/repository/parcels.txt 20x20 3
+1728235911100:optimal-loading src/main/resources/repository/parcels.txt 8x8 5
+1728236297779:optimal-loading src/main/resources/repository/parcels.txt 8x4 5
+1728236310439:optimal-loading src/main/resources/repository/parcels.txt 7x8 5
+1728236315487:optimal-loading src/main/resources/repository/parcels.txt 6x8 5
+1728236326483:optimal-loading src/main/resources/repository/parcels.txt 6x8 4
+1728236346789:optimal-loading src/main/resources/repository/parcels.txt 6x8 3
+1728236361865:optimal-loading src/main/resources/repository/parcels.txt 6x15 3
+1728236371597:optimal-loading src/main/resources/repository/parcels.txt 20x20 1

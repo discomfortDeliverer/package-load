@@ -161,12 +161,11 @@ public class ParcelService {
      * @param parcelNames Имена посылок, которые надо найти
      * @return Список с найденными по имени посылками
      */
-    public List<Parcel> findParcelsByNames(String parcelNames) {
+    public List<Parcel> findParcelsByNames(List<String> parcelNames) {
         log.info("Вызван метод findParcelsByNames, parcelNames={}", parcelNames);
-        String[] names = parcelNames.split(",");
 
         List<Parcel> parcels = new ArrayList<>();
-        for (String name : names) {
+        for (String name : parcelNames) {
             Parcel parcel = getParcelByName(name);
             parcels.add(parcel);
         }

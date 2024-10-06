@@ -1,46 +1,39 @@
 package ru.discomfortdeliverer.controller.shellcontrollers;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
-import ru.discomfortdeliverer.model.truck.TruckParcelsCounterWrapper;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
+import ru.discomfortdeliverer.service.truck.OptimalTruckLoader;
 import ru.discomfortdeliverer.service.truck.ParcelCounterService;
-import ru.discomfortdeliverer.service.truck.ParcelLoadInTruckService;
+import ru.discomfortdeliverer.service.truck.SimpleTruckLoader;
+import ru.discomfortdeliverer.service.truck.UniformTruckLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @ShellComponent
 @Slf4j
 public class TruckShellController {
     private final FileTruckLoadService fileTruckLoadService;
     private final FileParcelLoadService fileParcelLoadService;
-    private final ParcelLoadInTruckService parcelLoadInTruckService;
     private final ParcelService parcelService;
     private final ParcelCounterService parcelCounterService;
 
-    @Autowired
-    public TruckShellController(FileTruckLoadService fileTruckLoadService,
-                           FileParcelLoadService fileParcelLoadService,
-                           ParcelLoadInTruckService parcelLoadInTruckService,
-                           ParcelService parcelService,
-                           ParcelCounterService parcelCounterService) {
-        this.fileTruckLoadService = fileTruckLoadService;
-        this.fileParcelLoadService = fileParcelLoadService;
-        this.parcelLoadInTruckService = parcelLoadInTruckService;
-        this.parcelService = parcelService;
-        this.parcelCounterService = parcelCounterService;
-    }
+    private final SimpleTruckLoader simpleTruckLoader;
+    private final OptimalTruckLoader optimalTruckLoader;
+    private final UniformTruckLoader uniformTruckLoader;
+
 
     /**
      * Метод загружает заполненные грузовики из файла json и выводит в консоль список этих грузовиков
+     *
      * @param filepath Путь к json-файлу
      * @return Список грузовиков из json-файла
      */
@@ -51,65 +44,76 @@ public class TruckShellController {
     }
 
     /**
-     * Метод читает посылки из файла и загружает их в грузовики и возвращает в консоль список этих грузовиков
+     * Метод читает посылки из файла, загружает их по одной посылке в один грузовик
+     *
      * @param filepath Путь к файлу с посылками
-     * @param effective Эффективная загрузка - загрузить в минимальное количество грузовиков
-     * @param simple Простая загрузка - загрузить по 1 посылке в один грузовик
      * @return Список грузовиков с загруженными посылками
      */
-    @ShellMethod(key = "load-parcels-from-file", value = "Погрузить посылки из файла по грузовикам, " +
-            "--e - эффективная погрузка, --s - простая погрузка")
-    public List<Truck> loadParcelsFromFileInTrucks(String filepath, String trucksSize,
-           @ShellOption(value = {"--e","--effective"}, defaultValue = "false") boolean effective,
-           @ShellOption(value = {"--s","--simple"}, defaultValue = "false") boolean simple) {
+    @ShellMethod(key = "simple-loading", value = "Погрузить посылки из файла по грузовикам")
+    public List<Truck> simpleParcelsLoadFromFileInTrucks(String filepath) {
+        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}", filepath);
+        List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
 
-        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}, effective={}, simple={}",
-                filepath, effective, simple);
-        List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filepath);
+        List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
+        List<Truck> trucks = simpleTruckLoader.loadParcels(parcels);
 
-        List<Truck> trucks = new ArrayList<>();
-        if (effective) {
-            trucks = parcelLoadInTruckService.optimalLoading(parcels);
-        }
-        if (simple){
-            trucks = parcelLoadInTruckService.oneParcelOneTruckLoad(parcels);
-        }
         log.info("Заполненный список грузовиков trucks={}", trucks);
         return trucks;
     }
 
     /**
-     * Метод загружает посылки из файла и погружает их в грузовики с определенными размерами
+     * Метод читает посылки из файла и загружает их в грузовики и возвращает в консоль список этих грузовиков
+     *
      * @param filepath Путь к файлу с посылками
-     * @param trucksSize Размеры грузовиков, например: 6x6,6x3,5x5
-     * @return Список грузовиков с загруженными в них посылками
+     * @return Список грузовиков с загруженными посылками
      */
-    @ShellMethod(key = "load-parcels-to-trucks-from-file", value = "Загрузки посылки из файла и погрузить" +
-            " их в определенное количество грузовиков. Размеры грузовиков указывать так: 6x6,6x3,5x5")
-    public List<Truck> loadParcelsToTrucksFromFile(String filepath,
-           @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
+    @ShellMethod(key = "optimal-loading", value = "Погрузить посылки из файла по грузовикам")
+    public List<Truck> optimalParcelsLoadFromFileInTrucks(String filepath, String truckSize, String maxTruckCount) {
+        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}", filepath);
+        List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
 
-        log.info("Вызван метод loadParcelsToTrucksFromFile, filepath={}, trucksSize={}", filepath, trucksSize);
-        List<Parcel> parcels = fileParcelLoadService.loadParcelsFromFile(filepath);
+        List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
+        List<Truck> trucks = optimalTruckLoader.loadParcels(parcels, truckSize, maxTruckCount);
 
-        return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
+        log.info("Заполненный список грузовиков trucks={}", trucks);
+        return trucks;
+    }
+
+    @ShellMethod(key = "uniform-loading", value = "Равномерная погрузка посылок")
+    public List<Truck> uniformParcelsToTrucksFromParcelNames(String filepath,
+                                                             @ShellOption(value = {"--trucksSize"}) String trucksSize,
+                                                             @ShellOption(value = {"--trucksCount"}) String trucksCount) {
+
+        log.info("Вызван метод uniformParcelsToTrucksFromParcelNames, filepath={}", filepath);
+        List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
+
+        List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
+        List<Truck> trucks = uniformTruckLoader.loadParcels(parcels, trucksSize, trucksCount);
+
+        log.info("Заполненный список грузовиков trucks={}", trucks);
+        return trucks;
     }
 
     /**
      * Метод загружает посылки в грузовики определенных размеров по именам посылки.
+     *
      * @param parcelNames Имена посылок, которые надо загрузать, например: Штанга,Велосипед,Байдерка
-     * @param trucksSize Размеры грузовиков, например: 6x6,6x3,5x5
+     * @param trucksSize  Размеры грузовиков, например: 6x6,6x3,5x5
      * @return Список грузовиков с загруженными в них посылками
      */
     @ShellMethod(key = "load-parcels-to-trucks-from-parcel-names", value = "Погрузить посылки в грузовики, указать " +
             "имена посылок. Имена посылок указывать так: Штанга,Велосипед,Байдерка. Размеры грузовиков указывать так: 6x6,6x3,5x5.")
-    public List<Truck> loadParcelsToTrucksFromParcelNames(String parcelNames,
-                                                   @ShellOption(value = {"--trucksSize"}, defaultValue = "6x6") String trucksSize) {
+    public List<Truck> uniformParcelsLoadFromFileInTrucks(String parcelNames,
+                                                          @ShellOption(value = {"--trucksSize"}) String trucksSize,
+                                                          @ShellOption(value = {"--trucksCount"}) String trucksCount) {
 
         log.info("Вызван метод loadParcelsToTrucksFromParcelNames, parcelNames={}, trucksSize={}", parcelNames, trucksSize);
-        List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
+        String[] split = parcelNames.split(",");
+        List<String> names = List.of(split);
 
-        return parcelLoadInTruckService.loadParcelsToTrucks(parcels, trucksSize);
+        List<Parcel> parcels = parcelService.findParcelsByNames(names);
+
+        return optimalTruckLoader.loadParcels(parcels, trucksSize, trucksCount);
     }
 
 //    /**
