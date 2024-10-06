@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.bot;
+package ru.discomfortdeliverer.service.telegrambot;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
