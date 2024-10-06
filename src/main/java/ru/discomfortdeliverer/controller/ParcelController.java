@@ -52,7 +52,7 @@ public class ParcelController {
         return "Удалена посылка - " + parcelService.deleteParcelByName(parcelName);
     }
 
-    @ShellMethod(key = "add-new-parcel", value = "Добавляет посылку")
+    @ShellMethod(key = "add", value = "Добавляет посылку")
     public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
         log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
         return parcelService.addNewParcel(parcelName, parcelForm, parcelSymbol);

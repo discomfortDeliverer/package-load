@@ -13,13 +13,13 @@ public interface ParcelRepository extends JpaRepository<ParcelEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE ParcelEntity p SET p.name = ?1 WHERE p.name = ?2")
+    @Query("UPDATE ParcelEntity p SET p.name = ?2 WHERE p.name = ?1")
     int updateParcelNameByName(String oldName, String newName);
 
     @Transactional
     @Modifying
-    @Query("UPDATE ParcelEntity p SET p.symbol = ?2 WHERE p.name = ?1")
-    int updateParcelSymbolByName(String parcelName, String newSymbol);
+    @Query("UPDATE ParcelEntity p SET p.form = ?2, p.symbol = ?3 WHERE p.name = ?1")
+    int updateParcelSymbolByName(String parcelName, String newForm, String newSymbol);
 
     @Transactional
     @Modifying

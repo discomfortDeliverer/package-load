@@ -16,12 +16,15 @@ import java.util.List;
 public class ParcelService {
     private final ParcelRepository parcelRepository;
     private final ParcelEntityToParcelMapper parcelEntityToParcelMapper;
+    private final ParcelToParcelEntityMapper parcelToParcelEntityMapper;
 
     @Autowired
     public ParcelService(ParcelRepository parcelRepository,
-                         ParcelEntityToParcelMapper parcelEntityToParcelMapper) {
+                         ParcelEntityToParcelMapper parcelEntityToParcelMapper,
+                         ParcelToParcelEntityMapper parcelToParcelEntityMapper) {
         this.parcelRepository = parcelRepository;
         this.parcelEntityToParcelMapper = parcelEntityToParcelMapper;
+        this.parcelToParcelEntityMapper = parcelToParcelEntityMapper;
     }
 
     /**
@@ -43,12 +46,16 @@ public class ParcelService {
      */
     public Parcel changeSymbol(String parcelName, String newSymbol) {
         log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
-        int updatedLines = parcelRepository.updateParcelSymbolByName(parcelName, newSymbol);
-        if (updatedLines > 0) {
-            ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
-            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
-        }
-        return null;
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+
+        parcel.changeSymbolTo(newSymbol);
+
+        ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
+        parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
+
+        foundParcelEntity = parcelRepository.findByName(parcelName);
+        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
     }
 
     /**
@@ -163,6 +170,7 @@ public class ParcelService {
     }
 
     public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
+        parcelForm = parcelForm.replace("n", System.lineSeparator());
         ParcelEntity parcel = new ParcelEntity();
         parcel.setName(parcelName);
         parcel.setForm(parcelForm);

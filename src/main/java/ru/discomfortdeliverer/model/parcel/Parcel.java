@@ -45,7 +45,7 @@ public class Parcel {
         }
 
         public Builder setFormFromString(String strForm) {
-            String[] lines = strForm.split("\n");
+            String[] lines = strForm.split(System.lineSeparator());
 
             Collections.reverse(Arrays.asList(lines));
 
