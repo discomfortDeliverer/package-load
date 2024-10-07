@@ -27,9 +27,13 @@ public class UniformTruckLoader {
             trucks.add(truck);
         }
 
+        int currentTruckIndex = 0;
         for (Parcel parcel : parcels) {
             boolean isPlaced = false;
-            for (Truck truck : trucks) {
+
+            for (int i = 0; i < trucks.size(); i++){
+                Truck truck = trucks.get(currentTruckIndex);
+                currentTruckIndex = currentTruckIndex + 1;
                 Coordinates coordinatesToPlace = truck.findCoordinatesToPlace(parcel);
                 if (coordinatesToPlace != null) {
                     truck.placeParcelByCoordinates(parcel,
@@ -42,6 +46,9 @@ public class UniformTruckLoader {
             if (!isPlaced) {
                 throw new UnableToLoadException("Невозможно погрузить посылки - " + parcels +
                         " в " + maxTruckCount + " грузовиков размером - " + truckSize);
+            }
+            if (currentTruckIndex >= trucks.size()) {
+                currentTruckIndex = 0;
             }
         }
 

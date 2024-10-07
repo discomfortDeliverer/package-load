@@ -241,3 +241,14 @@
 1728302859494:get-all
 1728304878605:count-parcels-from-trucks src/main/resources/trucks.json
 1728304894552:count-parcels-from-trucks src/main/resources/trucks/trucks.json
+1728305299065:help
+1728305340635:uniform-loading src/main/resources/repository/parcels.txt
+1728305360620:uniform-loading src/main/resources/repository/parcels.txt 8x8 2
+1728305375689:uniform-loading src/main/resources/repository/parcels.txt 8x8 3
+1728305391690:uniform-loading src/main/resources/repository/parcels.txt 8x8 8
+1728308909175:uniform-loading src/main/resources/repository/parcels.txt 8x8 7
+1728308919675:uniform-loading src/main/resources/repository/parcels.txt 8x8 6
+1728308929831:uniform-loading src/main/resources/repository/parcels.txt 8x8 5
+1728308937795:uniform-loading src/main/resources/repository/parcels.txt 8x8 4
+1728309024287:uniform-loading src/main/resources/repository/parcels.txt 8x8 8
+1728309083714:uniform-loading src/main/resources/repository/parcels.txt 8x8 4
