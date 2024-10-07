@@ -239,3 +239,5 @@
 1728301971845:load-trucks-from-json-file src/main/resources/trucks/trucks.json
 1728302850870:help
 1728302859494:get-all
+1728304878605:count-parcels-from-trucks src/main/resources/trucks.json
+1728304894552:count-parcels-from-trucks src/main/resources/trucks/trucks.json

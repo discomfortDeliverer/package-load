@@ -1,4 +1,4 @@
-package ru.discomfortdeliverer.controller.shellcontrollers;
+package ru.discomfortdeliverer.controller.shellcontroller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
+import ru.discomfortdeliverer.model.truck.TruckParcelsCounterWrapper;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
@@ -116,16 +117,16 @@ public class TruckShellController {
         return optimalTruckLoader.loadParcels(parcels, trucksSize, trucksCount);
     }
 
-//    /**
-//     * Метод загружает грузовик в формате json и показывает сколько каких посылок в нем лежит
-//     * @param pathToJsonTrucks Путь к json файлу с грузовиками
-//     * @return Отображение посылок и их количества по грузовикам
-//     */
-//    @ShellMethod(key = "read-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
-//    public TruckParcelsCounterWrapper readParcelsFromTrucks(String pathToJsonTrucks) {
-//        log.debug("Вызван метод readParcelsFromTrucks, pathToJsonTrucks={}", pathToJsonTrucks);
-//        List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
-//
-//        return parcelCounterService.countEachTypeParcelsFromTruckList(trucks);
-//    }
+    /**
+     * Метод загружает грузовик в формате json и показывает сколько каких посылок в нем лежит
+     * @param pathToJsonTrucks Путь к json файлу с грузовиками
+     * @return Отображение посылок и их количества по грузовикам
+     */
+    @ShellMethod(key = "count-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
+    public TruckParcelsCounterWrapper countParcelsFromTrucks(String pathToJsonTrucks) {
+        log.debug("Вызван метод readParcelsFromTrucks, pathToJsonTrucks={}", pathToJsonTrucks);
+        List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
+
+        return parcelCounterService.countEachTypeParcels(trucks);
+    }
 }

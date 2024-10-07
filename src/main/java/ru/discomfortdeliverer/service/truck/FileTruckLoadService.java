@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.discomfortdeliverer.model.truck.Truck;
-import ru.discomfortdeliverer.model.truck.TruckList;
 
 import java.io.File;
 import java.io.FileReader;
