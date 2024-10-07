@@ -1,7 +1,7 @@
 package ru.discomfortdeliverer.controller.shellcontrollers;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.discomfortdeliverer.entity.ParcelEntity;
@@ -10,24 +10,21 @@ import ru.discomfortdeliverer.service.parcel.ParcelService;
 
 import java.util.List;
 
-@ShellComponent
+
 @Slf4j
+@ShellComponent
+@RequiredArgsConstructor
 public class ParcelShellController {
     private final ParcelService parcelService;
-
-    @Autowired
-    public ParcelShellController(ParcelService parcelService) {
-        this.parcelService = parcelService;
-    }
 
     /**
      * Метод выводит в консоль все посылки из памяти приложения
      * @return Список всех посылок
      */
-    @ShellMethod(key = "get-all-parcels", value = "Показывает все посылки")
-    public List<Parcel> getAllParcels() {
-        log.info("Вызван метод getAllParcels");
-        return parcelService.getAllParcels();
+    @ShellMethod(key = "get-all", value = "Показывает все посылки")
+    public List<Parcel> getAll() {
+        log.info("Вызван метод getAll");
+        return parcelService.getAll();
     }
 
     /**
@@ -35,10 +32,10 @@ public class ParcelShellController {
      * @param parcelName Имя посылки с большой буквы
      * @return Найденную по имени посылку
      */
-    @ShellMethod(key = "show-parcel-by-name", value = "Показывает посылку по имени")
-    public Parcel showParcelByName(String parcelName) {
-        log.info("Вызван метод getParcelByName, parcelName={}", parcelName);
-        return parcelService.getParcelByName(parcelName);
+    @ShellMethod(key = "get-by-name", value = "Показывает посылку по имени")
+    public Parcel getByName(String parcelName) {
+        log.info("Вызван метод getByName, parcelName={}", parcelName);
+        return parcelService.getByName(parcelName);
     }
 
     /**
@@ -46,15 +43,15 @@ public class ParcelShellController {
      * @param parcelName Имя посылки, которую надо удалить с большой буквы
      * @return Удаленную посылку
      */
-    @ShellMethod(key = "delete-parcel-by-name", value = "Удаляет посылку по имени")
-    public String deleteParcelByName(String parcelName) {
-        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
-        return "Удалена посылка - " + parcelService.deleteParcelByName(parcelName);
+    @ShellMethod(key = "delete-by-name", value = "Удаляет посылку по имени")
+    public String deleteByName(String parcelName) {
+        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
+        return "Удалена посылка - " + parcelService.deleteByName(parcelName);
     }
 
     @ShellMethod(key = "add", value = "Добавляет посылку")
     public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
-        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
+        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
         return parcelService.addNewParcel(parcelName, parcelForm, parcelSymbol);
     }
 
@@ -64,10 +61,10 @@ public class ParcelShellController {
      * @param newName Новое имя посылки
      * @return Посылку с обновленным именем
      */
-    @ShellMethod(key = "change-parcel-name", value = "Изменить имя посылки")
-    public String changeParcelName(String oldName, String newName) {
-        log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
-        Parcel parcel = parcelService.changeParcelName(oldName, newName);
+    @ShellMethod(key = "update-name", value = "Изменить имя посылки")
+    public String updateName(String oldName, String newName) {
+        log.info("Вызван метод updateName, oldName={}, newName={}", oldName, newName);
+        Parcel parcel = parcelService.updateName(oldName, newName);
         if (parcel == null) {
             return "Не удалось обновить имя посылки";
         }
@@ -80,10 +77,10 @@ public class ParcelShellController {
      * @param newSymbol Новый символ отрисовки посылки
      * @return Посылку с обновленным символом
      */
-    @ShellMethod(key = "change-symbol", value = "Меняет символ, которым описывается посылка")
-    public Parcel changeSymbol(String parcelName, String newSymbol) {
-        log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
-        return parcelService.changeSymbol(parcelName, newSymbol);
+    @ShellMethod(key = "update-symbol", value = "Меняет символ, которым описывается посылка")
+    public Parcel updateSymbol(String parcelName, String newSymbol) {
+        log.info("Вызван метод updateSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
+        return parcelService.updateSymbol(parcelName, newSymbol);
     }
 
     /**
@@ -93,10 +90,10 @@ public class ParcelShellController {
      * @param symbol Новый символ посылки
      * @return Возвращает посылку с обновленной формой
      */
-    @ShellMethod(key = "change-parcel-form", value = "Меняет форму посылки, разделение строки указывать через \\n")
-    public String changeParcelForm(String parcelName, String newForm, String symbol) {
-        log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
-        Parcel parcel = parcelService.changeParcelForm(parcelName, newForm, symbol);
+    @ShellMethod(key = "update-form", value = "Меняет форму посылки, разделение строки указывать через \\n")
+    public String updateForm(String parcelName, String newForm, String symbol) {
+        log.info("Вызван метод updateForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
+        Parcel parcel = parcelService.updateForm(parcelName, newForm, symbol);
         if (parcel == null) {
             return "Ошибка изменения формы, неверная форма - " + newForm;
         }

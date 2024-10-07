@@ -1,6 +1,7 @@
 package ru.discomfortdeliverer.service.truck;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.discomfortdeliverer.model.truck.Truck;
@@ -15,20 +16,20 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class FileTruckLoadService {
+    private final ObjectMapper objectMapper;
     /**
      * Загружает грузовик из Json файла
      *
-     * @param filepath Путь к файлу
+     * @param filePath Путь к файлу
      * @return Возвращает объект Truck, загруженный из файла
      */
-    public Truck loadTruckFromJsonFile(String filepath) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
+    public Truck loadTruckFromJsonFile(String filePath) {
         try {
-            return objectMapper.readValue(new File(filepath), Truck.class);
+            return objectMapper.readValue(new File(filePath), Truck.class);
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении файла: " + filepath, e);
+            throw new RuntimeException("Ошибка при чтении файла: " + filePath, e);
         }
     }
 
@@ -40,7 +41,6 @@ public class FileTruckLoadService {
      */
     public List<Truck> loadTrucksFromJsonFile(String filepath) {
         log.info("Вызван метод loadTrucksFromJsonFile, filepath={}", filepath);
-        ObjectMapper objectMapper = new ObjectMapper();
         Path filePath = Paths.get(filepath);
 
         try (FileReader fileReader = new FileReader(filepath)) {

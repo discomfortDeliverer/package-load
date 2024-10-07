@@ -52,7 +52,7 @@ public class ParcelCounterService {
 //
 //    private Map<Parcel, Integer> findParcels(Map<Character, Integer> charsCounter) {
 //        log.debug("Вызван метод findParcels, charsCounter={}", charsCounter);
-//        List<Parcel> allParcels = parcelRepository.getAllParcels();
+//        List<Parcel> allParcels = parcelRepository.getAll();
 //
 //        Map<Parcel, Integer> parcelsInTruck = new HashMap<>();
 //        for (Map.Entry<Character, Integer> charAndHisCounter : charsCounter.entrySet()) {

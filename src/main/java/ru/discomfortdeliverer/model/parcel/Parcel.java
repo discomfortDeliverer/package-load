@@ -1,9 +1,6 @@
 package ru.discomfortdeliverer.model.parcel;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +41,7 @@ public class Parcel {
             return this; // Возвращаем текущий объект Builder
         }
 
-        public Builder setFormFromString(String strForm) {
+        public Builder setForm(String strForm) {
             String[] lines = strForm.split(System.lineSeparator());
 
             Collections.reverse(Arrays.asList(lines));

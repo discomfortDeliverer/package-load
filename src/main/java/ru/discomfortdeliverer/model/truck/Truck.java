@@ -1,6 +1,5 @@
 package ru.discomfortdeliverer.model.truck;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import ru.discomfortdeliverer.model.parcel.Coordinates;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 @Slf4j
 @Getter
@@ -16,8 +14,6 @@ import java.util.Optional;
 public class Truck {
     private int truckHeight;
     private int truckLength;
-    @Setter
-    @Getter
     private char[][] truckBody;
 
     public Truck(int truckHeight, int truckLength) {
@@ -29,7 +25,6 @@ public class Truck {
             for (int j = 0; j < truckBody[i].length; j++) {
                 truckBody[i][j] = ' ';
             }
-        log.debug("Создан объект Truck");
     }
 
     public Truck() {
@@ -46,9 +41,10 @@ public class Truck {
 
     /**
      * Проверяет то, возможно ли поместить посылку в грузовик по указанным координатам
+     *
      * @param parcel Посылка, которую нужно поместить
-     * @param row Координата по вертикали
-     * @param col Координата по горизонтали
+     * @param row    Координата по вертикали
+     * @param col    Координата по горизонтали
      * @return Результат, поместиться ли посылка по данным координатам или нет
      */
     public boolean canFitParcelAtCoordinates(Parcel parcel, int row, int col) {
@@ -66,25 +62,12 @@ public class Truck {
         return hasBottomSupport(parcel, row, col);
     }
 
-    private boolean hasBottomSupport(Parcel parcel, int row, int col) {
-        log.debug("Проверка, есть ли опора под посылкой {}", parcel);
-        if (row == 0) return true;
-
-        row--;
-        int halfParcelLength = parcel.getLength() / 2;
-        int halfBottomRowCoordinate = halfParcelLength + col;
-        for (; col <= halfBottomRowCoordinate; col++) {
-            if (truckBody[row][col] == ' ') return false;
-        }
-
-        return true;
-    }
-
     /**
      * Помещает посылку по указанным координатам
+     *
      * @param parcel Посылка, которая будет помещена по координатам
-     * @param row Координата по вертикали, начиная от которой будет вставлена посылка
-     * @param col Координата по горизонтали, начиная от которой будет вставлена посылка
+     * @param row    Координата по вертикали, начиная от которой будет вставлена посылка
+     * @param col    Координата по горизонтали, начиная от которой будет вставлена посылка
      */
     public void placeParcelByCoordinates(Parcel parcel, int row, int col) {
         log.debug("Помещаем посылку {}, в грузовик {} по координатам row={}, col={}", parcel, this, row, col);
@@ -97,6 +80,7 @@ public class Truck {
 
     /**
      * Находит координаты, по которым можно поместить посылку
+     *
      * @param parcel Посылка, координаты для вставки которой мы ищем
      * @return Если координаты найдены, то возвращаем их в Optional,
      * если нет, то возвращаем пустой Optional
@@ -115,6 +99,22 @@ public class Truck {
             }
         log.debug("Найдена координата для вставки посылки={} не найдена", parcel);
         return null;
+    }
+
+    private boolean hasBottomSupport(Parcel parcel, int row, int col) {
+        log.debug("Проверка, есть ли опора под посылкой {}", parcel);
+        if (row == 0) {
+            return true;
+        }
+
+        row--;
+        int halfParcelLength = parcel.getLength() / 2;
+        int halfBottomRowCoordinate = halfParcelLength + col;
+        for (; col <= halfBottomRowCoordinate; col++) {
+            if (truckBody[row][col] == ' ') return false;
+        }
+
+        return true;
     }
 
     @Override

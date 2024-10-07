@@ -35,23 +35,23 @@ public class MessageService {
                     responseText = getListSupportedCommands();
                     break;
                 case "/getallparcels":
-                    List<Parcel> allParcels = parcelService.getAllParcels();
+                    List<Parcel> allParcels = parcelService.getAll();
                     responseText = allParcels.toString();
                     break;
                 case "/getparcelbyname":
-                    Parcel parcel = parcelService.getParcelByName(commandAndParameters[1]);
+                    Parcel parcel = parcelService.getByName(commandAndParameters[1]);
                     responseText = parcel.toString();
                     break;
                 case "/deleteparcelbyname":
-                    Parcel deletedparcel = parcelService.deleteParcelByName(commandAndParameters[1]);
+                    Parcel deletedparcel = parcelService.deleteByName(commandAndParameters[1]);
                     responseText = "Посылка удалена:\n" + deletedparcel.toString();
                     break;
                 case "/changeparcelname":
-                    Parcel parcelWithUpdatedName = parcelService.changeParcelName(commandAndParameters[1], commandAndParameters[2]);
+                    Parcel parcelWithUpdatedName = parcelService.updateName(commandAndParameters[1], commandAndParameters[2]);
                     responseText = "Посылка обновлена:\n" + parcelWithUpdatedName.toString();
                     break;
                 case "/changesymbol":
-                    Parcel parcelWithUpdatedSymbol = parcelService.changeSymbol(commandAndParameters[1], commandAndParameters[2]);
+                    Parcel parcelWithUpdatedSymbol = parcelService.updateSymbol(commandAndParameters[1], commandAndParameters[2]);
                     responseText = "Посылка обновлена:\n" + parcelWithUpdatedSymbol.toString();
                     break;
                 case "/changeparcelform":

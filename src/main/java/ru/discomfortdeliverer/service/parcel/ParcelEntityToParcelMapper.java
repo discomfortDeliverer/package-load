@@ -12,7 +12,7 @@ public class ParcelEntityToParcelMapper {
     public Parcel mapParcelEntityToParcel(ParcelEntity parcelEntity) {
         Parcel parcel = new Parcel.Builder()
                 .setName(parcelEntity.getName())
-                .setFormFromString(parcelEntity.getForm())
+                .setForm(parcelEntity.getForm())
                 .setSymbol(parcelEntity.getSymbol())
                 .build();
         return parcel;

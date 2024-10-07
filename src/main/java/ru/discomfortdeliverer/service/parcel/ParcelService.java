@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.parcel;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,28 +14,19 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ParcelService {
     private final ParcelRepository parcelRepository;
     private final ParcelEntityToParcelMapper parcelEntityToParcelMapper;
     private final ParcelToParcelEntityMapper parcelToParcelEntityMapper;
 
-    @Autowired
-    public ParcelService(ParcelRepository parcelRepository,
-                         ParcelEntityToParcelMapper parcelEntityToParcelMapper,
-                         ParcelToParcelEntityMapper parcelToParcelEntityMapper) {
-        this.parcelRepository = parcelRepository;
-        this.parcelEntityToParcelMapper = parcelEntityToParcelMapper;
-        this.parcelToParcelEntityMapper = parcelToParcelEntityMapper;
-    }
-
     /**
      * Метод возвращает из репозитория все посылки
      * @return Список со всеми поылками
      */
-    public List<Parcel> getAllParcels() {
-        log.info("Вызван метод getAllParcels()");
+    public List<Parcel> getAll() {
         List<ParcelEntity> allParcelEntities = parcelRepository.findAll();
-
+        log.info("Получение всех записей из бд: {}", allParcelEntities);
         return parcelEntityToParcelMapper.mapParcelEntityListToParcelList(allParcelEntities);
     }
 
@@ -44,8 +36,8 @@ public class ParcelService {
      * @param newSymbol Новый символ
      * @return Посылку с обновленным символом
      */
-    public Parcel changeSymbol(String parcelName, String newSymbol) {
-        log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
+    public Parcel updateSymbol(String parcelName, String newSymbol) {
+        log.info("Вызван метод updateSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
 
@@ -64,7 +56,7 @@ public class ParcelService {
      * @param symbol Новый символ посылки
      * @return Посылку с обновленной формой
      */
-    public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
+    public Parcel updateForm(String parcelName, String newForm, String symbol) {
         log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         newForm = newForm.replace("n", System.lineSeparator());
         int parcel = parcelRepository.updateParcelByName(parcelName, newForm, symbol);
@@ -78,10 +70,10 @@ public class ParcelService {
     public Parcel changeParcelFormFromRest(String parcelName, String newForm, String symbol) {
         log.info("Вызван метод changeParcelFormFromRest, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         newForm = newForm.replace("\n", "n");
-        return changeParcelForm(parcelName, newForm, symbol);
+        return updateForm(parcelName, newForm, symbol);
     }
 
-    private char[][] convertStringFormIntoCharArrayForm(String newForm) {
+    private char[][] mapStringFormToCharArray(String newForm) {
         log.info("Вызван метод convertStringFormIntoCharArrayForm,newForm={}", newForm);
         String[] split = newForm.split("n");
         int maxLength = 0;
@@ -102,7 +94,7 @@ public class ParcelService {
                 form[i][j] = line.charAt(j);
             }
         }
-        log.debug("В методе convertStringFormIntoCharArrayForm получена форма - form={}", form);
+        log.debug("В методе получена форма - form={}", form);
         return form;
     }
 
@@ -122,8 +114,8 @@ public class ParcelService {
      * @param parcelName Имя посылки, которую надо найти
      * @return Посылку, найденную по имени
      */
-    public Parcel getParcelByName(String parcelName) {
-        log.info("Вызван метод getParcelByName, parcelName={}", parcelName);
+    public Parcel getByName(String parcelName) {
+        log.info("Вызван метод getByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
     }
@@ -133,8 +125,8 @@ public class ParcelService {
      * @param parcelName Имя посылки, которую надо удалить
      * @return Удаленную посылку
      */
-    public Parcel deleteParcelByName(String parcelName) {
-        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
+    public Parcel deleteByName(String parcelName) {
+        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         parcelRepository.delete(foundParcelEntity);
         return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
@@ -146,8 +138,8 @@ public class ParcelService {
      * @param newName Новое имя
      * @return Посылку с обновленным именем
      */
-    public Parcel changeParcelName(String oldName, String newName) {
-        log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
+    public Parcel updateName(String oldName, String newName) {
+        log.info("Вызван метод updateName, oldName={}, newName={}", oldName, newName);
         int updatedLines = parcelRepository.updateParcelNameByName(oldName, newName);
         if (updatedLines > 0) {
             ParcelEntity updatedParcelEntity = parcelRepository.findByName(newName);
@@ -166,7 +158,7 @@ public class ParcelService {
 
         List<Parcel> parcels = new ArrayList<>();
         for (String name : parcelNames) {
-            Parcel parcel = getParcelByName(name);
+            Parcel parcel = getByName(name);
             parcels.add(parcel);
         }
         log.debug("Найденные посылки по именам={}, parcels={}", parcelNames, parcels);

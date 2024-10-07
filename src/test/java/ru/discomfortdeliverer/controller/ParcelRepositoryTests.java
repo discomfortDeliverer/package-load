@@ -54,8 +54,8 @@ public class ParcelRepositoryTests {
 //
 //        parcelRepository.init();
 //
-//        assertEquals(2, parcelRepository.getAllParcels().size());
-//        assertEquals("Штанга", parcelRepository.getAllParcels().get(0).getName());
+//        assertEquals(2, parcelRepository.getAll().size());
+//        assertEquals("Штанга", parcelRepository.getAll().get(0).getName());
 //    }
 //
 //    @Test
@@ -97,7 +97,7 @@ public class ParcelRepositoryTests {
 //        }, "@", 3, 7, 11);
 //        parcelRepository.setParcels(Arrays.asList(parcel));
 //
-//        Parcel updatedParcel = parcelRepository.changeSymbol("Штанга", "%");
+//        Parcel updatedParcel = parcelRepository.updateSymbol("Штанга", "%");
 //
 //        assertEquals("%", updatedParcel.getSymbol());
 //    }
@@ -111,16 +111,16 @@ public class ParcelRepositoryTests {
 //        }, "@", 3, 7, 11);
 //        parcelRepository.setParcels(new ArrayList<>(Arrays.asList(parcel)));
 //
-//        Parcel deletedParcel = parcelRepository.deleteParcelByName("Штанга");
+//        Parcel deletedParcel = parcelRepository.deleteByName("Штанга");
 //
 //        assertEquals(parcel, deletedParcel);
-//        assertEquals(0, parcelRepository.getAllParcels().size());
+//        assertEquals(0, parcelRepository.getAll().size());
 //    }
 //
 //    @Test
 //    public void testDeleteNonExistentParcelThrowsException() {
 //        Exception exception = assertThrows(ParcelNotFoundException.class, () -> {
-//            parcelRepository.deleteParcelByName("NonExistent");
+//            parcelRepository.deleteByName("NonExistent");
 //        });
 //
 //        assertEquals("Посылка с именем NonExistent не найдена", exception.getMessage());
@@ -135,7 +135,7 @@ public class ParcelRepositoryTests {
 //        }, "@", 3, 7, 11);
 //        parcelRepository.setParcels(Arrays.asList(parcel));
 //
-//        Parcel updatedParcel = parcelRepository.changeParcelName("Штанга", "Полка");
+//        Parcel updatedParcel = parcelRepository.updateName("Штанга", "Полка");
 //
 //        assertEquals("Полка", updatedParcel.getName());
 //    }

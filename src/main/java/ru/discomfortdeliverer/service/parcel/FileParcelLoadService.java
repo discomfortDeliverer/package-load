@@ -55,7 +55,7 @@ public class FileParcelLoadService {
                     continue;
                 }
                 if (parcelPart.equals(ParcelPart.FORM) && line.isEmpty()) {
-                    parcelBuilder.setFormFromString(form.toString());
+                    parcelBuilder.setForm(form.toString());
                     form = new StringBuilder();
                     parcelPart = ParcelPart.SYMBOL;
                     continue;

@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.parcel;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class FileParcelSaveToFileService {
     /**
      * Метод сохраняет список с посылками в файл по указанному пути
@@ -36,9 +38,9 @@ public class FileParcelSaveToFileService {
 
                 writer.flush();
             }
-            System.out.println("Данные успешно сохранены в файл " + filename);
+            log.info("Данные успешно сохранены в файл " + filename);
         } catch (IOException e) {
-            System.err.println("Ошибка при записи в файл: " + e.getMessage());
+            log.error("Ошибка при записи в файл: " + e.getMessage());
         }
     }
 }
