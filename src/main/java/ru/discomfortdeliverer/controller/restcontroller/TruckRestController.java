@@ -1,11 +1,7 @@
 package ru.discomfortdeliverer.controller.restcontroller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,7 +11,6 @@ import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.model.truck.TruckParcelsCounterWrapper;
 import ru.discomfortdeliverer.service.parcel.FileParcelLoadService;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
-import ru.discomfortdeliverer.service.truck.FileTruckLoadService;
 import ru.discomfortdeliverer.service.truck.OptimalTruckLoader;
 import ru.discomfortdeliverer.service.truck.ParcelCounterService;
 import ru.discomfortdeliverer.service.truck.SimpleTruckLoader;
@@ -27,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class TruckRestController {
-    
+
     private final ParcelCounterService parcelCounterService;
     private final FileParcelLoadService fileParcelLoadService;
     private final ParcelService parcelService;
@@ -61,7 +56,8 @@ public class TruckRestController {
                 parcelNames,
                 truckSize,
                 maxTruckCount);
-        List<String> parcelNamesList = fileParcelLoadService.splitLineWithParcelNames(parcelNames);;
+        List<String> parcelNamesList = fileParcelLoadService.splitLineWithParcelNames(parcelNames);
+        ;
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNamesList);
         List<Truck> trucks = optimalTruckLoader.loadParcels(parcels, truckSize, maxTruckCount);
