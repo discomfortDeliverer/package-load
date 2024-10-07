@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.truck;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,9 +46,9 @@ public class FileTruckLoadService {
 
         try (FileReader fileReader = new FileReader(filepath)) {
 
-            TruckList truckList = objectMapper.readValue(new File(filepath), TruckList.class);
-            log.info("Прочитан список объектов из Json-файла truckList={}", truckList);
-            return truckList.getTrucks();
+            List<Truck> trucks = objectMapper.readValue(new File(filepath), new TypeReference<List<Truck>>(){});
+            log.info("Прочитан список объектов из Json-файла truckList={}", trucks);
+            return trucks;
         } catch (IOException e) {
             log.error("Ошибка чтения файла по пути - {}", filepath);
             throw new RuntimeException(e);

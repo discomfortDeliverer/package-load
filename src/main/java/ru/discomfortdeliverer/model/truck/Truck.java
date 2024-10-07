@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.model.truck;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,11 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class Truck {
+    @JsonProperty("truckHeight")
     private int truckHeight;
+    @JsonProperty("truckLength")
     private int truckLength;
+    @JsonProperty("truckBody")
     private char[][] truckBody;
 
     public Truck(int truckHeight, int truckLength) {

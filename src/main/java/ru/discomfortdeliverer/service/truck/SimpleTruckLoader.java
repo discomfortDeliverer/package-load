@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.truck;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,9 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SimpleTruckLoader {
     private final ParcelService parcelService;
-
-    @Autowired
-    public SimpleTruckLoader(ParcelService parcelService) {
-        this.parcelService = parcelService;
-    }
 
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));

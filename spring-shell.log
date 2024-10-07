@@ -235,3 +235,7 @@
 1728236346789:optimal-loading src/main/resources/repository/parcels.txt 6x8 3
 1728236361865:optimal-loading src/main/resources/repository/parcels.txt 6x15 3
 1728236371597:optimal-loading src/main/resources/repository/parcels.txt 20x20 1
+1728301938725:help
+1728301971845:load-trucks-from-json-file src/main/resources/trucks/trucks.json
+1728302850870:help
+1728302859494:get-all
