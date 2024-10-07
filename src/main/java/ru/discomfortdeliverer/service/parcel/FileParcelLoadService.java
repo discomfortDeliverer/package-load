@@ -95,6 +95,11 @@ public class FileParcelLoadService {
         return null;
     }
 
+    public List<String> splitLineWithParcelNames(String line) {
+        String[] names = line.split(" ");
+        return Arrays.asList(names);
+    }
+
     private List<String> splitLinesWithParcelNames(List<String> lines) {
         List<String> parcelNames = new ArrayList<>();
         for (String line : lines) {

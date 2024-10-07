@@ -43,6 +43,20 @@ public class Truck {
         log.debug("Создан объект Truck");
     }
 
+    public void reverseTruckBody() {
+        int rows = this.truckHeight;
+        int cols = this.truckLength;
+        char[][] rotated = new char[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                rotated[i][j] = this.truckBody[rows - 1 - i][j];
+            }
+        }
+
+        this.truckBody = rotated;
+    }
+
     /**
      * Проверяет то, возможно ли поместить посылку в грузовик по указанным координатам
      *

@@ -1,8 +1,15 @@
 package ru.discomfortdeliverer.model.truck;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class TruckParcelsCounterWrapper {
     private final List<TruckParcelsCounter> truckParcelsCounters;
 

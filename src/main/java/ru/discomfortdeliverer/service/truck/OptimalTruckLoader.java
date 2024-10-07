@@ -54,7 +54,14 @@ public class OptimalTruckLoader {
             throw new UnableToLoadException("Невозможно погрузить посылки - " + parcels +
                     " в " + maxTruckCount + " грузовиков размером - " + truckSize);
         } else {
+            reverseTrucksBody(trucks);
             return trucks;
+        }
+    }
+
+    private void reverseTrucksBody(List<Truck> trucks) {
+        for (Truck truck : trucks) {
+            truck.reverseTruckBody();
         }
     }
 }

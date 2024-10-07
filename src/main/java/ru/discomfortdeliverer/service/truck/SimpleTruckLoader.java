@@ -32,6 +32,13 @@ public class SimpleTruckLoader {
             trucks.add(truck);
         }
         log.info("Получили список грузовиков размером - {}", trucks.size());
+        reverseTrucksBody(trucks);
         return trucks;
+    }
+
+    private void reverseTrucksBody(List<Truck> trucks) {
+        for (Truck truck : trucks) {
+            truck.reverseTruckBody();
+        }
     }
 }

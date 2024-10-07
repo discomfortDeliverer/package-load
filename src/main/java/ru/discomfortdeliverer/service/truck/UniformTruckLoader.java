@@ -52,6 +52,13 @@ public class UniformTruckLoader {
             }
         }
 
+        reverseTrucksBody(trucks);
         return trucks;
+    }
+
+    private void reverseTrucksBody(List<Truck> trucks) {
+        for (Truck truck : trucks) {
+            truck.reverseTruckBody();
+        }
     }
 }
