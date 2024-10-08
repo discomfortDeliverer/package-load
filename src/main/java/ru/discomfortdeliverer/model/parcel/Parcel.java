@@ -42,7 +42,7 @@ public class Parcel {
         }
 
         public Builder setForm(String strForm) {
-            String[] lines = strForm.split(System.lineSeparator());
+            String[] lines = strForm.split("\n");
 
             Collections.reverse(Arrays.asList(lines));
 
@@ -96,6 +96,19 @@ public class Parcel {
 
     public void changeFormTo(char[][] newForm) {
         this.form = newForm;
+    }
+    public void reverseParcelForm() {
+        int rows = this.height;
+        int cols = this.length;
+        char[][] rotated = new char[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                rotated[i][j] = this.form[rows - 1 - i][j];
+            }
+        }
+
+        this.form = rotated;
     }
 
     @Override

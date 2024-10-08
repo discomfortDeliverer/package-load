@@ -9,14 +9,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "parcels")
+@Table(name = "parcels", schema = "package_load")
 @Getter
 @Setter
 @ToString
 public class ParcelEntity {
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
     private String name;
     private String form;
     private String symbol;

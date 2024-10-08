@@ -45,7 +45,7 @@ public class ParcelService {
 
         ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
         parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
-
+        parcel.reverseParcelForm();
         return parcel;
     }
 
