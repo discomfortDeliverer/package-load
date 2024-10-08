@@ -12,6 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public class Parcel {
+
     private String name;
     private char[][] form;
     private String symbol;
@@ -97,6 +98,7 @@ public class Parcel {
     public void changeFormTo(char[][] newForm) {
         this.form = newForm;
     }
+
     public void reverseParcelForm() {
         int rows = this.height;
         int cols = this.length;
@@ -128,7 +130,8 @@ public class Parcel {
 
     @Override
     public String toString() {
-        return "Parsel:\n" + "name : " + name + "\n" + "form:" + Arrays.deepToString(form) + "\n" +
-                "symbol: " + symbol + "\n";
+        String ls = System.lineSeparator();
+        return "Parsel:" + ls + "name : " + name + ls + "form:" + Arrays.deepToString(form) + ls +
+                "symbol: " + symbol + ls;
     }
 }

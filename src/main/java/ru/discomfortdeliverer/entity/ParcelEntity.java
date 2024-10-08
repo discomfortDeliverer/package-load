@@ -14,6 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ParcelEntity {
+
     @Id
     @GeneratedValue
     private Integer id;

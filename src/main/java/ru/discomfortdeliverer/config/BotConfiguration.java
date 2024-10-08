@@ -14,6 +14,7 @@ import ru.discomfortdeliverer.service.telegrambot.TelegramBot;
 @Configuration
 @RequiredArgsConstructor
 public class BotConfiguration {
+
     private final TelegramBot telegramBot;
 
     @EventListener(ContextRefreshedEvent.class)

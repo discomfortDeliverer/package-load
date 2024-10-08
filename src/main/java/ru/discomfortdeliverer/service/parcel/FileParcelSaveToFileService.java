@@ -12,10 +12,12 @@ import java.util.List;
 @Service
 @Slf4j
 public class FileParcelSaveToFileService {
+
     /**
      * Метод сохраняет список с посылками в файл по указанному пути
+     *
      * @param filename Путь до файла, куда сохранить список посылок
-     * @param parcels Список посылок, который надо сохранить
+     * @param parcels  Список посылок, который надо сохранить
      */
     public void save(String filename, List<Parcel> parcels) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {

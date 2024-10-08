@@ -13,6 +13,7 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class Truck {
+
     @JsonProperty("truckHeight")
     private int truckHeight;
     @JsonProperty("truckLength")

@@ -18,6 +18,7 @@ import java.util.List;
 @Slf4j
 @Service
 public class FileParcelLoadService {
+
     /**
      * Загружает посылки из файла
      *

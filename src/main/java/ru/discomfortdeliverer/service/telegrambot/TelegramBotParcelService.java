@@ -27,6 +27,7 @@ public class TelegramBotParcelService {
             "методом. \nПример: /uniformload Штанга Стол Стул 7x8 5\n" +
             "• Чтобы посмотреть какие посылки в загруженных грузовиках прикрепите файл txt или json";
     private final ParcelService parcelService;
+
     public String start() {
         return startMessage;
     }
@@ -47,7 +48,7 @@ public class TelegramBotParcelService {
 
     public String deleteByName(String name) {
         Parcel deletedparcel = parcelService.deleteByName(name);
-        return  "Посылка удалена:\n" + deletedparcel.toString();
+        return "Посылка удалена:\n" + deletedparcel.toString();
     }
 
     public String updateName(String oldName, String newName) {

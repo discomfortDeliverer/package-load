@@ -15,10 +15,12 @@ import java.util.List;
 @ShellComponent
 @RequiredArgsConstructor
 public class ParcelShellController {
+
     private final ParcelService parcelService;
 
     /**
      * Метод выводит в консоль все посылки из памяти приложения
+     *
      * @return Список всех посылок
      */
     @ShellMethod(key = "get-all", value = "Показывает все посылки")
@@ -29,6 +31,7 @@ public class ParcelShellController {
 
     /**
      * Метод возвращает посылку по имени из памяти приложения
+     *
      * @param parcelName Имя посылки с большой буквы
      * @return Найденную по имени посылку
      */
@@ -40,6 +43,7 @@ public class ParcelShellController {
 
     /**
      * Метод удаляет посылку по имени
+     *
      * @param parcelName Имя посылки, которую надо удалить с большой буквы
      * @return Удаленную посылку
      */
@@ -57,6 +61,7 @@ public class ParcelShellController {
 
     /**
      * Метод меняет имя посылки
+     *
      * @param oldName Имя посылки, которое надо изменить
      * @param newName Новое имя посылки
      * @return Посылку с обновленным именем
@@ -73,8 +78,9 @@ public class ParcelShellController {
 
     /**
      * Метод меняет символ, которым рисуется посылка
+     *
      * @param parcelName Имя посылки, в которой надо изменить символ
-     * @param newSymbol Новый символ отрисовки посылки
+     * @param newSymbol  Новый символ отрисовки посылки
      * @return Посылку с обновленным символом
      */
     @ShellMethod(key = "update-symbol", value = "Меняет символ, которым описывается посылка")
@@ -85,9 +91,10 @@ public class ParcelShellController {
 
     /**
      * Метод меняет форму посылки, новую форму надо указывать через \n
+     *
      * @param parcelName Имя посылки, форму которой мы будем менять
-     * @param newForm Новая форма посылки, указать строки разделенные \n
-     * @param symbol Новый символ посылки
+     * @param newForm    Новая форма посылки, указать строки разделенные \n
+     * @param symbol     Новый символ посылки
      * @return Возвращает посылку с обновленной формой
      */
     @ShellMethod(key = "update-form", value = "Меняет форму посылки, разделение строки указывать через \\n")

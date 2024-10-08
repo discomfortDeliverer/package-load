@@ -9,6 +9,7 @@ import java.util.List;
 
 @Component
 public class ParcelEntityToParcelMapper {
+
     public Parcel mapParcelEntityToParcel(ParcelEntity parcelEntity) {
         Parcel parcel = new Parcel.Builder()
                 .setName(parcelEntity.getName())

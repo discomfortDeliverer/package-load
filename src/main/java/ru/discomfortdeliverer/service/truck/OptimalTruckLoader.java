@@ -9,7 +9,6 @@ import ru.discomfortdeliverer.model.truck.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j

@@ -13,8 +13,10 @@ import ru.discomfortdeliverer.config.properties.BotProperties;
 @Component
 @RequiredArgsConstructor
 public class TelegramBot extends TelegramLongPollingBot {
+
     private final BotProperties botProperties;
     private final MessageService messageService;
+
     @Override
     public void onUpdateReceived(Update update) {
         try {

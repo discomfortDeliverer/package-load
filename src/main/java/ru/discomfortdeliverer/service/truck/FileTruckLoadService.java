@@ -18,7 +18,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class FileTruckLoadService {
+
     private final ObjectMapper objectMapper;
+
     /**
      * Загружает грузовик из Json файла
      *
@@ -45,7 +47,8 @@ public class FileTruckLoadService {
 
         try (FileReader fileReader = new FileReader(filepath)) {
 
-            List<Truck> trucks = objectMapper.readValue(new File(filepath), new TypeReference<List<Truck>>(){});
+            List<Truck> trucks = objectMapper.readValue(new File(filepath), new TypeReference<List<Truck>>() {
+            });
             log.info("Прочитан список объектов из Json-файла truckList={}", trucks);
             return trucks;
         } catch (IOException e) {

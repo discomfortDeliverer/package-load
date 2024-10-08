@@ -11,9 +11,11 @@ import java.util.List;
 
 @Service
 public class UniformTruckLoader {
+
     private void sortByParcelArea(List<Parcel> parcels) {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
     }
+
     public List<Truck> loadParcels(List<Parcel> parcels, String truckSize, String maxTruckCount) {
         sortByParcelArea(parcels);
 
@@ -31,7 +33,7 @@ public class UniformTruckLoader {
         for (Parcel parcel : parcels) {
             boolean isPlaced = false;
 
-            for (int i = 0; i < trucks.size(); i++){
+            for (int i = 0; i < trucks.size(); i++) {
                 Truck truck = trucks.get(currentTruckIndex);
                 currentTruckIndex = currentTruckIndex + 1;
                 Coordinates coordinatesToPlace = truck.findCoordinatesToPlace(parcel);

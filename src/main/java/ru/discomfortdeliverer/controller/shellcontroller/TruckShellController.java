@@ -22,11 +22,11 @@ import java.util.List;
 @ShellComponent
 @Slf4j
 public class TruckShellController {
+
     private final FileTruckLoadService fileTruckLoadService;
     private final FileParcelLoadService fileParcelLoadService;
     private final ParcelService parcelService;
     private final ParcelCounterService parcelCounterService;
-
     private final SimpleTruckLoader simpleTruckLoader;
     private final OptimalTruckLoader optimalTruckLoader;
     private final UniformTruckLoader uniformTruckLoader;
@@ -119,6 +119,7 @@ public class TruckShellController {
 
     /**
      * Метод загружает грузовик в формате json и показывает сколько каких посылок в нем лежит
+     *
      * @param pathToJsonTrucks Путь к json файлу с грузовиками
      * @return Отображение посылок и их количества по грузовикам
      */

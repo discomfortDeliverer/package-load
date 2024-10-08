@@ -11,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public class TruckParcelsCounter {
+
     private final Map<Parcel, Integer> parcelsAndCount;
 
     public TruckParcelsCounter() {

@@ -2,9 +2,9 @@ package ru.discomfortdeliverer.service.parcel;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.entity.ParcelEntity;
+import ru.discomfortdeliverer.exception.ParcelNotFoundException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
@@ -16,12 +16,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class ParcelService {
+
     private final ParcelRepository parcelRepository;
     private final ParcelEntityToParcelMapper parcelEntityToParcelMapper;
     private final ParcelToParcelEntityMapper parcelToParcelEntityMapper;
 
     /**
      * Метод возвращает из репозитория все посылки
+     *
      * @return Список со всеми поылками
      */
     public List<Parcel> getAll() {
@@ -32,8 +34,9 @@ public class ParcelService {
 
     /**
      * Метод изменяет символ в посылки в репозитории
+     *
      * @param parcelName Имя посылки, символ которой надо изменить
-     * @param newSymbol Новый символ
+     * @param newSymbol  Новый символ
      * @return Посылку с обновленным символом
      */
     public Parcel updateSymbol(String parcelName, String newSymbol) {
@@ -51,9 +54,10 @@ public class ParcelService {
 
     /**
      * Метод меняет форму посылки в репозитории
+     *
      * @param parcelName Имя посылки, форму которой надо изменить
-     * @param newForm Новая форма посылки в виде строки
-     * @param symbol Новый символ посылки
+     * @param newForm    Новая форма посылки в виде строки
+     * @param symbol     Новый символ посылки
      * @return Посылку с обновленной формой
      */
     public Parcel updateForm(String parcelName, String newForm, String symbol) {
@@ -111,29 +115,42 @@ public class ParcelService {
 
     /**
      * Метод находит посылку по имени в репозитории
+     *
      * @param parcelName Имя посылки, которую надо найти
      * @return Посылку, найденную по имени
      */
     public Parcel getByName(String parcelName) {
         log.info("Вызван метод getByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
-        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
     }
 
     /**
      * Метод удаляет посылку из репозитория по ее имени
+     *
      * @param parcelName Имя посылки, которую надо удалить
      * @return Удаленную посылку
      */
     public Parcel deleteByName(String parcelName) {
         log.info("Вызван метод deleteByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
-        parcelRepository.delete(foundParcelEntity);
-        return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            parcelRepository.delete(foundParcelEntity);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
     }
 
     /**
      * Метод изменяет имя посылки в репозитории
+     *
      * @param oldName Имя посылки, которое надо изменить
      * @param newName Новое имя
      * @return Посылку с обновленным именем
@@ -150,6 +167,7 @@ public class ParcelService {
 
     /**
      * Метод находит посылки по их именам, разделенных зарятой
+     *
      * @param parcelNames Имена посылок, которые надо найти
      * @return Список с найденными по имени посылками
      */

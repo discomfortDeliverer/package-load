@@ -2,7 +2,6 @@ package ru.discomfortdeliverer.service.truck;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
@@ -15,6 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SimpleTruckLoader {
+
     private final ParcelService parcelService;
 
     private void sortByParcelArea(List<Parcel> parcels) {

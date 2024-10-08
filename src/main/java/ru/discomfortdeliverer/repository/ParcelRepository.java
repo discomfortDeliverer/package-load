@@ -9,6 +9,7 @@ import ru.discomfortdeliverer.entity.ParcelEntity;
 
 @Repository
 public interface ParcelRepository extends JpaRepository<ParcelEntity, Long> {
+
     ParcelEntity findByName(String name);
 
     @Transactional
