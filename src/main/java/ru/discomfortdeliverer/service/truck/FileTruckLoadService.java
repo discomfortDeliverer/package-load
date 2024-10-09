@@ -22,20 +22,6 @@ public class FileTruckLoadService {
     private final ObjectMapper objectMapper;
 
     /**
-     * Загружает грузовик из Json файла
-     *
-     * @param filePath Путь к файлу
-     * @return Возвращает объект Truck, загруженный из файла
-     */
-    public Truck loadTruckFromJsonFile(String filePath) {
-        try {
-            return objectMapper.readValue(new File(filePath), Truck.class);
-        } catch (IOException e) {
-            throw new RuntimeException("Ошибка при чтении файла: " + filePath, e);
-        }
-    }
-
-    /**
      * Загружает список грузовиков из Json файла
      *
      * @param filepath Путь к файлу
@@ -46,7 +32,6 @@ public class FileTruckLoadService {
         Path filePath = Paths.get(filepath);
 
         try (FileReader fileReader = new FileReader(filepath)) {
-
             List<Truck> trucks = objectMapper.readValue(new File(filepath), new TypeReference<List<Truck>>() {
             });
             log.info("Прочитан список объектов из Json-файла truckList={}", trucks);

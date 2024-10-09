@@ -1,23 +1,24 @@
 package ru.discomfortdeliverer.service.truck;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.model.parcel.Coordinates;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
+import ru.discomfortdeliverer.utils.ParcelLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UniformTruckLoader {
 
-    private void sortByParcelArea(List<Parcel> parcels) {
-        parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
-    }
+    private final ParcelLoaderUtils parcelLoaderUtils;
 
     public List<Truck> loadParcels(List<Parcel> parcels, String truckSize, String maxTruckCount) {
-        sortByParcelArea(parcels);
+        parcelLoaderUtils.sortByParcelArea(parcels);
 
         List<Truck> trucks = new ArrayList<>();
         String[] heightAndLength = truckSize.trim().split("x");
@@ -54,13 +55,7 @@ public class UniformTruckLoader {
             }
         }
 
-        reverseTrucksBody(trucks);
+        parcelLoaderUtils.reverseTrucksBody(trucks);
         return trucks;
-    }
-
-    private void reverseTrucksBody(List<Truck> trucks) {
-        for (Truck truck : trucks) {
-            truck.reverseTruckBody();
-        }
     }
 }

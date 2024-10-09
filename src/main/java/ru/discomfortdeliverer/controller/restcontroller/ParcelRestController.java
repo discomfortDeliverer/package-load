@@ -21,7 +21,7 @@ public class ParcelRestController {
     private final ParcelService parcelService;
 
     @GetMapping("/parcels")
-    public List<Parcel> getAllParcels() {
+    public List<Parcel> getAll() {
         List<Parcel> allParcels = parcelService.getAll();
         for (Parcel parcel : allParcels) {
             parcel.reverseParcelForm();
@@ -30,33 +30,33 @@ public class ParcelRestController {
     }
 
     @GetMapping("/parcels/{name}")
-    public Parcel getParcelByName(@PathVariable String name) {
+    public Parcel getByName(@PathVariable String name) {
         Parcel parcel = parcelService.getByName(name);
         parcel.reverseParcelForm();
         return parcel;
     }
 
     @DeleteMapping("/parcels/{name}")
-    public Parcel deleteParcelByName(@PathVariable String name) {
+    public Parcel deleteByName(@PathVariable String name) {
         Parcel parcel = parcelService.deleteByName(name);
         parcel.reverseParcelForm();
         return parcel;
     }
 
     @PatchMapping("/parcels/name")
-    public Parcel changeParcelNameByName(@RequestParam(name = "old-name") String oldName,
-                                         @RequestParam(name = "new-name") String newName) {
+    public Parcel changeNameByName(@RequestParam(name = "old-name") String oldName,
+                                   @RequestParam(name = "new-name") String newName) {
         return parcelService.updateName(oldName, newName);
     }
 
     @PatchMapping("/parcels/symbol")
-    public Parcel changeParcelSymbolByName(@RequestParam(name = "parcel-name") String parcelName,
-                                           @RequestParam(name = "new-symbol") String newSymbol) {
+    public Parcel changeSymbolByName(@RequestParam(name = "parcel-name") String parcelName,
+                                     @RequestParam(name = "new-symbol") String newSymbol) {
         return parcelService.updateSymbol(parcelName, newSymbol);
     }
 
     @PatchMapping("/parcels/form")
-    public Parcel changeParcelFormByName(@RequestBody ParcelEntity parcelEntity) {
+    public Parcel changeFormByName(@RequestBody ParcelEntity parcelEntity) {
         Parcel parcel = parcelService.changeParcelFormFromRest(parcelEntity.getName(),
                 parcelEntity.getForm(), parcelEntity.getSymbol());
         parcel.reverseParcelForm();

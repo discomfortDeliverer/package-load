@@ -25,6 +25,7 @@ public class ParcelToParcelEntityMapper {
 
         return parcelEntity;
     }
+
     private char[][] reverseParcelForm(char[][] form, int height, int length) {
         char[][] rotated = new char[height][length];
 

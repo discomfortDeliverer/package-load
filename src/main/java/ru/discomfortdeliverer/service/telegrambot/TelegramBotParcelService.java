@@ -1,6 +1,6 @@
 package ru.discomfortdeliverer.service.telegrambot;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
@@ -8,11 +8,10 @@ import ru.discomfortdeliverer.service.parcel.ParcelService;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class TelegramBotParcelService {
 
-    private static final String startMessage = "Привет! Чтобы посмотреть все поддерживаемые команды введи /help";
-    private static final String helpMessage = "Команды для работы с посылками:\n\n" +
+    private final String startMessage = "Привет! Чтобы посмотреть все поддерживаемые команды введи /help";
+    private final String helpMessage = "Команды для работы с посылками:\n\n" +
             "• /getall - Получить список всех посылок\n" +
             "• /getbyname - Получить посылку по имени. \nПример: /getbyname Штанга\n" +
             "• /deletebyname - Удалить посылку по имени. \nПример: /deletebyname Штанга\n" +
@@ -26,7 +25,13 @@ public class TelegramBotParcelService {
             "• /uniformload - Загрузка посылок по имени, размеру грузовика и количеству грузовиков равномерным " +
             "методом. \nПример: /uniformload Штанга Стол Стул 7x8 5\n" +
             "• Чтобы посмотреть какие посылки в загруженных грузовиках прикрепите файл txt или json";
+
     private final ParcelService parcelService;
+
+    @Autowired
+    public TelegramBotParcelService(ParcelService parcelService) {
+        this.parcelService = parcelService;
+    }
 
     public String start() {
         return startMessage;

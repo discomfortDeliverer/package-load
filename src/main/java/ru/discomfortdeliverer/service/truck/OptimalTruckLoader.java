@@ -1,25 +1,27 @@
 package ru.discomfortdeliverer.service.truck;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.model.parcel.Coordinates;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
+import ru.discomfortdeliverer.utils.ParcelLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OptimalTruckLoader {
-    private void sortByParcelArea(List<Parcel> parcels) {
-        parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
-    }
+
+    private final ParcelLoaderUtils parcelLoaderUtils;
 
     public List<Truck> loadParcels(List<Parcel> parcels, String truckSize, String maxTruckCount) {
         log.info("Метод loadParcels, добавляем список посылок, размером - {}", parcels.size());
-        sortByParcelArea(parcels);
+        parcelLoaderUtils.sortByParcelArea(parcels);
 
         List<Truck> trucks = new ArrayList<>();
         String[] heightAndLength = truckSize.trim().split("x");
@@ -53,14 +55,8 @@ public class OptimalTruckLoader {
             throw new UnableToLoadException("Невозможно погрузить посылки - " + parcels +
                     " в " + maxTruckCount + " грузовиков размером - " + truckSize);
         } else {
-            reverseTrucksBody(trucks);
+            parcelLoaderUtils.reverseTrucksBody(trucks);
             return trucks;
-        }
-    }
-
-    private void reverseTrucksBody(List<Truck> trucks) {
-        for (Truck truck : trucks) {
-            truck.reverseTruckBody();
         }
     }
 }

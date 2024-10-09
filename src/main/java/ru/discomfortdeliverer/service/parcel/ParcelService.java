@@ -5,13 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.exception.ParcelNotFoundException;
-import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.exception.UnableUpdateParcelException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -136,7 +134,7 @@ public class ParcelService {
             parcel.reverseParcelForm();
             return parcel;
         } else {
-            log.error("Невозможно обновить посылку с именем - {}",oldName);
+            log.error("Невозможно обновить посылку с именем - {}", oldName);
             throw new UnableUpdateParcelException("Невозможно обновить посылку с именем - " + oldName);
         }
     }

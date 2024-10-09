@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.model.truck.Truck;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
+import ru.discomfortdeliverer.utils.ParcelLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,12 @@ import java.util.List;
 public class SimpleTruckLoader {
 
     private final ParcelService parcelService;
-
-    private void sortByParcelArea(List<Parcel> parcels) {
-        parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
-    }
+    private final ParcelLoaderUtils parcelLoaderUtils;
 
     public List<Truck> loadParcels(List<Parcel> parcels) {
         log.info("Метод oneParcelOneTruckLoad, добавляем список посылок, размером - {}", parcels.size());
         List<Truck> trucks = new ArrayList<>();
-        sortByParcelArea(parcels);
+        parcelLoaderUtils.sortByParcelArea(parcels);
 
         for (Parcel parcel : parcels) {
             Truck truck = new Truck(parcel.getHeight(), parcel.getLength());
@@ -32,13 +30,7 @@ public class SimpleTruckLoader {
             trucks.add(truck);
         }
         log.info("Получили список грузовиков размером - {}", trucks.size());
-        reverseTrucksBody(trucks);
+        parcelLoaderUtils.reverseTrucksBody(trucks);
         return trucks;
-    }
-
-    private void reverseTrucksBody(List<Truck> trucks) {
-        for (Truck truck : trucks) {
-            truck.reverseTruckBody();
-        }
     }
 }
