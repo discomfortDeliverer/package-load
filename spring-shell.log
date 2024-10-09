@@ -1,0 +1,109 @@
+1727522303069:help
+1727522382983:hello
+1727537668853:help
+1727537674153:show-allparcels
+1727537681238:show-all-parcels
+1727537883224:help
+1727537888560:show-all-parcels
+1727538120598:help
+1727538128171:show-all-parcels
+1727538819437:help
+1727538825080:show-all-parcels
+1727539162691:help
+1727539167612:show-allparcels
+1727539173083:show-all-parcels
+1727539300021:help
+1727539305381:show-all-parcels
+1727539368618:help
+1727539373974:show-all-parcels
+1727540068787:help
+1727540076510:show-all-parcels
+1727540083522:help
+1727540104240:change-symbol Штанга $
+1727540117550:show-all-parcels
+1727540795836:help
+1727540802400:show-all-parcels
+1727540831313:help
+1727540853246:change-symbol Штанга !
+1727540862427:show-all-parcels
+1727541125295:help
+1727541138709:shange-symbol Табурет !
+1727541152157:change-symbol Табурет !
+1727542255134:help
+1727542262946:show-all-parcels
+1727542277808:help
+1727542327264:change-parcel-form Табурет %%%%%\\n%\\n%%%%%%%%%%
+1727542423155:help
+1727542444296:change-parcel-form Табурет %%%%\\n%\\n%%%%%%%%%
+1727606397550:help
+1727606480088:change-parcel-form Табурет Z\\nZZZZZ\\nZZZZZZZ
+1727606737775:help
+1727606758817:change-parcel-form ZZ\\nZZZZ\\nZZZZZZZZZ
+1727606785778:change-parcel-form Табурет ZZ\\nZZZZ\\nZZZZZZZZZ
+1727606798077:help
+1727606806707:show-all-parcels
+1727607645412:help
+1727607677275:change-parcel-form Табурет Z\\nZZZZ\\nZZZZZZZZZZ
+1727608067635:help
+1727608074407:show-all-parcels
+1727608097764:help
+1727608132507:change-parcel-form Табурет ZZZZZZZZ\\nZZZZZZZZZZ
+1727608211704:change-parcel-form Табурет z\\nzzz\\nzzzzzzzzzzz
+1727608263517:show-all-parcels
+1727608599685:help
+1727608629559:change-parcel-form v\\n\\v\\nv\\nvvvvvv v
+1727608640774:change-parcel-form Штанга v\\n\\v\\nv\\nvvvvvv v
+1727608685145:show-all-parcels
+1727608720575:change-parcel-form Штанга v\\n\\v\\nv\\nvvvvvv v
+1727609167201:help
+1727609184227:show-parcel-by-name Штанга
+1727609195246:show-parcel-by-name Один
+1727609202353:show-parcel-by-name Два
+1727609207654:show-parcel-by-name Семь
+1727609470796:show-all-parcels
+1727609476111:help
+1727609489179:delete-parcel-by-name Девять
+1727609496600:show-all-parcels
+1727612460413:help
+1727612481200:show-all-parcels
+1727612494273:change-parcel-name Табурет Морковка
+1727612502995:show-all-parcels
+1727613237059:load-trucks-from-json-file src/main/resources/trucks/many-trucks.json
+1727613830088:load-parcels-from-file src/main/resources/parcels.txt
+1727614604477:help
+1727614689132:load-parcels-from-file src/main/resources/parcels.txt --effective
+1727614708153:load-parcels-from-file src/main/resources/parcels.txt --simple
+1727614861848:help
+1727615022397:load-parcels-from-file src/main/resources/parcels.txt --s
+1727620261368:help
+1727620374920:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 10x10x10
+1727620407090:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 10x10
+1727620431218:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 5x5
+1727620469893:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 5x3,5x5
+1727620637288:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5
+1727620724027:load-parcels-to-trucks-from-file src/main/resources/parcels.txt 3x11,5x5,6x6,6x6
+1727687742951:help
+1727687862656:load-parcels-to-trucks-from-parcel-names Штанга,Штанга 3x6
+1727687882494:load-parcels-to-trucks-from-parcel-names Картошка,Картошка 3x6
+1727688025625:load-parcels-to-trucks-from-parcel-names Восемь,Восемь 2x8
+1727696770723:info
+1727696775187:help
+1727697245770:read-parcels-from-trucks src/main/resources/trucks/many-trucks.json
+1727710356761:help
+1727710374712:get-all-parcels
+1727711895832:help
+1727711914120:get-all-parcels
+1727712197632:help
+1727712204952:get-all-parcels
+1727712352151:help
+1727712359699:get-all-parcels
+1727713326762:help
+1727713334303:get-all-parcels
+1727881882496:help
+1727942028124:read-parcels-from-trucks src/main/resources/trucks/many-trucks.json
+1727942905486:load-trucks-from-json-file src/main/resources/trucks/many-trucks.json
+1727943111711:load-parcels-from-file src/main/resources/repository/parcels-test.txt --s
+1727943162159:load-parcels-from-file src/main/resources/repository/parcels-test.txt
+1727943205764:load-parcels-from-file src/main/resources/repository/parcels-test.txt --e
+1727944352112:load-parcels-from-file src/main/resources/repository/parcels-test.txt --o
+1727944361553:load-parcels-from-file src/main/resources/repository/parcels-test.txt --s
