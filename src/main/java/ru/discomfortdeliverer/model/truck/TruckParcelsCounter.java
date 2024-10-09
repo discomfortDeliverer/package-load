@@ -1,12 +1,17 @@
 package ru.discomfortdeliverer.model.truck;
 
+import lombok.Getter;
+import lombok.Setter;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class TruckParcelsCounter {
+
     private final Map<Parcel, Integer> parcelsAndCount;
 
     public TruckParcelsCounter() {
