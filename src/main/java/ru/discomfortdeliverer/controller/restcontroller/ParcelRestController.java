@@ -33,6 +33,12 @@ public class ParcelRestController {
         return allParcels;
     }
 
+    @PostMapping("/parcels")
+    public ParcelEntity add(@RequestBody ParcelEntity parcelEntity) {
+        return parcelService.addNewParcel(parcelEntity.getName(),
+                parcelEntity.getForm(), parcelEntity.getSymbol());
+    }
+
     @GetMapping("/parcels/{name}")
     public Parcel getByName(@PathVariable String name) {
         log.info("Входной параметр name={}", name);

@@ -58,6 +58,11 @@ public class MessageService {
                     log.info("Выполняется метод /getall");
                     responseText = telegramBotParcelService.getAll();
                     break;
+                case "/add":
+                    log.info("Выполняется метод /add");
+                    responseText = telegramBotParcelService.add(commandAndParameters[1],
+                            commandAndParameters[2], commandAndParameters[1]);
+                    break;
                 case "/getbyname":
                     log.info("Выполняется метод /getbyname");
                     responseText = telegramBotParcelService.getByName(commandAndParameters[1]);

@@ -64,7 +64,7 @@ public class ParcelService {
      * @return Посылку с обновленной формой
      */
     public Parcel updateForm(String parcelName, String newForm, String symbol) {
-        newForm = newForm.replace("n", System.lineSeparator());
+        newForm = newForm.replace("n", "\n");
         int parcel = parcelRepository.updateParcelByName(parcelName, newForm, symbol);
         if (parcel > 0) {
             log.info("Форма посылки с именем - {} обновлена", parcelName);
@@ -153,7 +153,7 @@ public class ParcelService {
     }
 
     public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
-        parcelForm = parcelForm.replace("n", System.lineSeparator());
+        parcelForm = parcelForm.replace("n", "\n");
         ParcelEntity parcel = new ParcelEntity();
         parcel.setName(parcelName);
         parcel.setForm(parcelForm);

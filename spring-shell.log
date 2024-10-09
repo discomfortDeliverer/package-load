@@ -255,3 +255,56 @@
 1728489386972:help
 1728489404072:add Мяч $$$\\n$$$ $
 1728489415013:get-all
+1728489490775:delete-by-name Мяч
+1728489542651:add Мяч $$$\\n$$$
+1728489695295:add Мяч $$$\\n$$$ $
+1728489715036:get-all
+1728489781349:delete-by-name Мяч
+1728489819568:get-all
+1728489829046:get-by-name СТол
+1728489837911:get-by-name Стол
+1728489875982:add Мяч $$$$\\n$$\\n$ $
+1728489897742:update-name Мяч Мяч2
+1728489913662:update-symbol Мяч2 *
+1728489935856:update-form Мяч $$$$$$$ $
+1728489948128:update-form Мяч2 $$$$$$ $
+1728489960796:get-by-name Мяч
+1728489966811:get-by-name Мяч2
+1728489975892:delete-by-name Мяч2
+1728490122621:load-trucks-from-json-file src/main/resources/trucks/trucks.json
+1728490154523:count-parcels-from-trucks src/main/resources/trucks/trucks.json
+1728490218544:simple-loading src/main/resources/parcels/parcels.txt
+1728490281308:optimal-loading src/main/resources/parcels/parcels.txt 8x8 3
+1728490309097:uniform-loading src/main/resources/parcels/parcels.txt 8x8 3
+1728492758890:get-all
+1728492768737:add Мяч ###\\n### #
+1728492777527:get-by-name Мяч
+1728492788508:update-name Мяч Мяч2
+1728492797907:update-symbol Мяч2 &
+1728492806515:update-form Мяч2 PPP\\nPPPPPPPPP P
+1728492825632:delete-by-name Мяч2
+1728492944505:add Мяч ###\\n### #
+1728492953587:update-name Мяч Мяч2
+1728492958641:update-symbol Мяч2 &
+1728492970440:update-form Мяч2 PPP\\nPPPPPPPPP P
+1728493095846:help
+1728493111691:delete-by-name Мяч2
+1728493117386:add Мяч ###\\n### #
+1728493122278:get-by-name Мяч
+1728493129123:update-name Мяч Мяч2
+1728493133985:update-symbol Мяч2 &
+1728493140561:update-form Мяч2 PPP\\nPPPPPPPPP P
+1728493146984:delete-by-name Мяч2
+1728493228340:help
+1728493235238:get-all
+1728493243738:add Мяч ###\\n### #
+1728493252242:get-by-name Мяч
+1728493260266:update-name Мяч Мяч2
+1728493270650:update-symbol Мяч2 &
+1728493279468:update-form Мяч2 PPP\\nPPPPPPPPP P
+1728493287862:delete-by-name Мяч2
+1728493309230:load-trucks-from-json-file src/main/resources/trucks/trucks.json
+1728493318853:count-parcels-from-trucks src/main/resources/trucks/trucks.json
+1728493349165:simple-loading src/main/resources/parcels/parcels.txt
+1728493361714:optimal-loading src/main/resources/parcels/parcels.txt 8x8 3
+1728493370830:uniform-loading src/main/resources/parcels/parcels.txt 8x8 3

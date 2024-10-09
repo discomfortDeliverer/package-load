@@ -3,6 +3,7 @@ package ru.discomfortdeliverer.service.telegrambot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.service.parcel.ParcelService;
 
@@ -15,6 +16,7 @@ public class TelegramBotParcelService {
     private final String startMessage = "Привет! Чтобы посмотреть все поддерживаемые команды введи /help";
     private final String helpMessage = "Команды для работы с посылками:\n\n" +
             "• /getall - Получить список всех посылок\n" +
+            "• /add - Добавить посылку. \nПример: /add Штанга $$$\\n$$$ $" +
             "• /getbyname - Получить посылку по имени. \nПример: /getbyname Штанга\n" +
             "• /deletebyname - Удалить посылку по имени. \nПример: /deletebyname Штанга\n" +
             "• /updatename - Изменить имя посылки. \nПример: /updatename СтароеИмя НовоеИмя\n" +
@@ -84,5 +86,10 @@ public class TelegramBotParcelService {
                 symbol);
         log.info("Посылка с измененным символом и формой - {}", parcelWithUpdatedForm);
         return "Форма посылки обновлена:\n" + parcelWithUpdatedForm.toString();
+    }
+
+    public String add(String name, String form, String symbol) {
+        ParcelEntity parcelEntity = parcelService.addNewParcel(name, form, symbol);
+        return parcelEntity.toString();
     }
 }
