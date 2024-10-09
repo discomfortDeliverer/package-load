@@ -40,8 +40,10 @@ public class TruckShellController {
      */
     @ShellMethod(key = "load-trucks-from-json-file", value = "Загрузить грузовики из файла json")
     public List<Truck> loadTrucksFromJsonFile(String filepath) {
-        log.info("Вызван метод loadTrucksFromJsonFile, filepath={}", filepath);
-        return fileTruckLoadService.loadTrucksFromJsonFile(filepath);
+        log.info("Входной параметр filepath={}", filepath);
+        List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(filepath);
+        log.info("Загруженные грузовики из Json-файла - {}", trucks);
+        return trucks;
     }
 
     /**
@@ -52,7 +54,7 @@ public class TruckShellController {
      */
     @ShellMethod(key = "simple-loading", value = "Погрузить посылки из файла по грузовикам")
     public List<Truck> simpleParcelsLoadFromFileInTrucks(String filepath) {
-        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}", filepath);
+        log.info("Входной параметр filepath={}", filepath);
         List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
@@ -70,7 +72,8 @@ public class TruckShellController {
      */
     @ShellMethod(key = "optimal-loading", value = "Погрузить посылки из файла по грузовикам")
     public List<Truck> optimalParcelsLoadFromFileInTrucks(String filepath, String truckSize, String maxTruckCount) {
-        log.info("Вызван метод loadParcelsFromFileInTrucks, filepath={}", filepath);
+        log.info("Входные параметры filepath={}, truckSize={}, maxTruckCount={}",
+                filepath, truckSize, maxTruckCount);
         List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
@@ -85,7 +88,8 @@ public class TruckShellController {
                                                              @ShellOption(value = {"--trucksSize"}) String trucksSize,
                                                              @ShellOption(value = {"--trucksCount"}) String trucksCount) {
 
-        log.info("Вызван метод uniformParcelsToTrucksFromParcelNames, filepath={}", filepath);
+        log.info("Входные параметры filepath={}, trucksSize={}, trucksCount={}",
+                filepath, trucksSize, trucksCount);
         List<String> parcelNames = fileParcelLoadService.loadParcelNamesFromFileWithParcelNames(filepath);
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNames);
@@ -108,13 +112,16 @@ public class TruckShellController {
                                                           @ShellOption(value = {"--trucksSize"}) String trucksSize,
                                                           @ShellOption(value = {"--trucksCount"}) String trucksCount) {
 
-        log.info("Вызван метод loadParcelsToTrucksFromParcelNames, parcelNames={}, trucksSize={}", parcelNames, trucksSize);
+        log.info("Входные параметры parcelNames={}, trucksSize={}, trucksCount={}",
+                parcelNames, trucksSize, trucksCount);
         String[] split = parcelNames.split(",");
         List<String> names = List.of(split);
 
         List<Parcel> parcels = parcelService.findParcelsByNames(names);
 
-        return optimalTruckLoader.loadParcels(parcels, trucksSize, trucksCount);
+        List<Truck> trucks = optimalTruckLoader.loadParcels(parcels, trucksSize, trucksCount);
+        log.info("Заполненный список грузовиков trucks={}", trucks);
+        return trucks;
     }
 
     /**
@@ -125,9 +132,11 @@ public class TruckShellController {
      */
     @ShellMethod(key = "count-parcels-from-trucks", value = "Показать сколько и каких посылок находятся в грузовиках")
     public TruckParcelsCounterWrapper countParcelsFromTrucks(String pathToJsonTrucks) {
-        log.debug("Вызван метод readParcelsFromTrucks, pathToJsonTrucks={}", pathToJsonTrucks);
+        log.debug("Входной параметр pathToJsonTrucks={}", pathToJsonTrucks);
         List<Truck> trucks = fileTruckLoadService.loadTrucksFromJsonFile(pathToJsonTrucks);
 
-        return parcelCounterService.countEachTypeParcels(trucks);
+        TruckParcelsCounterWrapper truckParcelsCounterWrapper = parcelCounterService.countEachTypeParcels(trucks);
+        log.info("Результат подсчета посылок ={}", truckParcelsCounterWrapper);
+        return truckParcelsCounterWrapper;
     }
 }

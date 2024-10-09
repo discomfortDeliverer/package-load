@@ -28,6 +28,7 @@ public class TelegramBotTruckService {
     private final UniformTruckLoader uniformTruckLoader;
 
     public String simpleLoad(String[] parcelNames) {
+        log.info("Входной параметр parcelNames={}", parcelNames);
         List<String> parcelNamesList = new ArrayList<>(Arrays.asList(parcelNames));
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNamesList);
@@ -35,6 +36,7 @@ public class TelegramBotTruckService {
 
         try {
             String jsonResult = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(trucks);
+            log.info("Посылки загружены - {}", jsonResult);
             return "Результат погрузки простым методом:\n\n" + jsonResult;
         } catch (JsonProcessingException e) {
             log.error("Невозможно конвертировать trucks={} в json", trucks);
@@ -43,6 +45,8 @@ public class TelegramBotTruckService {
     }
 
     public String optimalLoad(String[] parcelNames, String truckSize, String maxTrucks) {
+        log.info("Входне параметры parcelNames={}, truckSize={}, maxTrucks={}",
+                parcelNames, truckSize, maxTrucks);
         List<String> parcelNamesList = new ArrayList<>(Arrays.asList(parcelNames));
 
         List<Parcel> parcelsByNames = parcelService.findParcelsByNames(parcelNamesList);
@@ -50,6 +54,7 @@ public class TelegramBotTruckService {
 
         try {
             String jsonResult = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(trucks);
+            log.info("Посылки загружены - {}", jsonResult);
             return "Результат погрузки простым методом:\n\n" + jsonResult;
         } catch (JsonProcessingException e) {
             log.error("Невозможно конвертировать trucks={} в json", trucks);
@@ -58,12 +63,15 @@ public class TelegramBotTruckService {
     }
 
     public String uniformLoad(String[] parcelNames, String truckSize, String maxTrucks) {
+        log.info("Входне параметры parcelNames={}, truckSize={}, maxTrucks={}",
+                parcelNames, truckSize, maxTrucks);
         List<String> parcelNamesList = new ArrayList<>(Arrays.asList(parcelNames));
 
         List<Parcel> parcelsByNames = parcelService.findParcelsByNames(parcelNamesList);
         List<Truck> trucks = uniformTruckLoader.loadParcels(parcelsByNames, truckSize, maxTrucks);
         try {
             String jsonResult = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(trucks);
+            log.info("Посылки загружены - {}", jsonResult);
             return "Результат погрузки простым методом:\n\n" + jsonResult;
         } catch (JsonProcessingException e) {
             log.error("Невозможно конвертировать trucks={} в json", trucks);

@@ -28,7 +28,6 @@ public class FileTruckLoadService {
      * @return Список загруженных грузовиков
      */
     public List<Truck> loadTrucksFromJsonFile(String filepath) {
-        log.info("Вызван метод loadTrucksFromJsonFile, filepath={}", filepath);
         Path filePath = Paths.get(filepath);
 
         try (FileReader fileReader = new FileReader(filepath)) {

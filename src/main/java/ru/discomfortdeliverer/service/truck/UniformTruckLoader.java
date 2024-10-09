@@ -1,6 +1,7 @@
 package ru.discomfortdeliverer.service.truck;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.exception.UnableToLoadException;
 import ru.discomfortdeliverer.model.parcel.Coordinates;
@@ -11,6 +12,7 @@ import ru.discomfortdeliverer.utils.ParcelLoaderUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UniformTruckLoader {
@@ -47,6 +49,8 @@ public class UniformTruckLoader {
                 }
             }
             if (!isPlaced) {
+                log.error("Невозможно погрузить посылки - {} в {} грузовиков размером - {}",
+                        parcels, maxTruckCount, truckSize);
                 throw new UnableToLoadException("Невозможно погрузить посылки - " + parcels +
                         " в " + maxTruckCount + " грузовиков размером - " + truckSize);
             }

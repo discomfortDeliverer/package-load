@@ -159,6 +159,7 @@ public class TruckRestControllerTest {
         });
         assertThat(exception.getMessage()).isEqualTo("Посылка с именем - Стол не найдена");
     }
+
     @Test
     public void loadByUniformRule_ShouldLoadEveryParcel() {
         when(parcelRepository.findAll()).thenReturn(parcelEntities);

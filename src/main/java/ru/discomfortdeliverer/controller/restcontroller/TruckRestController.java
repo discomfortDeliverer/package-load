@@ -32,13 +32,15 @@ public class TruckRestController {
 
     @PostMapping("/trucks/count-parcels")
     public TruckParcelsCounterWrapper countParcelsFromTrucks(@RequestBody List<Truck> trucks) {
-        log.debug("trucks={}", trucks);
-        return parcelCounterService.countEachTypeParcels(trucks);
+        log.info("Входной парметр trucks={}", trucks);
+        TruckParcelsCounterWrapper truckParcelsCounterWrapper = parcelCounterService.countEachTypeParcels(trucks);
+        log.info("Результат подсчета посылок - {}", truckParcelsCounterWrapper);
+        return truckParcelsCounterWrapper;
     }
 
     @PostMapping("/trucks/simple-load")
     public List<Truck> loadBySimpleRule(@RequestBody String parcelNames) {
-        log.info("Параметры на входе parcelNames={}", parcelNames);
+        log.info("Входной параметр parcelNames={}", parcelNames);
         List<String> parcelNamesList = fileParcelLoadService.splitLineWithParcelNames(parcelNames);
 
         List<Parcel> parcels = parcelService.findParcelsByNames(parcelNamesList);

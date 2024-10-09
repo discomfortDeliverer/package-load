@@ -40,7 +40,6 @@ public class ParcelService {
      * @return Посылку с обновленным символом
      */
     public Parcel updateSymbol(String parcelName, String newSymbol) {
-        log.info("Вызван метод updateSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         if (foundParcelEntity == null) {
             log.error("Посылка с именем - {} не найдена", parcelName);
@@ -65,10 +64,10 @@ public class ParcelService {
      * @return Посылку с обновленной формой
      */
     public Parcel updateForm(String parcelName, String newForm, String symbol) {
-        log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         newForm = newForm.replace("n", System.lineSeparator());
         int parcel = parcelRepository.updateParcelByName(parcelName, newForm, symbol);
         if (parcel > 0) {
+            log.info("Форма посылки с именем - {} обновлена", parcelName);
             ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
             return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
         } else {
@@ -78,7 +77,6 @@ public class ParcelService {
     }
 
     public Parcel changeParcelFormFromRest(String parcelName, String newForm, String symbol) {
-        log.info("Вызван метод changeParcelFormFromRest, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         newForm = newForm.replace("\n", "n");
         return updateForm(parcelName, newForm, symbol);
     }
@@ -90,7 +88,6 @@ public class ParcelService {
      * @return Посылку, найденную по имени
      */
     public Parcel getByName(String parcelName) {
-        log.info("Вызван метод getByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         if (foundParcelEntity == null) {
             log.error("Посылка с именем - {} не найдена", parcelName);
@@ -107,13 +104,13 @@ public class ParcelService {
      * @return Удаленную посылку
      */
     public Parcel deleteByName(String parcelName) {
-        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
         if (foundParcelEntity == null) {
             log.error("Посылка с именем - {} не найдена", parcelName);
             throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
         } else {
             parcelRepository.delete(foundParcelEntity);
+            log.info("Посылка с именем - {} удалена", parcelName);
             return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
         }
     }
@@ -126,9 +123,9 @@ public class ParcelService {
      * @return Посылку с обновленным именем
      */
     public Parcel updateName(String oldName, String newName) {
-        log.info("Вызван метод updateName, oldName={}, newName={}", oldName, newName);
         int updatedLines = parcelRepository.updateParcelNameByName(oldName, newName);
         if (updatedLines > 0) {
+            log.info("Имя посылки с именем - {} обновлено на {}", oldName, newName);
             ParcelEntity updatedParcelEntity = parcelRepository.findByName(newName);
             Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(updatedParcelEntity);
             parcel.reverseParcelForm();
@@ -146,8 +143,6 @@ public class ParcelService {
      * @return Список с найденными по имени посылками
      */
     public List<Parcel> findParcelsByNames(List<String> parcelNames) {
-        log.info("Вызван метод findParcelsByNames, parcelNames={}", parcelNames);
-
         List<Parcel> parcels = new ArrayList<>();
         for (String name : parcelNames) {
             Parcel parcel = getByName(name);
@@ -164,6 +159,7 @@ public class ParcelService {
         parcel.setForm(parcelForm);
         parcel.setSymbol(parcelSymbol);
         ParcelEntity save = parcelRepository.save(parcel);
+        log.info("Посылка с именем - {} сохранена", parcelName);
         return save;
     }
 }

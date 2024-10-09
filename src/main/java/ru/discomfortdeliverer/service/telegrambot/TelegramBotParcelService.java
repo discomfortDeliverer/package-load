@@ -1,5 +1,6 @@
 package ru.discomfortdeliverer.service.telegrambot;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.model.parcel.Parcel;
@@ -7,6 +8,7 @@ import ru.discomfortdeliverer.service.parcel.ParcelService;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class TelegramBotParcelService {
 
@@ -43,33 +45,44 @@ public class TelegramBotParcelService {
 
     public String getAll() {
         List<Parcel> allParcels = parcelService.getAll();
+        log.info("Получены все посылки - {}", allParcels.toString());
         return allParcels.toString();
     }
 
     public String getByName(String name) {
+        log.info("Входной параметр name={}", name);
         Parcel parcel = parcelService.getByName(name);
+        log.info("Получена посылка - {}", parcel);
         return parcel.toString();
     }
 
     public String deleteByName(String name) {
+        log.info("Входной параметр name - {}", name);
         Parcel deletedparcel = parcelService.deleteByName(name);
+        log.info("Посылка удалена - {}", deletedparcel);
         return "Посылка удалена:\n" + deletedparcel.toString();
     }
 
     public String updateName(String oldName, String newName) {
+        log.info("Входные параметры oldName={}, newName={}", oldName, newName);
         Parcel parcelWithUpdatedName = parcelService.updateName(oldName, newName);
+        log.info("Посылка с измененным именем - {}", parcelWithUpdatedName);
         return "Имя посылки обновлено:\n" + parcelWithUpdatedName.toString();
     }
 
     public String updateSymbol(String parcelName, String newSymbol) {
+        log.info("Входные параметры parcelName={}, newSymbol={}", parcelName, newSymbol);
         Parcel parcelWithUpdatedSymbol = parcelService.updateSymbol(parcelName, newSymbol);
+        log.info("Посылка с измененным символом и формой - {}", parcelWithUpdatedSymbol);
         return "Символ посылки обновлен:\n" + parcelWithUpdatedSymbol.toString();
     }
 
     public String updateForm(String parcelName, String newForm, String symbol) {
+        log.info("Входные параметры parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         Parcel parcelWithUpdatedForm = parcelService.changeParcelFormFromRest(parcelName,
                 newForm,
                 symbol);
+        log.info("Посылка с измененным символом и формой - {}", parcelWithUpdatedForm);
         return "Форма посылки обновлена:\n" + parcelWithUpdatedForm.toString();
     }
 }

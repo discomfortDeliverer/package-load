@@ -20,7 +20,6 @@ public class OptimalTruckLoader {
     private final ParcelLoaderUtils parcelLoaderUtils;
 
     public List<Truck> loadParcels(List<Parcel> parcels, String truckSize, String maxTruckCount) {
-        log.info("Метод loadParcels, добавляем список посылок, размером - {}", parcels.size());
         parcelLoaderUtils.sortByParcelArea(parcels);
 
         List<Truck> trucks = new ArrayList<>();
@@ -52,6 +51,8 @@ public class OptimalTruckLoader {
         }
 
         if (!parcels.isEmpty()) {
+            log.error("Невозможно погрузить посылки - {} в {} грузовиков размером - {}",
+                    parcels, maxTruckCount, truckSize);
             throw new UnableToLoadException("Невозможно погрузить посылки - " + parcels +
                     " в " + maxTruckCount + " грузовиков размером - " + truckSize);
         } else {

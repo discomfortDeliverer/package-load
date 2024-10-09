@@ -26,7 +26,9 @@ public class ParcelShellController {
     @ShellMethod(key = "get-all", value = "Показывает все посылки")
     public List<Parcel> getAll() {
         log.info("Вызван метод getAll");
-        return parcelService.getAll();
+        List<Parcel> allParcels = parcelService.getAll();
+        log.info("Список всех посылок - {}", allParcels);
+        return allParcels;
     }
 
     /**
@@ -37,8 +39,10 @@ public class ParcelShellController {
      */
     @ShellMethod(key = "get-by-name", value = "Показывает посылку по имени")
     public Parcel getByName(String parcelName) {
-        log.info("Вызван метод getByName, parcelName={}", parcelName);
-        return parcelService.getByName(parcelName);
+        log.info("Входной параметр, parcelName={}", parcelName);
+        Parcel foundParcel = parcelService.getByName(parcelName);
+        log.info("Найденная посылка, parcel={}", foundParcel);
+        return foundParcel;
     }
 
     /**
@@ -49,14 +53,19 @@ public class ParcelShellController {
      */
     @ShellMethod(key = "delete-by-name", value = "Удаляет посылку по имени")
     public String deleteByName(String parcelName) {
-        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
-        return "Удалена посылка - " + parcelService.deleteByName(parcelName);
+        log.info("Входной параметр parcelName={}", parcelName);
+        Parcel deletedParcel = parcelService.deleteByName(parcelName);
+        log.info("Удаленная посылка - {}", deletedParcel);
+        return "Удалена посылка - " + deletedParcel;
     }
 
     @ShellMethod(key = "add", value = "Добавляет посылку")
     public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
-        log.info("Вызван метод deleteByName, parcelName={}", parcelName);
-        return parcelService.addNewParcel(parcelName, parcelForm, parcelSymbol);
+        log.info("Входные параметры parcelName={}, parcelForm={}, parcelSymbol={}",
+                parcelName, parcelForm, parcelSymbol);
+        ParcelEntity parcelEntity = parcelService.addNewParcel(parcelName, parcelForm, parcelSymbol);
+        log.info("Созданная посылка - {}", parcelEntity);
+        return parcelEntity;
     }
 
     /**
@@ -68,11 +77,9 @@ public class ParcelShellController {
      */
     @ShellMethod(key = "update-name", value = "Изменить имя посылки")
     public String updateName(String oldName, String newName) {
-        log.info("Вызван метод updateName, oldName={}, newName={}", oldName, newName);
+        log.info("Входные параметры oldName={}, newName={}", oldName, newName);
         Parcel parcel = parcelService.updateName(oldName, newName);
-        if (parcel == null) {
-            return "Не удалось обновить имя посылки";
-        }
+        log.info("Посылка с обновленным именем - {}", parcel);
         return "Имя посылки успешно обновлено " + parcel;
     }
 
@@ -85,8 +92,10 @@ public class ParcelShellController {
      */
     @ShellMethod(key = "update-symbol", value = "Меняет символ, которым описывается посылка")
     public Parcel updateSymbol(String parcelName, String newSymbol) {
-        log.info("Вызван метод updateSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
-        return parcelService.updateSymbol(parcelName, newSymbol);
+        log.info("Входные параметры parcelName={}, newSymbol={}", parcelName, newSymbol);
+        Parcel parcel = parcelService.updateSymbol(parcelName, newSymbol);
+        log.info("Посылка с обновленным символом и формой - {}", parcel);
+        return parcel;
     }
 
     /**
@@ -99,11 +108,9 @@ public class ParcelShellController {
      */
     @ShellMethod(key = "update-form", value = "Меняет форму посылки, разделение строки указывать через \\n")
     public String updateForm(String parcelName, String newForm, String symbol) {
-        log.info("Вызван метод updateForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
+        log.info("Входные параметры parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         Parcel parcel = parcelService.updateForm(parcelName, newForm, symbol);
-        if (parcel == null) {
-            return "Ошибка изменения формы, неверная форма - " + newForm;
-        }
+        log.info("Посылка с обновленным символом и формой - {}", parcel);
         return "Форма успешно изменена - " + parcel;
     }
 }
