@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.exception.ParcelNotFoundException;
+import ru.discomfortdeliverer.exception.UnableToLoadException;
+import ru.discomfortdeliverer.exception.UnableUpdateParcelException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
@@ -42,14 +44,18 @@ public class ParcelService {
     public Parcel updateSymbol(String parcelName, String newSymbol) {
         log.info("Вызван метод updateSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
         ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
-        Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+            parcel.changeSymbolTo(newSymbol);
 
-        parcel.changeSymbolTo(newSymbol);
-
-        ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
-        parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
-        parcel.reverseParcelForm();
-        return parcel;
+            ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
+            parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
+            parcel.reverseParcelForm();
+            return parcel;
+        }
     }
 
     /**
@@ -67,50 +73,16 @@ public class ParcelService {
         if (parcel > 0) {
             ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
             return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        } else {
+            log.error("Невозможно обновить форму посылки с именем - {}", parcelName);
+            throw new UnableUpdateParcelException("Невозможно обновить форму посылки с именем - " + parcelName);
         }
-        return null;
     }
 
     public Parcel changeParcelFormFromRest(String parcelName, String newForm, String symbol) {
         log.info("Вызван метод changeParcelFormFromRest, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
         newForm = newForm.replace("\n", "n");
         return updateForm(parcelName, newForm, symbol);
-    }
-
-    private char[][] mapStringFormToCharArray(String newForm) {
-        log.info("Вызван метод convertStringFormIntoCharArrayForm,newForm={}", newForm);
-        String[] split = newForm.split("n");
-        int maxLength = 0;
-        for (String line : split) {
-            if (line.length() > maxLength) {
-                maxLength = line.length();
-            }
-        }
-
-        char[][] form = new char[split.length][maxLength];
-        for (char[] chars : form) {
-            Arrays.fill(chars, ' ');
-        }
-
-        for (int i = 0; i < form.length; i++) {
-            String line = split[i];
-            for (int j = 0; j < line.length(); j++) {
-                form[i][j] = line.charAt(j);
-            }
-        }
-        log.debug("В методе получена форма - form={}", form);
-        return form;
-    }
-
-    private void reverseForm(char[][] form) {
-        log.debug("Вызван метод reverseForm, form={}", form);
-        for (int i = 0; i < form.length / 2; i++) {
-            // Меняем местами строки
-            char[] temp = form[i];
-            form[i] = form[form.length - 1 - i];
-            form[form.length - 1 - i] = temp;
-        }
-        log.debug("Измененная форма в методе reverseForm, form={}", form);
     }
 
     /**
@@ -160,9 +132,13 @@ public class ParcelService {
         int updatedLines = parcelRepository.updateParcelNameByName(oldName, newName);
         if (updatedLines > 0) {
             ParcelEntity updatedParcelEntity = parcelRepository.findByName(newName);
-            return parcelEntityToParcelMapper.mapParcelEntityToParcel(updatedParcelEntity);
+            Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(updatedParcelEntity);
+            parcel.reverseParcelForm();
+            return parcel;
+        } else {
+            log.error("Невозможно обновить посылку с именем - {}",oldName);
+            throw new UnableUpdateParcelException("Невозможно обновить посылку с именем - " + oldName);
         }
-        return null;
     }
 
     /**

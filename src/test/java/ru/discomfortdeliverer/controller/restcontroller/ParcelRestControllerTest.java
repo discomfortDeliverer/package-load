@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.discomfortdeliverer.entity.ParcelEntity;
 import ru.discomfortdeliverer.exception.ParcelNotFoundException;
+import ru.discomfortdeliverer.exception.UnableUpdateParcelException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 public class ParcelRestControllerTest {
+
     @MockBean
     private ParcelRepository parcelRepository;
     @Autowired
@@ -110,5 +112,101 @@ public class ParcelRestControllerTest {
             parcelRestController.deleteParcelByName("Стол");
         });
         assertThat(exception.getMessage()).isEqualTo("Посылка с именем - Стол не найдена");
+    }
+
+    @Test
+    public void changeParcelNameByName_ShouldReturnParcelWithChangedName() {
+        ParcelEntity parcelEntity = new ParcelEntity();
+        parcelEntity.setName("Стул");
+        parcelEntity.setForm("$$$$$$$\n   $   \n   $   \n   $   ");
+        parcelEntity.setSymbol("$");
+        when(parcelRepository.updateParcelNameByName(Mockito.anyString(), Mockito.anyString())).thenReturn(1);
+        when(parcelRepository.findByName(Mockito.anyString())).thenReturn(parcelEntity);
+
+
+        Parcel updatedParcel = parcelRestController.changeParcelNameByName("Стол", "Стул");
+
+        assertThat(updatedParcel).isNotNull();
+        assertThat(updatedParcel.getName()).isEqualTo("Стул");
+        assertThat(updatedParcel.getSymbol()).isEqualTo("$");
+    }
+
+    @Test
+    public void changeParcelNameByName_ShouldThrowUnableUpdateParcelException() {
+        when(parcelRepository.updateParcelNameByName(Mockito.anyString(), Mockito.anyString())).thenReturn(0);
+
+        UnableUpdateParcelException exception = assertThrows(UnableUpdateParcelException.class, () -> {
+            parcelRestController.changeParcelNameByName("Стол", "Стул");
+        });
+        assertThat(exception.getMessage()).isEqualTo("Невозможно обновить посылку с именем - Стол");
+    }
+
+    @Test
+    public void changeParcelFormByName_ShouldChangeSymbolAndForm() {
+        ParcelEntity newParcelEntity = new ParcelEntity();
+        newParcelEntity.setName("Стул");
+        newParcelEntity.setForm("### \n #  \n####");
+        newParcelEntity.setSymbol("#");
+        when(parcelRepository.updateParcelByName(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(1);
+        when(parcelRepository.findByName(Mockito.anyString())).thenReturn(newParcelEntity);
+
+
+        Parcel updatedParcel = parcelRestController.changeParcelFormByName(newParcelEntity);
+
+        assertThat(updatedParcel).isNotNull();
+        assertThat(updatedParcel.getName()).isEqualTo("Стул");
+        assertThat(updatedParcel.getSymbol()).isEqualTo("#");
+        assertThat(updatedParcel.getForm()).isEqualTo(new char[][]{
+                {'#', '#', '#', ' '},
+                {' ', '#', ' ', ' '},
+                {'#', '#', '#', '#'}
+        });
+    }
+
+    @Test
+    public void changeParcelFormByName_ShouldThrowUnableUpdateParcelException() {
+        ParcelEntity newParcelEntity = new ParcelEntity();
+        newParcelEntity.setName("Стул");
+        newParcelEntity.setForm("### \n #  \n####");
+        newParcelEntity.setSymbol("#");
+        when(parcelRepository.updateParcelNameByName(Mockito.anyString(), Mockito.anyString())).thenReturn(0);
+
+        UnableUpdateParcelException exception = assertThrows(UnableUpdateParcelException.class, () -> {
+            parcelRestController.changeParcelFormByName(newParcelEntity);
+        });
+        assertThat(exception.getMessage()).isEqualTo("Невозможно обновить форму посылки с именем - Стул");
+    }
+
+    @Test
+    public void changeParcelSymbolByName_ShouldChangeSymbolAndForm() {
+        ParcelEntity newParcelEntity = new ParcelEntity();
+        newParcelEntity.setName("Стул");
+        newParcelEntity.setForm("### \n #  \n####");
+        newParcelEntity.setSymbol("#");
+        when(parcelRepository.findByName(Mockito.anyString())).thenReturn(newParcelEntity);
+        when(parcelRepository.updateParcelSymbolByName(Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(1);
+
+        Parcel updatedParcel = parcelRestController.changeParcelSymbolByName("Стул", "%");
+
+        assertThat(updatedParcel).isNotNull();
+        assertThat(updatedParcel.getName()).isEqualTo("Стул");
+        assertThat(updatedParcel.getSymbol()).isEqualTo("%");
+        assertThat(updatedParcel.getForm()).isEqualTo(new char[][]{
+                {'%', '%', '%', ' '},
+                {' ', '%', ' ', ' '},
+                {'%', '%', '%', '%'}
+        });
+    }
+
+    @Test
+    public void changeParcelSymbolByName_ShouldThrowParcelNotFoundException() {
+        when(parcelRepository.findByName(Mockito.anyString())).thenReturn(null);
+
+        ParcelNotFoundException exception = assertThrows(ParcelNotFoundException.class, () -> {
+            parcelRestController.changeParcelSymbolByName("Стул", "$");
+        });
+        assertThat(exception.getMessage()).isEqualTo("Посылка с именем - Стул не найдена");
     }
 }

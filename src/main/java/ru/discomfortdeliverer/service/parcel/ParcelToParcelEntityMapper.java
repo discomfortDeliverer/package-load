@@ -12,6 +12,7 @@ public class ParcelToParcelEntityMapper {
         parcelEntity.setSymbol(parcel.getSymbol());
 
         char[][] form = parcel.getForm();
+        form = reverseParcelForm(form, parcel.getHeight(), parcel.getLength());
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < form.length; i++)
             for (int j = 0; j < form[i].length; j++) {
@@ -23,5 +24,15 @@ public class ParcelToParcelEntityMapper {
         parcelEntity.setForm(stringBuilder.toString());
 
         return parcelEntity;
+    }
+    private char[][] reverseParcelForm(char[][] form, int height, int length) {
+        char[][] rotated = new char[height][length];
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < length; j++) {
+                rotated[i][j] = form[height - 1 - i][j];
+            }
+        }
+        return rotated;
     }
 }

@@ -46,17 +46,13 @@ public class ParcelRestController {
     @PatchMapping("/parcels/name")
     public Parcel changeParcelNameByName(@RequestParam(name = "old-name") String oldName,
                                          @RequestParam(name = "new-name") String newName) {
-        Parcel parcel = parcelService.updateName(oldName, newName);
-        parcel.reverseParcelForm();
-        return parcel;
+        return parcelService.updateName(oldName, newName);
     }
 
     @PatchMapping("/parcels/symbol")
     public Parcel changeParcelSymbolByName(@RequestParam(name = "parcel-name") String parcelName,
                                            @RequestParam(name = "new-symbol") String newSymbol) {
-        Parcel parcel = parcelService.updateSymbol(parcelName, newSymbol);
-        parcel.reverseParcelForm();
-        return parcel;
+        return parcelService.updateSymbol(parcelName, newSymbol);
     }
 
     @PatchMapping("/parcels/form")
