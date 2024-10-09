@@ -19,6 +19,14 @@ public class FileParcelLoader {
         this.parcelInputValidator = parcelInputValidator;
     }
 
+    /**
+     * Загружает посылки из файла
+     *
+     * @param filename Принимает путь к файлу
+     * @return Список с посылками
+     * @throws InvalidInputException
+     * @throws InvalidFilePathException
+     */
     public List<Parcel> loadParcelsFromFile(String filename) {
         log.info("Путь до файла - {}", filename);
         Path filePath = Paths.get(filename);

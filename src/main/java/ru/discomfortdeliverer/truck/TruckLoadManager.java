@@ -14,6 +14,12 @@ public class TruckLoadManager {
         parcels.sort((p1, p2) -> Integer.compare(p2.getArea(), p1.getArea()));
     }
 
+    /**
+     * Режим работы погрузчика посылок, когда одна посылка загружается в один грузовик
+     *
+     * @param parcels Список посылок, которые нужно загрузить
+     * @return Список с грузовиками, в каждом из которых погружена одна посылка
+     */
     public List<Truck> oneParcelOneTruckLoad(List<Parcel> parcels) {
         log.info("Метод oneParcelOneTruckLoad, добавляем список посылок, размером - {}", parcels.size());
         List<Truck> trucks = new ArrayList<>();
@@ -28,6 +34,13 @@ public class TruckLoadManager {
         return trucks;
     }
 
+    /**
+     * Режим работы погрузчика посылок, когда посылки загружаются максимально плотно в
+     * минимальное количество грузовиков
+     *
+     * @param parcels Список с посылками, которые надо загрузить
+     * @return Список с грузовиками, в которых максимально плотно загружены посылки
+     */
     public List<Truck> optimalLoading(List<Parcel> parcels) {
         log.info("Метод optimalLoading, добавляем список посылок, размером - {}", parcels.size());
         sortByParcelArea(parcels);
@@ -58,6 +71,16 @@ public class TruckLoadManager {
         return trucks;
     }
 
+    /**
+     * Режим работы погрузчика, в котором загружаем посылки в указанное количество грузовиков
+     * максимально компактным способом
+     *
+     * @param parcels Список с посылками, которые нужно загрузить
+     * @param trucksCount Количество грузовиков, в которые нуобходимо погрузить посылки
+     * @return Список грузовиков с загруженными посылками, максимально плотным образом
+     * @throws UnableToLoadException Выбрасывается, если не удается погрузить посылки в
+     * указанное число грузовиков
+     */
     public List<Truck> maxQualityLoad(List<Parcel> parcels, int trucksCount) throws UnableToLoadException {
         int allParcelsArea = 0;
         for (Parcel parcel : parcels) {
@@ -75,6 +98,16 @@ public class TruckLoadManager {
         return trucks;
     }
 
+    /**
+     * Режим работы погрузчика, в котором посылки помещаются в указанное количество грузовиков равномерно
+     *
+     * Равномерно - в каждом грузовике будет заполнено примерно одинаковое количество ячеек
+     * @param parcels Список с посылками
+     * @param trucksCount Количество грузовиков, в которое надо поместить посылки
+     * @return Список с грузовиками, в которых посылки погружены равномерно
+     * @throws UnableToLoadException Выбрасывается в случае, если нельзя поместить посылки в указанное
+     * количество грузовиков
+     */
     public List<Truck> evenLoad(List<Parcel> parcels, int trucksCount) throws UnableToLoadException {
         sortByParcelArea(parcels);
         List<List<Parcel>> trucksAndParcels = new ArrayList<>();
