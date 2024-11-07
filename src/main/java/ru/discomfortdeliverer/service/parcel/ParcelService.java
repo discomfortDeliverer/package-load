@@ -1,141 +1,165 @@
 package ru.discomfortdeliverer.service.parcel;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.discomfortdeliverer.entity.ParcelEntity;
+import ru.discomfortdeliverer.exception.ParcelNotFoundException;
+import ru.discomfortdeliverer.exception.UnableUpdateParcelException;
 import ru.discomfortdeliverer.model.parcel.Parcel;
 import ru.discomfortdeliverer.repository.ParcelRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ParcelService {
-    private final ParcelRepository parcelRepository;
 
-    @Autowired
-    public ParcelService(ParcelRepository parcelRepository) {
-        this.parcelRepository = parcelRepository;
-    }
+    private final ParcelRepository parcelRepository;
+    private final ParcelEntityToParcelMapper parcelEntityToParcelMapper;
+    private final ParcelToParcelEntityMapper parcelToParcelEntityMapper;
 
     /**
      * Метод возвращает из репозитория все посылки
+     *
      * @return Список со всеми поылками
      */
-    public List<Parcel> getAllParcels() {
-        log.info("Вызван метод getAllParcels()");
-        return parcelRepository.getAllParcels();
+    public List<Parcel> getAll() {
+        List<ParcelEntity> allParcelEntities = parcelRepository.findAll();
+        log.info("Получение всех записей из бд: {}", allParcelEntities);
+        return parcelEntityToParcelMapper.mapParcelEntityListToParcelList(allParcelEntities);
     }
 
     /**
      * Метод изменяет символ в посылки в репозитории
+     *
      * @param parcelName Имя посылки, символ которой надо изменить
-     * @param newSymbol Новый символ
+     * @param newSymbol  Новый символ
      * @return Посылку с обновленным символом
      */
-    public Parcel changeSymbol(String parcelName, String newSymbol) {
-        log.info("Вызван метод changeSymbol, parcelName={}, newSymbol={}", parcelName, newSymbol);
-        return parcelRepository.changeSymbol(parcelName, newSymbol);
+    public Parcel updateSymbol(String parcelName, String newSymbol) {
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+            parcel.changeSymbolTo(newSymbol);
+
+            ParcelEntity parcelEntity = parcelToParcelEntityMapper.mapParcelToParcelEntity(parcel);
+            parcelRepository.updateParcelSymbolByName(parcelName, parcelEntity.getForm(), newSymbol);
+            parcel.reverseParcelForm();
+            return parcel;
+        }
     }
 
     /**
      * Метод меняет форму посылки в репозитории
+     *
      * @param parcelName Имя посылки, форму которой надо изменить
-     * @param newForm Новая форма посылки в виде строки
-     * @param symbol Новый символ посылки
+     * @param newForm    Новая форма посылки в виде строки
+     * @param symbol     Новый символ посылки
      * @return Посылку с обновленной формой
      */
-    public Parcel changeParcelForm(String parcelName, String newForm, String symbol) {
-        log.info("Вызван метод changeParcelForm, parcelName={}, newForm={}, symbol={}", parcelName, newForm, symbol);
-        char[][] charNewForm = convertStringFormIntoCharArrayForm(newForm);
-        reverseForm(charNewForm);
-        return parcelRepository.changeParcelForm(parcelName, charNewForm, symbol);
+    public Parcel updateForm(String parcelName, String newForm, String symbol) {
+        newForm = newForm.replace("n", "\n");
+        int parcel = parcelRepository.updateParcelByName(parcelName, newForm, symbol);
+        if (parcel > 0) {
+            log.info("Форма посылки с именем - {} обновлена", parcelName);
+            ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        } else {
+            log.error("Невозможно обновить форму посылки с именем - {}", parcelName);
+            throw new UnableUpdateParcelException("Невозможно обновить форму посылки с именем - " + parcelName);
+        }
     }
 
-    private char[][] convertStringFormIntoCharArrayForm(String newForm) {
-        log.info("Вызван метод convertStringFormIntoCharArrayForm,newForm={}", newForm);
-        String[] split = newForm.split("n");
-        int maxLength = 0;
-        for (String line : split) {
-            if (line.length() > maxLength) {
-                maxLength = line.length();
-            }
-        }
-
-        char[][] form = new char[split.length][maxLength];
-        for (char[] chars : form) {
-            Arrays.fill(chars, ' ');
-        }
-
-        for (int i = 0; i < form.length; i++) {
-            String line = split[i];
-            for (int j = 0; j < line.length(); j++) {
-                form[i][j] = line.charAt(j);
-            }
-        }
-        log.debug("В методе convertStringFormIntoCharArrayForm получена форма - form={}", form);
-        return form;
-    }
-
-    private void reverseForm(char[][] form) {
-        log.debug("Вызван метод reverseForm, form={}", form);
-        for (int i = 0; i < form.length / 2; i++) {
-            // Меняем местами строки
-            char[] temp = form[i];
-            form[i] = form[form.length - 1 - i];
-            form[form.length - 1 - i] = temp;
-        }
-        log.debug("Измененная форма в методе reverseForm, form={}", form);
+    public Parcel changeParcelFormFromRest(String parcelName, String newForm, String symbol) {
+        newForm = newForm.replace("\n", "n");
+        return updateForm(parcelName, newForm, symbol);
     }
 
     /**
      * Метод находит посылку по имени в репозитории
+     *
      * @param parcelName Имя посылки, которую надо найти
      * @return Посылку, найденную по имени
      */
-    public Parcel showParcelByName(String parcelName) {
-        log.info("Вызван метод showParcelByName, parcelName={}", parcelName);
-        return parcelRepository.findParcelByName(parcelName);
+    public Parcel getByName(String parcelName) {
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
     }
 
     /**
      * Метод удаляет посылку из репозитория по ее имени
+     *
      * @param parcelName Имя посылки, которую надо удалить
      * @return Удаленную посылку
      */
-    public Parcel deleteParcelByName(String parcelName) {
-        log.info("Вызван метод deleteParcelByName, parcelName={}", parcelName);
-        return parcelRepository.deleteParcelByName(parcelName);
+    public Parcel deleteByName(String parcelName) {
+        ParcelEntity foundParcelEntity = parcelRepository.findByName(parcelName);
+        if (foundParcelEntity == null) {
+            log.error("Посылка с именем - {} не найдена", parcelName);
+            throw new ParcelNotFoundException("Посылка с именем - " + parcelName + " не найдена");
+        } else {
+            parcelRepository.delete(foundParcelEntity);
+            log.info("Посылка с именем - {} удалена", parcelName);
+            return parcelEntityToParcelMapper.mapParcelEntityToParcel(foundParcelEntity);
+        }
     }
 
     /**
      * Метод изменяет имя посылки в репозитории
+     *
      * @param oldName Имя посылки, которое надо изменить
      * @param newName Новое имя
      * @return Посылку с обновленным именем
      */
-    public Parcel changeParcelName(String oldName, String newName) {
-        log.info("Вызван метод changeParcelName, oldName={}, newName={}", oldName, newName);
-        return parcelRepository.changeParcelName(oldName, newName);
+    public Parcel updateName(String oldName, String newName) {
+        int updatedLines = parcelRepository.updateParcelNameByName(oldName, newName);
+        if (updatedLines > 0) {
+            log.info("Имя посылки с именем - {} обновлено на {}", oldName, newName);
+            ParcelEntity updatedParcelEntity = parcelRepository.findByName(newName);
+            Parcel parcel = parcelEntityToParcelMapper.mapParcelEntityToParcel(updatedParcelEntity);
+            parcel.reverseParcelForm();
+            return parcel;
+        } else {
+            log.error("Невозможно обновить посылку с именем - {}", oldName);
+            throw new UnableUpdateParcelException("Невозможно обновить посылку с именем - " + oldName);
+        }
     }
 
     /**
      * Метод находит посылки по их именам, разделенных зарятой
+     *
      * @param parcelNames Имена посылок, которые надо найти
      * @return Список с найденными по имени посылками
      */
-    public List<Parcel> findParcelsByNames(String parcelNames) {
-        log.info("Вызван метод findParcelsByNames, parcelNames={}", parcelNames);
-        String[] names = parcelNames.split(",");
-
+    public List<Parcel> findParcelsByNames(List<String> parcelNames) {
         List<Parcel> parcels = new ArrayList<>();
-        for (String name : names) {
-            Parcel parcel = showParcelByName(name);
+        for (String name : parcelNames) {
+            Parcel parcel = getByName(name);
             parcels.add(parcel);
         }
         log.debug("Найденные посылки по именам={}, parcels={}", parcelNames, parcels);
         return parcels;
+    }
+
+    public ParcelEntity addNewParcel(String parcelName, String parcelForm, String parcelSymbol) {
+        parcelForm = parcelForm.replace("n", "\n");
+        ParcelEntity parcel = new ParcelEntity();
+        parcel.setName(parcelName);
+        parcel.setForm(parcelForm);
+        parcel.setSymbol(parcelSymbol);
+        ParcelEntity save = parcelRepository.save(parcel);
+        log.info("Посылка с именем - {} сохранена", parcelName);
+        return save;
     }
 }
